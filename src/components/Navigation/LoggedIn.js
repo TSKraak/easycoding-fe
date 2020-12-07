@@ -19,7 +19,9 @@ export default function LoggedIn() {
   return (
     <>
       <Nav.Item style={{ padding: ".5rem 1rem" }}>{user.email}</Nav.Item>
-      <Button onClick={() => onClickLogOut()}>Logout</Button>
+      <Button variant="outline-danger" onClick={() => onClickLogOut()}>
+        Logout
+      </Button>
     </>
   );
 }

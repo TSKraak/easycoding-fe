@@ -22,24 +22,13 @@ const tokenStillValid = (userWithoutToken) => ({
 
 export const logOut = () => ({ type: "LOG_OUT" });
 
-export const signUp = (
-  firstName,
-  lastName,
-  city,
-  country,
-  imageUrl,
-  email,
-  password
-) => {
+export const signUp = (name, picture, email, password) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
       const response = await axios.post(`${apiUrl}/signup`, {
-        firstName,
-        lastName,
-        city,
-        country,
-        imageUrl,
+        name,
+        picture,
         email,
         password,
       });
@@ -68,7 +57,7 @@ export const login = (email, password) => {
         email,
         password,
       });
-      // console.log("RESPONSE DATA:", response.data);
+
       if (response.data.accountBlocked) {
         dispatch(setMessage("danger", true, "Your account has been blocked"));
         dispatch(logOut());
