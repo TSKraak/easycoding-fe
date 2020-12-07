@@ -25,7 +25,7 @@ export default function Navigation() {
           <NavbarItem path="/posts" linkText="Posts" />
           <NavbarItem path="/requests" linkText="Requests" />
           {user.email ? (
-            <NavbarItem path="/favorites" linkText="Favorites" />
+            <NavbarItem path="/favourites" linkText="Favourites" />
           ) : null}
           {user.isAdmin ? (
             <NavbarItem path="/admin/manage-users" linkText="Manage Users" />
