@@ -17,7 +17,7 @@ export default function PostPage() {
       <h1>Post page</h1>
       <div>
         {!posts
-          ? "...Loadong"
+          ? "...Loading"
           : posts.map((post) => {
               return (
                 <div key={post.id}>
