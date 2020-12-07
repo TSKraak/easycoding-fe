@@ -15,7 +15,7 @@ export default function PostPage() {
   return (
     <div>
       <h1>Post page</h1>
-      <div>
+      <li>
         {!posts
           ? "...Loading"
           : posts.map((post) => {
@@ -23,10 +23,12 @@ export default function PostPage() {
                 <div key={post.id}>
                   <h3>{post.title}</h3>
                   <p>{post.content}</p>
+                  <p>written by {post.author.name}</p>
+                  <h6>Comments:</h6>
                 </div>
               );
             })}
-      </div>
+      </li>
     </div>
   );
 }
