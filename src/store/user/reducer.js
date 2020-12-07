@@ -1,12 +1,12 @@
 const initialState = {
   token: localStorage.getItem("token"),
-  name: undefined,
-  email: undefined,
-  picture: undefined,
-  isAdmin: undefined,
-  accountBlocked: undefined,
-  createdAt: undefined,
-  updatedAt: undefined,
+  name: null,
+  email: null,
+  picture: null,
+  isAdmin: null,
+  accountBlocked: null,
+  createdAt: null,
+  updatedAt: null,
 };
 
 // eslint-disable-next-line
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
 
     case "LOG_OUT":
       localStorage.removeItem("token");
-      return { ...initialState, token: undefined };
+      return { ...initialState, token: null };
 
     case "TOKEN_STILL_VALID":
       return { ...state, ...action.payload };
