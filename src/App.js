@@ -4,6 +4,10 @@ import Navigation from "./components/Navigation";
 import Loading from "./components/Loading";
 import MessageBox from "./components/MessageBox";
 import HomePage from "./pages/HomePage";
+import PostPage from "./pages/PostPage";
+import RequestPage from "./pages/RequestPage";
+import FavouritePage from "./pages/FavouritePage";
+import ManageUsersPage from "./pages/ManageUsersPage";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import { selectAppLoading } from "./store/appState/selectors";
@@ -31,15 +35,34 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/posts">
+          <PostPage />
+        </Route>
+
+        <Route exact path="/posts/:language?">
+          <PostPage />
+        </Route>
+
+        <Route exact path="/requests">
+          <RequestPage />
+        </Route>
+
+        <Route exact path="/favourites">
+          <FavouritePage />
+        </Route>
+
+        <Route exact path="/admin/manage-users">
+          <ManageUsersPage />
+        </Route>
+
         <Route exact path="/login">
           <Login />
         </Route>
+
         <Route exact path="/signup">
           <SignUp />
         </Route>
-        {/* <Route exact path="/posts/:language?">
-<PostsPage />
-</Route> */}
+
         <Route path="/" component={NotFound} />
       </Switch>
     </div>
