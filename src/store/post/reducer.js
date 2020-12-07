@@ -8,6 +8,9 @@ export default (state = initialState, action) => {
     case "ADD_POSTS":
       return { ...state, all: [...state.all, ...action.payload] };
 
+    case "STORE_POSTS":
+      return { ...state, all: action.payload };
+
     default:
       return state;
   }
