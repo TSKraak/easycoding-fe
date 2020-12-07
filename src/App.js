@@ -8,6 +8,7 @@ import PostPage from "./pages/PostPage";
 import RequestPage from "./pages/RequestPage";
 import FavouritePage from "./pages/FavouritePage";
 import ManageUsersPage from "./pages/ManageUsersPage";
+import ProfilePage from "./pages/ProfilePage";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import { selectAppLoading } from "./store/appState/selectors";
@@ -53,6 +54,10 @@ function App() {
 
         <Route exact path="/admin/manage-users">
           <ManageUsersPage />
+        </Route>
+
+        <Route exact path="/profile">
+          <ProfilePage />
         </Route>
 
         <Route exact path="/login">
