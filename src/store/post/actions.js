@@ -10,7 +10,7 @@ export function storePosts(posts) {
 
 export function storeNewPost(post) {
   return {
-    type: "",
+    type: "ADD_POSTS",
     payload: post,
   };
 }
@@ -44,6 +44,7 @@ export function createPost(title, content) {
       );
       console.log("what is res.data in create post", res.data);
       const post = res.data;
+      dispatch(storeNewPost(post));
     } catch (e) {
       console.log("error", e);
     }

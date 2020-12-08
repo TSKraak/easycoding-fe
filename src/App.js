@@ -46,7 +46,7 @@ function App() {
             <NewPostForm />
           </Route>
 
-          <Route exact path="/posts/:language?">
+          <Route exact path="/posts/:searchText?">
             <PostPage />
           </Route>
 
