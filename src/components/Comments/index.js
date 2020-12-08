@@ -39,7 +39,6 @@ export default function Comments() {
         <Loading />
       ) : (
         post.comments?.map((comment) => {
-          console.log(comment.id);
           return (
             <Card
               bg="light"
