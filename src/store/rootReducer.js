@@ -4,6 +4,7 @@ import user from "./user/reducer";
 import post from "./post/reducer";
 import request from "./request/reducer";
 import picture from "./picture/reducer";
+import allUsers from "./allUsers/reducer";
 
 const reducer = combineReducers({
   appState,
@@ -11,6 +12,7 @@ const reducer = combineReducers({
   post,
   request,
   picture,
+  allUsers,
   // etc.
 });
 
