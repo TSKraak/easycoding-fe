@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
-import { Button, Card, Form, FormControl } from "react-bootstrap";
+import { Button, Card, CardDeck, Form, FormControl } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function PostPage() {
   const dispatch = useDispatch();
@@ -32,10 +33,12 @@ export default function PostPage() {
         />
         <Button variant="outline-info">Search</Button>
         <p style={{ margin: "20px" }}>or</p>
-        <Button variant="success">Create New Post</Button>
+        <Link to="/posts/new">
+          <Button variant="success">Create New Post</Button>
+        </Link>
       </Form>
 
-      <div>
+      <CardDeck>
         {!posts
           ? "...Loading"
           : posts.map((post) => {
@@ -51,7 +54,7 @@ export default function PostPage() {
                 </Card>
               );
             })}
-      </div>
+      </CardDeck>
     </div>
   );
 }

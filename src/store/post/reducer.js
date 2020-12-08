@@ -6,7 +6,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case "ADD_POSTS":
-      return { ...state, all: [...state.all, ...action.payload] };
+      return { ...state, all: [...state.all, action.payload] };
 
     case "STORE_POSTS":
       return { ...state, all: action.payload };
