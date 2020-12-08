@@ -31,51 +31,52 @@ export default function NewPostForm() {
     }
   }
   return (
-    <Container>
-      <Form
-        md={{ span: 6, offset: 3 }}
-        className="mt-5"
-        noValidate
-        validated={validated}
-        onSubmit={submitForm}
-      >
-        <h1 className="mt-5 mb-5">Create Post</h1>
-        <Form.Group controlId="formPostTitle">
-          <Form.Label>Post Title</Form.Label>
-          <Form.Control
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            type="title"
-            placeholder="Enter title"
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Please provide a title.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group controlId="formPostText">
-          <Form.Label>Post Text</Form.Label>
-          <Form.Control
-            value={content}
-            onChange={(event) => setContent(event.target.value)}
-            type="text"
-            as="textarea"
-            rows={15}
-            placeholder="Enter content"
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Please provide a text.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <ImagePreview />
-        <UploadPostPicture />
-        <Form.Group className="mt-5">
-          <Button variant="primary" type="submit">
-            Create Post
-          </Button>
-        </Form.Group>
-      </Form>
-    </Container>
+    <div>
+      <h1>Create Post</h1>
+      <Container>
+        <Form
+          md={{ span: 6, offset: 3 }}
+          noValidate
+          validated={validated}
+          onSubmit={submitForm}
+        >
+          <Form.Group controlId="formPostTitle">
+            <Form.Label>Post Title</Form.Label>
+            <Form.Control
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              type="title"
+              placeholder="Enter title"
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Please provide a title.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="formPostText">
+            <Form.Label>Post Text</Form.Label>
+            <Form.Control
+              value={content}
+              onChange={(event) => setContent(event.target.value)}
+              type="text"
+              as="textarea"
+              rows={13}
+              placeholder="Enter content"
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Please provide a text.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <ImagePreview />
+          <UploadPostPicture />
+          <Form.Group className="mt-5">
+            <Button variant="primary" type="submit">
+              Create Post
+            </Button>
+          </Form.Group>
+        </Form>
+      </Container>
+    </div>
   );
 }
