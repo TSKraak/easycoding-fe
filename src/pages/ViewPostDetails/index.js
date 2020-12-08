@@ -6,12 +6,17 @@ import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import moment from "moment";
 import DisplayPicture from "../../components/DisplayPicture/index";
+import Comments from "../../components/Comments";
 
 export default function ViewPostDetails() {
   const { post } = useParams();
   const postId = parseInt(post);
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
+
+  useEffect(() => {
+    dispatch(fetchPosts);
+  }, [dispatch]);
 
   const detailsPost = posts.find((post) => {
     if (post.id === postId) {
@@ -22,10 +27,6 @@ export default function ViewPostDetails() {
   });
 
   console.log("what is detailsPost", detailsPost);
-
-  useEffect(() => {
-    dispatch(fetchPosts);
-  }, [dispatch]);
 
   return (
     <div>
@@ -48,13 +49,14 @@ export default function ViewPostDetails() {
                 </strong>
               </p>
               <p>{detailsPost.content}</p>
+              {detailsPost?.pictures.length !== 0 ? (
+                <DisplayPicture pictures={detailsPost.pictures} />
+              ) : null}
             </div>
           )}
         </Container>
       </Jumbotron>
-      {detailsPost?.pictures.length !== 0 ? (
-        <DisplayPicture pictures={detailsPost.pictures} />
-      ) : null}
+      <Comments />
     </div>
   );
 }

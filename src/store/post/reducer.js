@@ -11,6 +11,9 @@ export default (state = initialState, action) => {
     case "STORE_POSTS":
       return { ...state, all: action.payload };
 
+    case "ADD_NEW_COMMENT":
+      return { ...state, all: action.payload };
+
     default:
       return state;
   }
