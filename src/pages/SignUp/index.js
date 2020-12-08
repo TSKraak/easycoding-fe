@@ -7,15 +7,16 @@ import { selectToken } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
+import UploadUserImage from "../../components/UploadUserImage/index";
 
 export default function SignUp() {
   const [name, setName] = useState("");
+  const [picture, setPicture] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const history = useHistory();
-
   useEffect(() => {
     if (token !== null) {
       history.push("/");
@@ -25,7 +26,7 @@ export default function SignUp() {
   function submitForm(event) {
     event.preventDefault();
 
-    dispatch(signUp(name, email, password));
+    dispatch(signUp(name, picture, email, password));
 
     setEmail("");
     setPassword("");
@@ -67,6 +68,7 @@ export default function SignUp() {
             required
           />
         </Form.Group>
+        <UploadUserImage picture={picture} setPicture={setPicture} />
         <Form.Group className="mt-5">
           <Button
             disabled={name && email && password ? false : true}
