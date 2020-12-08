@@ -8,6 +8,13 @@ export function storeAllUsers(users) {
   };
 }
 
+export function updateBlockedUser(id) {
+  return {
+    type: "UPDATE_BLOCKED",
+    payload: id,
+  };
+}
+
 export const getAllUsers = () => {
   return async (dispatch, getState) => {
     const token = localStorage.getItem("token");
@@ -24,6 +31,26 @@ export const getAllUsers = () => {
       console.log("what is res in get all users", res);
       const users = res.data.users;
       dispatch(storeAllUsers(users));
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+};
+
+export const blockUser = (id) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.put(
+        `${apiUrl}/users/block/${id}`,
+        { token },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(updateBlockedUser(id));
     } catch (e) {
       console.log("error", e);
     }
