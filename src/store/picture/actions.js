@@ -1,7 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "../user/selectors";
-import { selectPicturesIds } from "./selectors";
 
 export const displayPicture = (picture) => {
   return { type: "DISPLAY_PICTURE", payload: picture };
@@ -26,31 +25,7 @@ export const postPicture = (value) => {
       const response = await axios.post(`${apiUrl}/picture`, value, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response.data);
       dispatch(displayPicture(response.data));
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-  };
-};
-
-export const assignPicture = (postId) => {
-  return async (dispatch, getState) => {
-    const token = selectToken(getState());
-    const picturesIds = selectPicturesIds(getState());
-    try {
-      await axios.put(
-        `${apiUrl}/picture/${postId}`,
-        { id: picturesIds },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      dispatch(removeAllPicture());
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

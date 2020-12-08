@@ -1,6 +1,8 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { showMessageWithTimeout } from "../appState/actions";
+import { selectPicturesIds, selectPictures } from "../picture/selectors";
+import { removeAllPicture } from "../picture/actions";
 
 export function storePosts(posts) {
   return {
@@ -30,12 +32,16 @@ export async function fetchPosts(dispatch, getState) {
 export function createPost(title, content) {
   return async (dispatch, getState) => {
     const token = localStorage.getItem("token");
+    const pictures = selectPictures(getState());
+    const picturesIds = pictures ? selectPicturesIds(getState()) : [];
+    console.log(`pictures ids`, picturesIds);
     try {
       const res = await axios.post(
         `${apiUrl}/post`,
         {
           title,
           content,
+          picturesIds,
         },
         {
           headers: {
@@ -45,6 +51,7 @@ export function createPost(title, content) {
       );
       console.log("what is res.data in create post", res.data);
       const post = res.data;
+      dispatch(removeAllPicture());
       dispatch(storeNewPost(post));
       dispatch(
         showMessageWithTimeout("success", true, "Post Created Successfully")

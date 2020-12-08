@@ -1,5 +1,5 @@
-export const selectImages = (state) => state.images;
+export const selectPictures = (state) => state.picture;
 export const selectPicturesIds = (state) =>
-  state.images.map((image) => {
-    return image.id;
+  state.picture.map((pic) => {
+    return pic.id;
   });

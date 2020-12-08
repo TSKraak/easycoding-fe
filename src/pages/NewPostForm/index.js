@@ -8,7 +8,6 @@ import { createPost } from "../../store/post/actions";
 export default function NewPostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [picture, setPicture] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -19,7 +18,6 @@ export default function NewPostForm() {
 
     setTitle("");
     setContent("");
-    setPicture("");
 
     history.push("/posts");
   }
@@ -46,15 +44,6 @@ export default function NewPostForm() {
             type="text"
             placeholder="Enter content"
             required
-          />
-        </Form.Group>
-        <Form.Group controlId="formPostPicture">
-          <Form.Label>Post Picture</Form.Label>
-          <Form.Control
-            value={picture}
-            onChange={(event) => setPicture(event.target.value)}
-            type="picture"
-            placeholder="picture"
           />
         </Form.Group>
         <UploadPostPicture />
