@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Col, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import ImagePreview from "../../components/PreviewPicture";
 import UploadPostPicture from "../../components/UploadPostPicture";
 import { createPost } from "../../store/post/actions";
 
@@ -46,6 +47,7 @@ export default function NewPostForm() {
             required
           />
         </Form.Group>
+        <ImagePreview />
         <UploadPostPicture />
         <Form.Group className="mt-5">
           <Button variant="primary" type="submit" onClick={submitForm}>
