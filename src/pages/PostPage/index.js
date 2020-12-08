@@ -31,7 +31,10 @@ export default function PostPage() {
           className="mr-sm-2"
         />
         <Button variant="outline-info">Search</Button>
+        <p style={{ margin: "20px" }}>or</p>
+        <Button variant="success">Create New Post</Button>
       </Form>
+
       <div>
         {!posts
           ? "...Loading"
