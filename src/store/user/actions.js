@@ -20,6 +20,13 @@ const tokenStillValid = (userWithoutToken) => ({
   payload: userWithoutToken,
 });
 
+export function storeAllUsers(users) {
+  return {
+    type: "STORE_ALL_USERS",
+    payload: users,
+  };
+}
+
 export const logOut = () => ({ type: "LOG_OUT" });
 
 export const signUp = (name, picture, email, password) => {
@@ -108,6 +115,28 @@ export const getUserWithStoredToken = () => {
       // get rid of the token by logging out
       dispatch(logOut());
       dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const getAllUsers = () => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.post(
+        `${apiUrl}/users`,
+        { token },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("what is res in get all users", res);
+      const users = res.data.users;
+      dispatch(storeAllUsers(users));
+    } catch (e) {
+      console.log("error", e);
     }
   };
 };
