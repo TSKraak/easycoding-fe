@@ -7,13 +7,14 @@ import "./DisplayImage.css";
 
 export default function DisplayPicture(props) {
   const loading = useSelector(selectAppLoading);
+  console.log(`these are`, props.pictures);
   if (loading) {
     return <Loading />;
   }
   return (
     <div>
       <Carousel className="displayImageCarousel">
-        {props.picture.map((pic) => {
+        {props.pictures.map((pic) => {
           return (
             <Carousel.Item key={pic.id} interval={10000}>
               <div className="displayImageBoxOver">
