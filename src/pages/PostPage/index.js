@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Form, FormControl } from "react-bootstrap";
 
 export default function PostPage() {
   const dispatch = useDispatch();
@@ -16,6 +16,22 @@ export default function PostPage() {
   return (
     <div>
       <h1>Post page</h1>
+      <Form
+        inline
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          margin: "20px",
+        }}
+      >
+        <FormControl
+          type="text"
+          placeholder="Search For Posts"
+          className="mr-sm-2"
+        />
+        <Button variant="outline-info">Search</Button>
+      </Form>
       <div>
         {!posts
           ? "...Loading"
