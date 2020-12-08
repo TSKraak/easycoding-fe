@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
-import { Button, Card, Form, FormControl } from "react-bootstrap";
+import { Button, Card, CardDeck, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function PostPage() {
@@ -38,7 +38,7 @@ export default function PostPage() {
         </Link>
       </Form>
 
-      <div>
+      <CardDeck>
         {!posts
           ? "...Loading"
           : posts.map((post) => {
@@ -54,7 +54,7 @@ export default function PostPage() {
                 </Card>
               );
             })}
-      </div>
+      </CardDeck>
     </div>
   );
 }

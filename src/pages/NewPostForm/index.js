@@ -50,7 +50,6 @@ export default function NewPostForm() {
             onChange={(event) => setPicture(event.target.value)}
             type="picture"
             placeholder="picture"
-            required
           />
         </Form.Group>
         <Form.Group className="mt-5">
