@@ -23,7 +23,7 @@ export default function NewPostForm() {
     setValidated(true);
     event.preventDefault();
 
-    if (title !== "" || content !== "") {
+    if (title !== "" && content !== "") {
       await dispatch(createPost(title, content));
       setTitle("");
       setContent("");
