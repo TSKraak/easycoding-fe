@@ -47,14 +47,14 @@ export default function ViewPostDetails() {
                   />
                 </strong>
               </p>
-              <p>{detailsPost.content}</p>
+              <p>{detailsPost.content}</p>{" "}
+              {detailsPost?.pictures.length !== 0 ? (
+                <DisplayPicture pictures={detailsPost.pictures} />
+              ) : null}
             </div>
           )}
         </Container>
       </Jumbotron>
-      {detailsPost?.pictures.length !== 0 ? (
-        <DisplayPicture pictures={detailsPost.pictures} />
-      ) : null}
     </div>
   );
 }
