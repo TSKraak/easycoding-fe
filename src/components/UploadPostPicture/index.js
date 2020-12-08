@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { postPicture } from "../../store/picture/actions";
-import "./UploadUserPicture.css";
 
 export default function UploadPostPicture() {
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ export default function UploadPostPicture() {
   return (
     <div>
       <Button onClick={handleOpen} variant="outline-dark">
-        {!props.picture ? "Upload Image" : "Change Image"}
+        Upload Picture
       </Button>
     </div>
   );

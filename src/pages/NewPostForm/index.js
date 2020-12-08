@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Col, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import UploadPostPicture from "../../components/UploadPostPicture";
 import { createPost } from "../../store/post/actions";
 
 export default function NewPostForm() {
@@ -56,6 +57,7 @@ export default function NewPostForm() {
             placeholder="picture"
           />
         </Form.Group>
+        <UploadPostPicture />
         <Form.Group className="mt-5">
           <Button variant="primary" type="submit" onClick={submitForm}>
             Create Post

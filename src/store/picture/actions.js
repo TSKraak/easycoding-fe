@@ -1,7 +1,7 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "../user/selectors";
-import { selectPicturesIds } from "./selector";
+import { selectPicturesIds } from "./selectors";
 
 export const displayPicture = (picture) => {
   return { type: "DISPLAY_PICTURE", payload: picture };

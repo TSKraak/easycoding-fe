@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteImage } from "../../store/images/action";
 import { selectImages } from "../../store/images/selector";
-import "./ImagePreview.css";
+import "./PreviewPicture.css";
 
 export default function ImagePreview() {
   const dispatch = useDispatch();
