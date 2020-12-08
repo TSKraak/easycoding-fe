@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { getUserWithStoredToken } from "./store/user/actions";
 import Footer from "./components/Footer";
 import NewPostForm from "./pages/NewPostForm";
+import ViewPostDetails from "./pages/ViewPostDetails";
 
 const NotFound = () => {
   return <h3>Oops, sorry. Page doesn't exist.</h3>;
@@ -44,6 +45,10 @@ function App() {
 
           <Route exact path="/posts/new">
             <NewPostForm />
+          </Route>
+
+          <Route exact path="/posts/details/:post">
+            <ViewPostDetails />
           </Route>
 
           <Route exact path="/posts/:searchText?">
@@ -77,7 +82,9 @@ function App() {
           <Route path="/" component={NotFound} />
         </Switch>
       </div>
-      <Footer />
+      <footer className="Footer">
+        <Footer />
+      </footer>
     </div>
   );
 }
