@@ -1,32 +1,32 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteImage } from "../../store/images/action";
-import { selectImages } from "../../store/images/selector";
+import { deletePicture } from "../../store/picture/actions";
+import { selectPictures } from "../../store/picture/selectors";
 import "./PreviewPicture.css";
 
 export default function ImagePreview() {
   const dispatch = useDispatch();
-  const images = useSelector(selectImages);
-  if (images.find((image) => image.id === 0)) {
+  const pictures = useSelector(selectPictures);
+  if (pictures.length === 0) {
     return <div>{null}</div>;
   }
   const handleRemove = (event) => {
     event.preventDefault();
-    dispatch(deleteImage(event.target.value));
+    dispatch(deletePicture(event.target.value));
   };
   return (
     <>
       <div className="imagePreview">
-        {images.map((image) => {
-          console.log(image.id);
+        {pictures.map((pic) => {
+          console.log(pic.id);
           return (
-            <div key={image.id} className="img-wrap lock">
-              <button className="close" onClick={handleRemove} value={image.id}>
+            <div key={pic.id} className="img-wrap lock">
+              <button className="close" onClick={handleRemove} value={pic.id}>
                 &times;
               </button>
               <img
-                src={image.url}
-                alt={image.name}
+                src={pic.url}
+                alt={pic.name}
                 className="displayImagePreview"
               />
             </div>
