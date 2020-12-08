@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import "./UploadUserImage.css";
 
 export default function UploadUserImage(props) {
   const handleOpen = async () => {
@@ -18,8 +19,23 @@ export default function UploadUserImage(props) {
   };
   return (
     <div>
+      {props.picture ? (
+        <div className="previewBox">
+          <img
+            style={{
+              height: "auto",
+              width: "auto",
+              maxWidth: "200px",
+              maxHeight: "200px",
+            }}
+            className="previewImage"
+            src={props.picture}
+            alt="user"
+          />
+        </div>
+      ) : null}
       <Button onClick={handleOpen} variant="outline-dark">
-        Upload Image
+        {!props.picture ? "Upload Image" : "Change Image"}
       </Button>
     </div>
   );
