@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUserWithStoredToken } from "./store/user/actions";
 import Footer from "./components/Footer";
+import NewPostForm from "./pages/NewPostForm";
 
 const NotFound = () => {
   return <h3>Oops, sorry. Page doesn't exist.</h3>;
@@ -39,6 +40,10 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/posts">
             <PostPage />
+          </Route>
+
+          <Route exact path="/posts/new">
+            <NewPostForm />
           </Route>
 
           <Route exact path="/posts/:language?">
