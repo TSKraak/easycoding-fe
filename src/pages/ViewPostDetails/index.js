@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import moment from "moment";
+import DisplayPicture from "../../components/DisplayPicture/index";
 
 export default function ViewPostDetails() {
   const { post } = useParams();
@@ -27,28 +28,33 @@ export default function ViewPostDetails() {
   }, [dispatch]);
 
   return (
-    <Jumbotron fluid>
-      <Container>
-        {!detailsPost ? (
-          "...Loading"
-        ) : (
-          <div>
-            <h3>{detailsPost.title}</h3>
-            <p>
-              <strong>
-                Written by {detailsPost.author.name}{" "}
-                {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
-                <img
-                  src={detailsPost.author.picture}
-                  style={{ width: "30px" }}
-                  alt="author-name"
-                />
-              </strong>
-            </p>
-            <p>{detailsPost.content}</p>
-          </div>
-        )}
-      </Container>
-    </Jumbotron>
+    <div>
+      <Jumbotron fluid>
+        <Container>
+          {!detailsPost ? (
+            "...Loading"
+          ) : (
+            <div>
+              <h3>{detailsPost.title}</h3>
+              <p>
+                <strong>
+                  Written by {detailsPost.author.name}{" "}
+                  {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
+                  <img
+                    src={detailsPost.author.picture}
+                    style={{ width: "30px" }}
+                    alt="author-name"
+                  />
+                </strong>
+              </p>
+              <p>{detailsPost.content}</p>
+            </div>
+          )}
+        </Container>
+      </Jumbotron>
+      {detailsPost?.pictures.length !== 0 ? (
+        <DisplayPicture pictures={detailsPost.pictures} />
+      ) : null}
+    </div>
   );
 }
