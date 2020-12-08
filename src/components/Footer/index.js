@@ -7,7 +7,7 @@ export default function Footer() {
       fluid
       style={{
         background: "lightgrey",
-        position: "absolute",
+        position: "fixed",
         bottom: "0",
         padding: "1rem",
       }}
