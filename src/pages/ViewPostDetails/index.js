@@ -34,8 +34,14 @@ export default function ViewPostDetails() {
           <strong>
             Written by {detailsPost.author.name}{" "}
             {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
+            <img
+              src={detailsPost.author.picture}
+              style={{ width: "30px" }}
+              alt="author-name"
+            />
           </strong>
         </p>
+
         <p>{detailsPost.content}</p>
       </Container>
     </Jumbotron>
