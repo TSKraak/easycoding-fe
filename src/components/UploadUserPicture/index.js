@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import "./UploadUserImage.css";
+import "./UploadUserPicture.css";
 
 export default function UploadUserImage(props) {
   const handleOpen = async () => {

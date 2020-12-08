@@ -7,7 +7,7 @@ import { selectToken } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
-import UploadUserImage from "../../components/UploadUserImage/index";
+import UploadUserImage from "../../components/UploadUserPicture/index";
 
 export default function SignUp() {
   const [name, setName] = useState("");
