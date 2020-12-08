@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
-import { Button, Card, CardDeck, Form, FormControl } from "react-bootstrap";
+import { Button, Card, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function PostPage() {
@@ -31,30 +31,37 @@ export default function PostPage() {
           placeholder="Search For Posts"
           className="mr-sm-2"
         />
-        <Button variant="outline-info">Search</Button>
+        <Button variant="outline-primary">Search</Button>
         <p style={{ margin: "20px" }}>or</p>
         <Link to="/posts/new">
           <Button variant="success">Create New Post</Button>
         </Link>
       </Form>
 
-      <CardDeck>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {!posts
           ? "...Loading"
           : posts.map((post) => {
               return (
-                <Card key={post.id} style={{ width: "18rem" }}>
+                <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
                   <Card.Body>
                     <Card.Title>{post.title}</Card.Title>
-                    <Card.Footer>written by {post.author.name}</Card.Footer>
-                    <Button variant="outline-info">
+                    <Button variant="outline-primary">
                       View Details of {post.title}
                     </Button>
                   </Card.Body>
+                  <Card.Footer>written by {post.author.name}</Card.Footer>
                 </Card>
               );
             })}
-      </CardDeck>
+      </div>
     </div>
   );
 }
