@@ -29,20 +29,25 @@ export default function ViewPostDetails() {
   return (
     <Jumbotron fluid>
       <Container>
-        <h3>{detailsPost.title}</h3>
-        <p>
-          <strong>
-            Written by {detailsPost.author.name}{" "}
-            {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
-            <img
-              src={detailsPost.author.picture}
-              style={{ width: "30px" }}
-              alt="author-name"
-            />
-          </strong>
-        </p>
-
-        <p>{detailsPost.content}</p>
+        {!detailsPost ? (
+          "...Loading"
+        ) : (
+          <div>
+            <h3>{detailsPost.title}</h3>
+            <p>
+              <strong>
+                Written by {detailsPost.author.name}{" "}
+                {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
+                <img
+                  src={detailsPost.author.picture}
+                  style={{ width: "30px" }}
+                  alt="author-name"
+                />
+              </strong>
+            </p>
+            <p>{detailsPost.content}</p>
+          </div>
+        )}
       </Container>
     </Jumbotron>
   );
