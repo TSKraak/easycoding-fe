@@ -1,5 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
+import { showMessageWithTimeout } from "../appState/actions";
 
 export function storePosts(posts) {
   return {
@@ -45,6 +46,9 @@ export function createPost(title, content) {
       console.log("what is res.data in create post", res.data);
       const post = res.data;
       dispatch(storeNewPost(post));
+      dispatch(
+        showMessageWithTimeout("success", true, "Post Created Successfully")
+      );
     } catch (e) {
       console.log("error", e);
     }

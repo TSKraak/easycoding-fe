@@ -43,7 +43,7 @@ export default function PostPage() {
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          justifyContent: "center",
+          justifyContent: "flex-start",
         }}
       >
         {!posts

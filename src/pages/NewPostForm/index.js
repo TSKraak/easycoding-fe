@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { createPost } from "../../store/post/actions";
 
 export default function NewPostForm() {
@@ -8,15 +9,18 @@ export default function NewPostForm() {
   const [content, setContent] = useState("");
   const [picture, setPicture] = useState("");
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  function submitForm(event) {
+  async function submitForm(event) {
     event.preventDefault();
 
-    dispatch(createPost(title, content));
+    await dispatch(createPost(title, content));
 
     setTitle("");
     setContent("");
     setPicture("");
+
+    history.push("/posts");
   }
   return (
     <Container>
