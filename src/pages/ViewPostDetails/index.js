@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
+import moment from "moment";
 
 export default function ViewPostDetails() {
   const { post } = useParams();
@@ -28,8 +29,14 @@ export default function ViewPostDetails() {
   return (
     <Jumbotron fluid>
       <Container>
-        <h3>Post Title</h3>
-        <p>Post Text</p>
+        <h3>{detailsPost.title}</h3>
+        <p>
+          <strong>
+            Written by {detailsPost.author.name}{" "}
+            {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
+          </strong>
+        </p>
+        <p>{detailsPost.content}</p>
       </Container>
     </Jumbotron>
   );
