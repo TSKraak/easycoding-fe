@@ -53,9 +53,11 @@ export default function PostPage() {
                 <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
                   <Card.Body>
                     <Card.Title>{post.title}</Card.Title>
-                    <Button variant="outline-primary">
-                      View Details of {post.title}
-                    </Button>
+                    <Link to={`/posts/details/${post.id}`}>
+                      <Button variant="outline-primary">
+                        View Details of {post.title}
+                      </Button>
+                    </Link>
                   </Card.Body>
                   <Card.Footer>written by {post.author.name}</Card.Footer>
                 </Card>
