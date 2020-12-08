@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { createPost } from "../../store/post/actions";
 
 export default function NewPostForm() {
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [content, setContent] = useState("");
   const [picture, setPicture] = useState("");
+  const dispatch = useDispatch();
 
   function submitForm(event) {
     event.preventDefault();
 
-    // dispatch(login(email, password));
+    dispatch(createPost(title, content));
 
     setTitle("");
-    setText("");
+    setContent("");
     setPicture("");
   }
   return (
@@ -33,10 +36,10 @@ export default function NewPostForm() {
         <Form.Group controlId="formPostText">
           <Form.Label>Post Text</Form.Label>
           <Form.Control
-            value={text}
-            onChange={(event) => setText(event.target.value)}
+            value={content}
+            onChange={(event) => setContent(event.target.value)}
             type="text"
-            placeholder="Enter text"
+            placeholder="Enter content"
             required
           />
         </Form.Group>
