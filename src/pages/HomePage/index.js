@@ -17,7 +17,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="HomePage-Container">
+    <div className="HomePage-Container" style={{ textAlign: "center" }}>
       <h1>Welcome to &#60;Easy Coding&#62;</h1>
 
       <InputGroup style={{ width: "30%", margin: "5% 35% 5% 35%" }}>
