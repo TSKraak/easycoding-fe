@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getAllUsers } from "../../store/user/actions";
+import { getAllUsers } from "../../store/allUsers/actions";
 
 export default function ManageUsersPage() {
   const dispatch = useDispatch();
