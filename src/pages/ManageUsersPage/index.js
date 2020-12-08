@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../../store/allUsers/actions";
+import { blockUser, getAllUsers } from "../../store/allUsers/actions";
 import { selectAllUsers } from "../../store/allUsers/selectors";
-import { Container, Jumbotron, Table } from "react-bootstrap";
+import { Button, Container, Jumbotron, Table } from "react-bootstrap";
 
 export default function ManageUsersPage() {
   const dispatch = useDispatch();
@@ -12,6 +12,11 @@ export default function ManageUsersPage() {
   useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
+
+  const handleBlock = (e) => {
+    e.preventDefault();
+    dispatch(blockUser(e.target.value));
+  };
 
   return (
     <Jumbotron>
@@ -43,7 +48,17 @@ export default function ManageUsersPage() {
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{!user.isAdmin ? "No" : "Yes"}</td>
-                      <td>{!user.accountBlocked ? "No" : "Yes"}</td>
+                      <td>
+                        <Button
+                          onClick={handleBlock}
+                          value={user.id}
+                          variant={
+                            !user.accountBlocked ? "secondary" : "danger"
+                          }
+                        >
+                          {!user.accountBlocked ? "Block" : "Unblock"}
+                        </Button>
+                      </td>
                     </tr>
                   );
                 })}
