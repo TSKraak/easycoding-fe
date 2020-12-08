@@ -1,8 +1,14 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
-import { showMessageWithTimeout } from "../appState/actions";
+import {
+  appDoneLoading,
+  appLoading,
+  setMessage,
+  showMessageWithTimeout,
+} from "../appState/actions";
 import { selectPicturesIds, selectPictures } from "../picture/selectors";
 import { removeAllPicture } from "../picture/actions";
+import { selectToken } from "../user/selectors";
 
 export function storePosts(posts) {
   return {
@@ -61,3 +67,49 @@ export function createPost(title, content) {
     }
   };
 }
+
+const addNewComment = (newPosts) => {
+  return { type: "ADD_NEW_COMMENT", payload: newPosts };
+};
+
+export const postNewComment = (content, postId) => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+    console.log("POSTS IN ACTIONS", posts);
+
+    try {
+      const response = await axios.post(
+        `${apiUrl}/comment`,
+        {
+          content,
+          postId,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const newComment = response.data;
+
+      const newPosts = posts.map((post) => {
+        if (post.id === postId) {
+          return { ...post, comments: [...post.comments, newComment] };
+        }
+        return post;
+      });
+
+      dispatch(addNewComment(newPosts));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
