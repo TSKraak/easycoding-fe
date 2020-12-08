@@ -77,7 +77,9 @@ function App() {
           <Route path="/" component={NotFound} />
         </Switch>
       </div>
-      <Footer />
+      <footer className="Footer">
+        <Footer />
+      </footer>
     </div>
   );
 }
