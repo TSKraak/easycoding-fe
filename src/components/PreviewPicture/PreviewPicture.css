@@ -1,0 +1,27 @@
+.imagePreview {
+  margin-bottom: 20px;
+  padding: 20px;
+  padding-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+}
+
+.displayImagePreview {
+  width: auto;
+  height: "auto";
+  max-height: 100px;
+}
+
+.img-wrap {
+  position: relative;
+  width: fit-content;
+  margin-right: 20px;
+}
+.img-wrap .close {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  z-index: 100;
+}
