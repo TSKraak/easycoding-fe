@@ -11,10 +11,10 @@ export default (state = initialState, action) => {
     case "STORE_POSTS":
       return { ...state, all: action.payload };
 
-    case "ADD_NEW_COMMENT":
+    case "ADD_NEW_POST_COMMENT":
       return { ...state, all: action.payload };
 
-    case "ADD_NEW_REPLY":
+    case "ADD_NEW_POST_REPLY":
       return { ...state, all: action.payload };
 
     default:

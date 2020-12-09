@@ -4,47 +4,68 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Accordion, Button, Card, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { postNewComment, postNewReply } from "../../store/post/actions";
+import { postNewPostComment, postNewPostReply } from "../../store/post/actions";
+import {
+  postNewRequestComment,
+  postNewRequestReply,
+} from "../../store/request/actions";
 import Loading from "../Loading";
+import { selectRequests } from "../../store/request/selectors";
 
-export default function Comments() {
+export default function Comments({ requestId, commentType }) {
   const [commentText, setCommentText] = useState("");
   const [replyText, setReplyText] = useState("");
   const dispatch = useDispatch();
   const params = useParams();
   const posts = useSelector(selectAllPosts);
-  const id = parseInt(params.post);
-  const post = posts.find((post) => post.id === id);
+  const requests = useSelector(selectRequests);
+  const id = parseInt(params.post) || requestId;
   const [commentId, setCommentId] = useState("");
+
+  // console.log("WHAT IS ID", id);
+  // console.log("WHAT IS commentType", commentType);
+
+  const postOrRequest =
+    commentType === "post"
+      ? posts.find((post) => post.id === id)
+      : requests.find((req) => req.id === id);
 
   function submitNewComment(event) {
     event.preventDefault();
 
-    dispatch(postNewComment(commentText, id));
+    if (commentType === "post") {
+      dispatch(postNewPostComment(commentText, id));
+      return setCommentText("");
+    }
 
+    dispatch(postNewRequestComment(commentText, id));
     setCommentText("");
   }
 
   function submitNewReply(event) {
     event.preventDefault();
 
-    dispatch(postNewReply(replyText, id, commentId));
+    if (commentType === "post") {
+      dispatch(postNewPostReply(replyText, id, commentId));
+      return setReplyText("");
+    }
 
+    dispatch(postNewRequestReply(replyText, id, commentId));
     setReplyText("");
   }
 
   return (
     <div>
-      <h5>Comments</h5>
-      {!post ? (
+      <h5 style={{ marginTop: "0.5rem", marginLeft: "1rem" }}>Comments</h5>
+      {!postOrRequest ? (
         <Loading />
       ) : (
-        post.comments?.map((comment) => {
+        postOrRequest.comments.map((comment) => {
           return (
             <Card
               bg="light"
               key={comment.id}
-              style={{ width: "50rem" }}
+              style={{ width: "60rem" }}
               className="mb-2"
             >
               <Card.Body>
@@ -65,10 +86,10 @@ export default function Comments() {
                   <Card
                     bg="light"
                     style={{
-                      width: "48rem",
+                      width: "58rem",
                       marginLeft: "2rem",
                     }}
-                    className="mb-2"
+                    className="mt-2 mb-2"
                   >
                     <Accordion.Toggle
                       as={Card.Header}
@@ -80,7 +101,7 @@ export default function Comments() {
                       }}
                       eventKey="0"
                     >
-                      Replies (click to show)
+                      Replies (click here)
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="0">
                       <div>
@@ -109,7 +130,7 @@ export default function Comments() {
                 <Card
                   bg="light"
                   style={{
-                    width: "48rem",
+                    width: "58rem",
                     marginLeft: "2rem",
                   }}
                   className="mb-2"
@@ -124,7 +145,7 @@ export default function Comments() {
                     }}
                     eventKey="0"
                   >
-                    Reply to this (click to show)
+                    Reply to this comment (click here)
                   </Accordion.Toggle>
                   <Accordion.Collapse eventKey="0">
                     <div>
@@ -165,8 +186,8 @@ export default function Comments() {
         })
       )}
 
-      <Form as={Col} md={{ span: 6 }} className="mt-5">
-        <h5 className="mt-5">New comment:</h5>
+      <Form as={Col} md={{ span: 6 }} className="mt-3">
+        <h5>New comment:</h5>
         <Form.Group controlId="formBasicCommentText">
           <Form.Control
             value={commentText}
