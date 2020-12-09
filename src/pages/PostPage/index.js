@@ -13,7 +13,6 @@ export default function PostPage() {
   const history = useHistory();
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
-  console.log(user.id);
   const { searchText: searchTextParams } = useParams();
   const [searchText, setSearchText] = useState(
     !searchTextParams ? "" : searchTextParams
