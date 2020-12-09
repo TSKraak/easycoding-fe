@@ -52,7 +52,7 @@ function App() {
           <Route exact path="/posts/details/:post">
             <ViewPostDetails />
           </Route>
-          
+
           <Route exact path="/posts/edit/:post">
             <EditPostPage />
           </Route>
@@ -70,6 +70,10 @@ function App() {
           </Route>
 
           <Route exact path="/favourites">
+            <FavouritePage />
+          </Route>
+
+          <Route exact path="/favourites/:searchText?">
             <FavouritePage />
           </Route>
 
