@@ -18,13 +18,7 @@ export default function ViewPostDetails() {
     dispatch(fetchPosts);
   }, [dispatch]);
 
-  const detailsPost = posts.find((post) => {
-    if (post.id === postId) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  const detailsPost = posts.find((post) => post.id === postId);
 
   return (
     <div>
@@ -54,7 +48,7 @@ export default function ViewPostDetails() {
           )}
         </Container>
       </Jumbotron>
-      <Comments />
+      <Comments commentType="post" />
     </div>
   );
 }

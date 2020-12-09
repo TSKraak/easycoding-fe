@@ -117,7 +117,7 @@ export const updateUser = (attribute) => {
     const token = selectToken(getState());
     dispatch(appLoading());
     try {
-      const response = await axios.put(
+      await axios.put(
         `${apiUrl}/users/profile`,
         {
           ...attribute,
