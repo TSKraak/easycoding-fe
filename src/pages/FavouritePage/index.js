@@ -1,13 +1,21 @@
 import React from "react";
 import moment from "moment";
 import { Card, Form, FormControl, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import FavouriteButton from "../../components/FavouriteButton";
-import { selectUserFavourite } from "../../store/user/selectors";
+import { selectUser, selectUserFavourite } from "../../store/user/selectors";
+import { deletePostAsAdmin } from "../../store/post/actions";
 
 export default function FavouritePage() {
+  const dispatch = useDispatch();
   const favourites = useSelector(selectUserFavourite);
+  const user = useSelector(selectUser);
+  function deleteByAdmin(event) {
+    console.log(event.target.value);
+    event.preventDefault();
+    dispatch(deletePostAsAdmin(event.target.value));
+  }
   return (
     <div>
       <h1>Favourites</h1>
@@ -51,6 +59,20 @@ export default function FavouritePage() {
                       <Button variant="outline-primary">View Details</Button>
                     </Link>
                     <FavouriteButton postId={post.id} />{" "}
+                    {user.id !== parseInt(post.userId) ? null : (
+                      <Link to={`/posts/edit/${post.id}`}>
+                        <Button>Edit</Button>
+                      </Link>
+                    )}
+                    {!user.isAdmin ? null : (
+                      <Button
+                        onClick={deleteByAdmin}
+                        value={post.id}
+                        variant="danger"
+                      >
+                        Delete as Admin
+                      </Button>
+                    )}
                   </Card.Body>
                   <Card.Footer style={{ fontSize: "0.8rem" }}>
                     By {post.author.name} on{" "}
