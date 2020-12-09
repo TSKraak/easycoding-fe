@@ -9,44 +9,33 @@ import Loading from "../../components/Loading";
 
 export default function PostPage() {
   const [searchText, setSearchText] = useState("");
-  const [searchResult, setSearchResult] = useState("");
+  const { searchText: searchTextParams } = useParams();
+  const [search, setSearch] = useState(
+    !searchTextParams ? "" : searchTextParams
+  );
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
-  console.log("what is posts", posts);
-  const { searchText: searchTextParams } = useParams();
-  console.log("what is params", searchTextParams);
+  const searchResult = posts.filter((post) => {
+    if (post.content.indexOf(search) !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
   useEffect(() => {
     dispatch(fetchPosts);
-    setSearchText(searchTextParams);
-    // setSearchResult(
-    //   posts.filter((post) => {
-    //     if (post.content.indexOf(searchText) !== -1) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   })
-    // );
-  }, [dispatch, searchTextParams, searchText]);
+  }, [dispatch]);
 
   async function submitForm(event) {
     event.preventDefault();
-
-    setSearchResult(
-      posts.filter((post) => {
-        if (post.content.indexOf(searchText) !== -1) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-    );
-
+    setSearch(searchText);
     setSearchText("");
   }
 
-  console.log("what is searchResults", searchResult);
+  // console.log("what is posts", posts);
+  // console.log("what is params", searchTextParams);
+  // console.log("what is searchResults", searchResult);
 
   return (
     <div>
@@ -98,16 +87,14 @@ export default function PostPage() {
                     </Button>
                   </Link>
                   <FavouriteButton postId={post.id} />{" "}
-      <Link to={`/posts/edit/${post.id}`}>
-                      <Button></Button>
-                    </Link>
+                  <Link to={`/posts/edit/${post.id}`}>
+                    <Button></Button>
+                  </Link>
                 </Card.Body>
                 <Card.Footer>written by {post.author.name}</Card.Footer>
               </Card>
             );
           })
-        ) : !searchResult.length ? (
-          <h3>No search results</h3>
         ) : (
           searchResult.map((post) => {
             return (
@@ -120,15 +107,18 @@ export default function PostPage() {
                     </Button>
                   </Link>
                   <FavouriteButton postId={post.id} />{" "}
-      <Link to={`/posts/edit/${post.id}`}>
-                      <Button></Button>
-                    </Link>
+                  <Link to={`/posts/edit/${post.id}`}>
+                    <Button></Button>
+                  </Link>
                 </Card.Body>
                 <Card.Footer>written by {post.author.name}</Card.Footer>
               </Card>
             );
           })
         )}
+        {posts && search && !searchResult.length ? (
+          <h3>No search results</h3>
+        ) : null}
       </div>
     </div>
   );
