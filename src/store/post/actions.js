@@ -68,11 +68,11 @@ export function createPost(title, content) {
   };
 }
 
-const addNewComment = (newPosts) => {
-  return { type: "ADD_NEW_COMMENT", payload: newPosts };
+const addNewPostComment = (newPosts) => {
+  return { type: "ADD_NEW_POST_COMMENT", payload: newPosts };
 };
 
-export const postNewComment = (content, postId) => {
+export const postNewPostComment = (content, postId) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     const token = selectToken(getState());
@@ -98,7 +98,7 @@ export const postNewComment = (content, postId) => {
         return post;
       });
 
-      dispatch(addNewComment(newPosts));
+      dispatch(addNewPostComment(newPosts));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
@@ -113,11 +113,11 @@ export const postNewComment = (content, postId) => {
   };
 };
 
-const addNewReply = (newPosts) => {
-  return { type: "ADD_NEW_REPLY", payload: newPosts };
+const addNewPostReply = (newPosts) => {
+  return { type: "ADD_NEW_POST_REPLY", payload: newPosts };
 };
 
-export const postNewReply = (content, postId, commentId) => {
+export const postNewPostReply = (content, postId, commentId) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     const token = selectToken(getState());
@@ -149,7 +149,7 @@ export const postNewReply = (content, postId, commentId) => {
         return post;
       });
 
-      dispatch(addNewReply(newPosts));
+      dispatch(addNewPostReply(newPosts));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {

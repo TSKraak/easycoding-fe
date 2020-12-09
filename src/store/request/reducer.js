@@ -9,6 +9,12 @@ export default (state = initialState, action) => {
     case "ADD_REQUEST":
       return [...state, action.payload];
 
+    case "ADD_NEW_REQUEST_COMMENT":
+      return action.payload;
+
+    case "ADD_NEW_REQUEST_REPLY":
+      return action.payload;
+
     default:
       return state;
   }
