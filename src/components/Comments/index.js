@@ -89,7 +89,7 @@ export default function Comments({ requestId, commentType }) {
                       width: "58rem",
                       marginLeft: "2rem",
                     }}
-                    className="mt-2 mb-2"
+                    // className="mt-2 mb-2"
                   >
                     <Accordion.Toggle
                       as={Card.Header}
@@ -133,7 +133,7 @@ export default function Comments({ requestId, commentType }) {
                     width: "58rem",
                     marginLeft: "2rem",
                   }}
-                  className="mb-2"
+                  // className="mb-2"
                 >
                   <Accordion.Toggle
                     as={Card.Header}
