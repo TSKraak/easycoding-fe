@@ -102,7 +102,14 @@ export default function FavouritePage() {
                   <Link to={`/posts/details/${post.id}`}>
                     <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />{" "}
+                  {!token ? (
+                    <Link to={`/login`}>
+                      {" "}
+                      <Button variant="primary">Favourite</Button>
+                    </Link>
+                  ) : (
+                    <FavouriteButton postId={post.id} />
+                  )}{" "}
                   {user.id !== parseInt(post.userId) ? null : (
                     <Link to={`/posts/edit/${post.id}`}>
                       <Button>Edit</Button>
@@ -134,7 +141,13 @@ export default function FavouritePage() {
                   <Link to={`/posts/details/${post.id}`}>
                     <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />{" "}
+                  {!token ? (
+                    <Link to={`/login`}>
+                      <Button variant="primary">Favourite</Button>
+                    </Link>
+                  ) : (
+                    <FavouriteButton postId={post.id} />
+                  )}{" "}
                   {user.id !== parseInt(post.userId) ? null : (
                     <Link to={`/posts/edit/${post.id}`}>
                       <Button>Edit</Button>
