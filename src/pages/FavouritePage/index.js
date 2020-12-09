@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Card, Form, FormControl, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -27,7 +28,7 @@ export default function FavouritePage() {
         <Button variant="outline-primary">Search</Button>
         <p style={{ margin: "20px" }}>or</p>
         <Link to="/posts/new">
-          <Button variant="success">Create New Post</Button>
+          <Button variant="outline-success">Create New Post</Button>
         </Link>
       </Form>
 
@@ -47,13 +48,14 @@ export default function FavouritePage() {
                   <Card.Body>
                     <Card.Title>{post.title}</Card.Title>
                     <Link to={`/posts/details/${post.id}`}>
-                      <Button variant="outline-primary">
-                        View Details of {post.title}
-                      </Button>
+                      <Button variant="outline-primary">View Details</Button>
                     </Link>
                     <FavouriteButton postId={post.id} />{" "}
                   </Card.Body>
-                  <Card.Footer>written by {post.author.name}</Card.Footer>
+                  <Card.Footer style={{ fontSize: "0.8rem" }}>
+                    By {post.author.name} on{" "}
+                    {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                  </Card.Footer>{" "}
                 </Card>
               );
             })}
