@@ -25,7 +25,6 @@ export const fetchPicture = (postId) => {
       const response = await axios.get(`${apiUrl}/picture/${postId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response.data);
       dispatch(displayPictureFromFetch(response.data));
     } catch (error) {
       if (error.response) {
@@ -63,7 +62,6 @@ export const deletePicture = (id) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(removePicture(id));
-      console.log(`removed picture`, id);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

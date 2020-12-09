@@ -8,7 +8,7 @@ export default function ImagePreviewEdit(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchPicture(props.postId));
-  }, [dispatch]);
+  }, [dispatch, props.postId]);
   const pictures = useSelector(selectPictures);
   if (pictures.length === 0) {
     return <div>{null}</div>;

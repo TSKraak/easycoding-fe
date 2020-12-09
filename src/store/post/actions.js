@@ -24,6 +24,13 @@ export function storeNewPost(post) {
   };
 }
 
+export function storeUpdatedPost(post, postId) {
+  return {
+    type: "UPDATE_POSTS",
+    payload: { post, postId },
+  };
+}
+
 export async function fetchPosts(dispatch, getState) {
   try {
     const res = await axios.get(`${apiUrl}/post`);
@@ -59,6 +66,39 @@ export function createPost(title, content) {
       const post = res.data;
       dispatch(removeAllPicture());
       dispatch(storeNewPost(post));
+      dispatch(
+        showMessageWithTimeout("success", true, "Post Created Successfully")
+      );
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+}
+
+export function updatePost(title, content, postId) {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    const pictures = selectPictures(getState());
+    const picturesIds = pictures ? selectPicturesIds(getState()) : [];
+
+    try {
+      const res = await axios.put(
+        `${apiUrl}/post/${postId}`,
+        {
+          title,
+          content,
+          picturesIds,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const post = res.data;
+      dispatch(removeAllPicture());
+      dispatch(storeUpdatedPost(post, postId));
       dispatch(
         showMessageWithTimeout("success", true, "Post Created Successfully")
       );

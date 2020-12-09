@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import ImagePreview from "../../components/PreviewPicture";
 import UploadPostPicture from "../../components/UploadPostPicture";
-import { createPost } from "../../store/post/actions";
+import { updatePost } from "../../store/post/actions";
 import ImagePreviewEdit from "../PreviewPictureEdit";
 
 export default function EditPostForm(props) {
@@ -25,7 +24,7 @@ export default function EditPostForm(props) {
     event.preventDefault();
 
     if (title !== "" && content !== "") {
-      await dispatch(createPost(title, content));
+      await dispatch(updatePost(title, content, props.post.id));
       setTitle("");
       setContent("");
       history.push("/posts");
@@ -73,7 +72,7 @@ export default function EditPostForm(props) {
           <UploadPostPicture />
           <Form.Group className="mt-5">
             <Button variant="primary" type="submit">
-              Create Post
+              Edit Post
             </Button>
           </Form.Group>
         </Form>
