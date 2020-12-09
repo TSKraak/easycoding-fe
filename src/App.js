@@ -18,6 +18,7 @@ import { getUserWithStoredToken } from "./store/user/actions";
 import Footer from "./components/Footer";
 import NewPostForm from "./pages/NewPostForm";
 import ViewPostDetails from "./pages/ViewPostDetails";
+import NewRequestForm from "./pages/NewRequestForm";
 
 const NotFound = () => {
   return <h3>Oops, sorry. Page doesn't exist.</h3>;
@@ -53,6 +54,10 @@ function App() {
 
           <Route exact path="/posts/:searchText?">
             <PostPage />
+          </Route>
+
+          <Route exact path="/requests/new">
+            <NewRequestForm />
           </Route>
 
           <Route exact path="/requests">
