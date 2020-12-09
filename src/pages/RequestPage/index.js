@@ -4,7 +4,9 @@ import Loading from "../../components/Loading";
 import { selectAppLoading } from "../../store/appState/selectors";
 import { fetchRequests } from "../../store/request/actions";
 import { selectRequests } from "../../store/request/selectors";
-import { Card } from "react-bootstrap";
+import { Button, Card, Form, FormControl } from "react-bootstrap";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
 export default function RequestPage() {
   const dispatch = useDispatch();
@@ -17,6 +19,26 @@ export default function RequestPage() {
   return (
     <div>
       <h1>Request page</h1>
+      <Form
+        inline
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          margin: "20px",
+        }}
+      >
+        <FormControl
+          type="text"
+          placeholder="Search For Requests"
+          className="mr-sm-2"
+        />
+        <Button variant="outline-primary">Search</Button>
+        <p style={{ margin: "20px" }}>or</p>
+        <Link to="/requests/new">
+          <Button variant="success">Create New Request</Button>
+        </Link>
+      </Form>
       {loading ? (
         <Loading />
       ) : (
@@ -27,7 +49,10 @@ export default function RequestPage() {
                 <Card.Header>{req.title}</Card.Header>
                 <Card.Text>{req.content}</Card.Text>
               </Card.Body>
-              <Card.Footer>written by </Card.Footer>
+              <Card.Footer>
+                requested by {req.user.name}{" "}
+                {moment(req.createdAt).format("DD/MM/YYYY")}
+              </Card.Footer>
             </Card>
           );
         })
