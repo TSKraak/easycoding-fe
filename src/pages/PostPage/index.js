@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "../../store/post/actions";
+import {
+  deletePost,
+  deletePostAsAdmin,
+  fetchPosts,
+} from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Button, Card, Form, FormControl } from "react-bootstrap";
 import { Link, useHistory, useParams } from "react-router-dom";
@@ -46,6 +50,12 @@ export default function PostPage() {
     } else {
       return history.push(`/posts/${searchText}`);
     }
+  }
+
+  function deleteByAdmin(event) {
+    console.log(event.target.value);
+    event.preventDefault();
+    dispatch(deletePostAsAdmin(event.target.value));
   }
 
   // console.log("what is posts", posts);
@@ -105,6 +115,15 @@ export default function PostPage() {
                       <Button>Edit</Button>
                     </Link>
                   )}
+                  {!user.isAdmin ? null : (
+                    <Button
+                      onClick={deleteByAdmin}
+                      value={post.id}
+                      variant="danger"
+                    >
+                      Delete as Admin
+                    </Button>
+                  )}
                 </Card.Body>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
                   By {post.author.name} on{" "}
@@ -127,6 +146,15 @@ export default function PostPage() {
                     <Link to={`/posts/edit/${post.id}`}>
                       <Button>Edit</Button>
                     </Link>
+                  )}
+                  {!user.isAdmin ? null : (
+                    <Button
+                      onClick={deleteByAdmin}
+                      value={post.id}
+                      variant="danger"
+                    >
+                      Delete as Admin
+                    </Button>
                   )}
                 </Card.Body>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
