@@ -11,7 +11,7 @@ export default function EditPostForm(props) {
   const history = useHistory();
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
-  if (!token || user.id !== parseInt(props.post.id)) {
+  if (!token || user.id !== parseInt(props.post.userId)) {
     history.push("/");
   }
   const [title, setTitle] = useState(props.post.title || "");
