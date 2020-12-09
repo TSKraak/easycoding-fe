@@ -18,6 +18,24 @@ export const removeAllPicture = () => {
   return { type: "REMOVE_ALL_PICTURE" };
 };
 
+export const fetchPicture = (postId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    try {
+      const response = await axios.get(`${apiUrl}/picture/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(displayPictureFromFetch(response.data));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+      } else {
+        console.log(error.message);
+      }
+    }
+  };
+};
+
 export const postPicture = (value) => {
   return async (dispatch, getState) => {
     const token = selectToken(getState());
@@ -44,7 +62,6 @@ export const deletePicture = (id) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(removePicture(id));
-      console.log(`removed picture`, id);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

@@ -60,6 +60,9 @@ export default function PostPage() {
                       </Button>
                     </Link>
                     <FavouriteButton postId={post.id} />{" "}
+                    <Link to={`/posts/edit/${post.id}`}>
+                      <Button></Button>
+                    </Link>
                   </Card.Body>
                   <Card.Footer>written by {post.author.name}</Card.Footer>
                 </Card>

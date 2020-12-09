@@ -24,6 +24,20 @@ export function storeNewPost(post) {
   };
 }
 
+export function storeUpdatedPost(post, postId) {
+  return {
+    type: "UPDATE_POSTS",
+    payload: { post, postId },
+  };
+}
+
+export function removePost(postId) {
+  return {
+    type: "REMOVE_POSTS",
+    payload: postId,
+  };
+}
+
 export async function fetchPosts(dispatch, getState) {
   try {
     const res = await axios.get(`${apiUrl}/post`);
@@ -62,6 +76,57 @@ export function createPost(title, content) {
       dispatch(
         showMessageWithTimeout("success", true, "Post Created Successfully")
       );
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+}
+
+export function updatePost(title, content, postId) {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    const pictures = selectPictures(getState());
+    const picturesIds = pictures ? selectPicturesIds(getState()) : [];
+
+    try {
+      const res = await axios.put(
+        `${apiUrl}/post/${postId}`,
+        {
+          title,
+          content,
+          picturesIds,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const post = res.data;
+      dispatch(removeAllPicture());
+      dispatch(storeUpdatedPost(post, postId));
+      dispatch(
+        showMessageWithTimeout("success", true, "Post Updated Successfully")
+      );
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+}
+
+export function deletePost(postId) {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`${apiUrl}/post/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(removeAllPicture());
+      dispatch(removePost(postId));
+      dispatch(showMessageWithTimeout("secondary", true, "Post Deleted"));
     } catch (e) {
       console.log("error", e);
     }
