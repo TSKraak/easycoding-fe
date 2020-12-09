@@ -1,12 +1,10 @@
-const initialState = {
-  all: [],
-};
+const initialState = [];
 
 // eslint-disable-next-line
 export default (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_REQUESTS":
-      return { ...state, all: [...state.all, ...action.payload] };
+    case "STORE_REQUESTS":
+      return action.payload;
 
     default:
       return state;
