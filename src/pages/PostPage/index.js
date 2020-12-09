@@ -62,7 +62,7 @@ export default function PostPage() {
         </Button>
         <p style={{ margin: "20px" }}>or</p>
         <Link to="/posts/new">
-          <Button variant="success">Create New Post</Button>
+          <Button variant="outline-success">Create New Post</Button>
         </Link>
       </Form>
 
