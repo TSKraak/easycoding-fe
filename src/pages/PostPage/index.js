@@ -7,9 +7,13 @@ import { Button, Card, Form, FormControl } from "react-bootstrap";
 import { Link, useHistory, useParams } from "react-router-dom";
 import FavouriteButton from "../../components/FavouriteButton";
 import Loading from "../../components/Loading";
+import { selectToken, selectUser } from "../../store/user/selectors";
 
 export default function PostPage() {
   const history = useHistory();
+  const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
+  console.log(user.id);
   const { searchText: searchTextParams } = useParams();
   const [searchText, setSearchText] = useState(
     !searchTextParams ? "" : searchTextParams
@@ -72,7 +76,7 @@ export default function PostPage() {
           Search
         </Button>
         <p style={{ margin: "20px" }}>or</p>
-        <Link to="/posts/new">
+        <Link to={!token ? "/login" : "/posts/new"}>
           <Button variant="outline-success">Create New Post</Button>
         </Link>
       </Form>
@@ -97,9 +101,11 @@ export default function PostPage() {
                     <Button variant="outline-primary">View Details</Button>
                   </Link>
                   <FavouriteButton postId={post.id} />
-                  <Link to={`/posts/edit/${post.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
+                  {user.id !== parseInt(post.userId) ? null : (
+                    <Link to={`/posts/edit/${post.id}`}>
+                      <Button>Edit</Button>
+                    </Link>
+                  )}
                 </Card.Body>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
                   By {post.author.name} on{" "}
@@ -118,9 +124,11 @@ export default function PostPage() {
                     <Button variant="outline-primary">View Details</Button>
                   </Link>
                   <FavouriteButton postId={post.id} />
-                  <Link to={`/posts/edit/${post.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
+                  {user.id !== parseInt(post.userId) ? null : (
+                    <Link to={`/posts/edit/${post.id}`}>
+                      <Button>Edit</Button>
+                    </Link>
+                  )}
                 </Card.Body>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
                   By {post.author.name} on{" "}

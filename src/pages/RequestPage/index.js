@@ -7,8 +7,10 @@ import { Accordion, Button, Card, Form, FormControl } from "react-bootstrap";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import Comments from "../../components/Comments";
+import { selectToken } from "../../store/user/selectors";
 
 export default function RequestPage() {
+  const token = useSelector(selectToken);
   const [searchText, setSearchText] = useState("");
   const [searchResult, setSearchResult] = useState("");
   const dispatch = useDispatch();
@@ -58,7 +60,7 @@ export default function RequestPage() {
           Search
         </Button>
         <p style={{ margin: "20px" }}>or</p>
-        <Link to="/requests/new">
+        <Link to={!token ? "/login" : "/requests/new"}>
           <Button variant="outline-success">Create New Request</Button>
         </Link>
       </Form>
