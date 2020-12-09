@@ -45,8 +45,8 @@ export default function RequestPage() {
         requests.map((req) => {
           return (
             <Card key={req.id} style={{ margin: "1rem", width: "30rem" }}>
+              <Card.Header>{req.title}</Card.Header>
               <Card.Body>
-                <Card.Header>{req.title}</Card.Header>
                 <Card.Text>{req.content}</Card.Text>
               </Card.Body>
               <Card.Footer>
