@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Accordion, Button, Card, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { postNewComment } from "../../store/post/actions";
+import { postNewComment, postNewReply } from "../../store/post/actions";
 import Loading from "../Loading";
 
 export default function Comments() {
@@ -15,19 +15,20 @@ export default function Comments() {
   const posts = useSelector(selectAllPosts);
   const id = parseInt(params.post);
   const post = posts.find((post) => post.id === id);
+  const [commentId, setCommentId] = useState("");
 
   function submitNewComment(event) {
     event.preventDefault();
 
     dispatch(postNewComment(commentText, id));
 
-    // setCommentText("");
+    setCommentText("");
   }
 
-  function submitNewReply(event, commentId) {
+  function submitNewReply(event) {
     event.preventDefault();
 
-    // dispatch(postNewReply(replyText, commentId));
+    dispatch(postNewReply(replyText, id, commentId));
 
     setReplyText("");
   }
@@ -59,77 +60,106 @@ export default function Comments() {
                 {moment(comment.createdAt).format("ddd DD MMMM YYYY HH:mm")}
               </Card.Footer>
 
-              {comment.answers.length
-                ? comment.answers.map((answer) => {
-                    return (
-                      <Accordion key={answer.id}>
-                        <Card
-                          bg="light"
-                          style={{
-                            width: "48rem",
-                            marginLeft: "2rem",
-                          }}
-                          className="mb-2"
-                        >
-                          <Accordion.Toggle
-                            as={Card.Header}
-                            style={{
-                              background: "lightgrey",
-                              fontSize: "0.9rem",
-                              margin: "0",
-                              padding: "0.5rem",
+              {comment.answers.length ? (
+                <Accordion>
+                  <Card
+                    bg="light"
+                    style={{
+                      width: "48rem",
+                      marginLeft: "2rem",
+                    }}
+                    className="mb-2"
+                  >
+                    <Accordion.Toggle
+                      as={Card.Header}
+                      style={{
+                        background: "lightgrey",
+                        fontSize: "0.9rem",
+                        margin: "0",
+                        padding: "0.5rem",
+                      }}
+                      eventKey="0"
+                    >
+                      Replies (click to show)
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                      <div>
+                        {comment.answers.map((answer) => {
+                          return (
+                            <Card.Body
+                              key={answer.id}
+                              style={{ borderBottom: "solid 1px lightgrey" }}
+                            >
+                              {answer.content}
+                              <p style={{ margin: "0", fontSize: "0.7rem" }}>
+                                by {answer.user.name} on{" "}
+                                {moment(answer.createdAt).format(
+                                  "ddd DD MMMM YYYY HH:mm"
+                                )}
+                              </p>
+                            </Card.Body>
+                          );
+                        })}
+                      </div>
+                    </Accordion.Collapse>
+                  </Card>
+                </Accordion>
+              ) : null}
+              <Accordion>
+                <Card
+                  bg="light"
+                  style={{
+                    width: "48rem",
+                    marginLeft: "2rem",
+                  }}
+                  className="mb-2"
+                >
+                  <Accordion.Toggle
+                    as={Card.Header}
+                    style={{
+                      background: "lightgrey",
+                      fontSize: "0.9rem",
+                      margin: "0",
+                      padding: "0.5rem",
+                    }}
+                    eventKey="0"
+                  >
+                    Reply to this (click to show)
+                  </Accordion.Toggle>
+                  <Accordion.Collapse eventKey="0">
+                    <div>
+                      <Form as={Col} md={{ span: 8 }} className="mt-3">
+                        <h6>New reply:</h6>
+                        <Form.Group controlId="formBasicReplyText">
+                          <Form.Control
+                            value={replyText}
+                            onChange={(event) => {
+                              setCommentId(comment.id);
+                              return setReplyText(event.target.value);
                             }}
-                            eventKey="0"
-                          >
-                            Replies (click to show)
-                          </Accordion.Toggle>
-                          <Accordion.Collapse eventKey="0">
-                            <div>
-                              <Card.Body
-                                style={{ borderBottom: "solid 1px lightgrey" }}
-                              >
-                                {answer.content}
-                                <p style={{ margin: "0", fontSize: "0.7rem" }}>
-                                  by {answer.user.name} on{" "}
-                                  {moment(answer.createdAt).format(
-                                    "ddd DD MMMM YYYY HH:mm"
-                                  )}
-                                </p>
-                              </Card.Body>
-                              <Form as={Col} md={{ span: 8 }} className="mt-3">
-                                <h6>New reply:</h6>
-                                <Form.Group controlId="formBasicReplyText">
-                                  <Form.Control
-                                    value={replyText}
-                                    onChange={(event) =>
-                                      setReplyText(event.target.value)
-                                    }
-                                    type="text"
-                                    as="textarea"
-                                    rows={4}
-                                    placeholder="Type your reply here.."
-                                    required
-                                  />
-                                </Form.Group>
+                            type="text"
+                            as="textarea"
+                            rows={4}
+                            placeholder="Type your reply here.."
+                            required
+                          />
+                        </Form.Group>
 
-                                <Form.Group className="mt-3">
-                                  <Button
-                                    variant="success"
-                                    type="submit"
-                                    disabled={replyText ? false : true}
-                                    onClick={submitNewReply}
-                                  >
-                                    Post reply
-                                  </Button>
-                                </Form.Group>
-                              </Form>
-                            </div>
-                          </Accordion.Collapse>
-                        </Card>
-                      </Accordion>
-                    );
-                  })
-                : null}
+                        <Form.Group className="mt-3">
+                          <Button
+                            variant="success"
+                            type="submit"
+                            disabled={replyText ? false : true}
+                            onClick={submitNewReply}
+                          >
+                            Post reply
+                          </Button>
+                        </Form.Group>
+                      </Form>
+                    </div>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
             </Card>
           );
         })

@@ -27,7 +27,7 @@ export function storeNewPost(post) {
 export async function fetchPosts(dispatch, getState) {
   try {
     const res = await axios.get(`${apiUrl}/post`);
-    console.log("what is res.data in fetch posts", res.data);
+
     const posts = res.data;
     dispatch(storePosts(posts));
   } catch (e) {
@@ -40,7 +40,7 @@ export function createPost(title, content) {
     const token = localStorage.getItem("token");
     const pictures = selectPictures(getState());
     const picturesIds = pictures ? selectPicturesIds(getState()) : [];
-    console.log(`pictures ids`, picturesIds);
+
     try {
       const res = await axios.post(
         `${apiUrl}/post`,
@@ -55,7 +55,7 @@ export function createPost(title, content) {
           },
         }
       );
-      console.log("what is res.data in create post", res.data);
+
       const post = res.data;
       dispatch(removeAllPicture());
       dispatch(storeNewPost(post));
@@ -77,7 +77,6 @@ export const postNewComment = (content, postId) => {
     dispatch(appLoading());
     const token = selectToken(getState());
     const posts = getState().post.all;
-    console.log("POSTS IN ACTIONS", posts);
 
     try {
       const response = await axios.post(
@@ -100,6 +99,57 @@ export const postNewComment = (content, postId) => {
       });
 
       dispatch(addNewComment(newPosts));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+const addNewReply = (newPosts) => {
+  return { type: "ADD_NEW_REPLY", payload: newPosts };
+};
+
+export const postNewReply = (content, postId, commentId) => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+
+    try {
+      const response = await axios.post(
+        `${apiUrl}/answer`,
+        {
+          content,
+          commentId,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const newReply = response.data;
+
+      const newPosts = posts.map((post) => {
+        if (post.id === postId) {
+          const newComments = post.comments.map((comment) => {
+            if (comment.id === commentId) {
+              return { ...comment, answers: [...comment.answers, newReply] };
+            }
+            return comment;
+          });
+          return { ...post, comments: newComments };
+        }
+        return post;
+      });
+
+      dispatch(addNewReply(newPosts));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
