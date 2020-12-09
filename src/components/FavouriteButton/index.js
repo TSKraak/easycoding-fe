@@ -12,7 +12,6 @@ export default function FavouriteButton(props) {
         return fav.id === parseInt(props.postId);
       })
     : [];
-  console.log(`favourited`, favourited);
   const handleFavourite = (e) => {
     e.preventDefault();
     if (!favourited) {
@@ -22,7 +21,12 @@ export default function FavouriteButton(props) {
   };
   return (
     <div>
-      <Button onClick={handleFavourite}>Favourite</Button>
+      <Button
+        onClick={handleFavourite}
+        variant={!favourited ? "outline-primary" : "primary"}
+      >
+        {!favourited ? "Favourite" : "Remove"}
+      </Button>
     </div>
   );
 }
