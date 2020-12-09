@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
@@ -98,11 +99,14 @@ export default function PostPage() {
                     </Button>
                   </Link>
                   <FavouriteButton postId={post.id} />{" "}
-      <Link to={`/posts/edit/${post.id}`}>
-                      <Button></Button>
-                    </Link>
+                  <Link to={`/posts/edit/${post.id}`}>
+                    <Button></Button>
+                  </Link>
                 </Card.Body>
-                <Card.Footer>written by {post.author.name}</Card.Footer>
+                <Card.Footer style={{ fontSize: "0.8rem" }}>
+                  By {post.author.name} on{" "}
+                  {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                </Card.Footer>
               </Card>
             );
           })
@@ -120,9 +124,9 @@ export default function PostPage() {
                     </Button>
                   </Link>
                   <FavouriteButton postId={post.id} />{" "}
-      <Link to={`/posts/edit/${post.id}`}>
-                      <Button></Button>
-                    </Link>
+                  <Link to={`/posts/edit/${post.id}`}>
+                    <Button></Button>
+                  </Link>
                 </Card.Body>
                 <Card.Footer>written by {post.author.name}</Card.Footer>
               </Card>

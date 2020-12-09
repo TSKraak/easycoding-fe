@@ -82,11 +82,12 @@ export default function RequestPage() {
                 <Card.Footer
                   style={{
                     borderBottom: "inherit",
+                    fontSize: "0.8rem",
                     // marginBottom: "0.5rem"
                   }}
                 >
-                  requested by {req.user.name}{" "}
-                  {moment(req.createdAt).format("DD/MM/YYYY")}
+                  Requested by {req.user.name} on{" "}
+                  {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}
                 </Card.Footer>
                 <Accordion>
                   <Card
