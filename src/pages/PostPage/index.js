@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
@@ -82,16 +83,17 @@ export default function PostPage() {
                 <Card.Body>
                   <Card.Title>{post.title}</Card.Title>
                   <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-primary">
-                      View Details of {post.title}
-                    </Button>
+                    <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />{" "}
+                  <FavouriteButton postId={post.id} />
                   <Link to={`/posts/edit/${post.id}`}>
-                    <Button></Button>
+                    <Button>Edit</Button>
                   </Link>
                 </Card.Body>
-                <Card.Footer>written by {post.author.name}</Card.Footer>
+                <Card.Footer style={{ fontSize: "0.8rem" }}>
+                  By {post.author.name} on{" "}
+                  {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                </Card.Footer>
               </Card>
             );
           })
@@ -102,16 +104,17 @@ export default function PostPage() {
                 <Card.Body>
                   <Card.Title>{post.title}</Card.Title>
                   <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-primary">
-                      View Details of {post.title}
-                    </Button>
+                    <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />{" "}
+                  <FavouriteButton postId={post.id} />
                   <Link to={`/posts/edit/${post.id}`}>
-                    <Button></Button>
+                    <Button>Edit</Button>
                   </Link>
                 </Card.Body>
-                <Card.Footer>written by {post.author.name}</Card.Footer>
+                <Card.Footer style={{ fontSize: "0.8rem" }}>
+                  By {post.author.name} on{" "}
+                  {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                </Card.Footer>
               </Card>
             );
           })
