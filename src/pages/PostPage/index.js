@@ -4,6 +4,7 @@ import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Button, Card, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import FavouriteButton from "../../components/FavouriteButton";
 
 export default function PostPage() {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ export default function PostPage() {
                         View Details of {post.title}
                       </Button>
                     </Link>
+                    <FavouriteButton postId={post.id} />{" "}
                   </Card.Body>
                   <Card.Footer>written by {post.author.name}</Card.Footer>
                 </Card>
