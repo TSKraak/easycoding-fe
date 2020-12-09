@@ -168,11 +168,10 @@ export const fetchFavourite = () => {
     const token = selectToken(getState());
     dispatch(appLoading());
     try {
-      const favouriteResponse = await axios.get(`${apiUrl}/favourite`, {
+      const response = await axios.get(`${apiUrl}/favourite`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(favouriteResponse.data.favourite)
-      dispatch(addFavourite(favouriteResponse.data.favourite));
+      dispatch(addFavourite(response.data.favourite));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {

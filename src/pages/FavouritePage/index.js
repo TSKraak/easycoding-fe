@@ -6,7 +6,6 @@ import { selectUserFavourite } from "../../store/user/selectors";
 
 export default function FavouritePage() {
   const favourites = useSelector(selectUserFavourite);
-
   return (
     <div>
       <h1>Favourites</h1>

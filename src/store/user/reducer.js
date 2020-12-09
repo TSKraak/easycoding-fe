@@ -27,6 +27,9 @@ export default (state = initialState, action) => {
     case "USER_UPDATE":
       return { ...state, ...action.payload };
 
+    case "ADD_FAVOURITE":
+      return { ...state, favourite: [...state.favourite, ...action.payload] };
+
     default:
       return state;
   }
