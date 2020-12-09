@@ -26,7 +26,8 @@ export default function PostPage() {
 
   useEffect(() => {
     dispatch(fetchPosts);
-  }, [dispatch]);
+    setSearchText(searchTextParams);
+  }, [dispatch, searchTextParams]);
 
   async function submitForm(event) {
     event.preventDefault();
