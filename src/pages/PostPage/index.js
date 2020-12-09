@@ -10,44 +10,33 @@ import Loading from "../../components/Loading";
 
 export default function PostPage() {
   const [searchText, setSearchText] = useState("");
-  const [searchResult, setSearchResult] = useState("");
+  const { searchText: searchTextParams } = useParams();
+  const [search, setSearch] = useState(
+    !searchTextParams ? "" : searchTextParams
+  );
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
-  console.log("what is posts", posts);
-  const { searchText: searchTextParams } = useParams();
-  console.log("what is params", searchTextParams);
+  const searchResult = posts.filter((post) => {
+    if (post.content.indexOf(search) !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
   useEffect(() => {
     dispatch(fetchPosts);
-    setSearchText(searchTextParams);
-    // setSearchResult(
-    //   posts.filter((post) => {
-    //     if (post.content.indexOf(searchText) !== -1) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   })
-    // );
-  }, [dispatch, searchTextParams, searchText]);
+  }, [dispatch]);
 
   async function submitForm(event) {
     event.preventDefault();
-
-    setSearchResult(
-      posts.filter((post) => {
-        if (post.content.indexOf(searchText) !== -1) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-    );
-
+    setSearch(searchText);
     setSearchText("");
   }
 
-  console.log("what is searchResults", searchResult);
+  // console.log("what is posts", posts);
+  // console.log("what is params", searchTextParams);
+  // console.log("what is searchResults", searchResult);
 
   return (
     <div>
@@ -108,8 +97,6 @@ export default function PostPage() {
               </Card>
             );
           })
-        ) : !searchResult.length ? (
-          <h3>No search results</h3>
         ) : (
           searchResult.map((post) => {
             return (
@@ -117,20 +104,24 @@ export default function PostPage() {
                 <Card.Body>
                   <Card.Title>{post.title}</Card.Title>
                   <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-primary">
-                      View Details of {post.title}
-                    </Button>
+                    <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />{" "}
+                  <FavouriteButton postId={post.id} />
                   <Link to={`/posts/edit/${post.id}`}>
-                    <Button></Button>
+                    <Button>Edit</Button>
                   </Link>
                 </Card.Body>
-                <Card.Footer>written by {post.author.name}</Card.Footer>
+                <Card.Footer style={{ fontSize: "0.8rem" }}>
+                  By {post.author.name} on{" "}
+                  {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                </Card.Footer>
               </Card>
             );
           })
         )}
+        {posts && search && !searchResult.length ? (
+          <h3>No search results</h3>
+        ) : null}
       </div>
     </div>
   );
