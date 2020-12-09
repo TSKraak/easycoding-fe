@@ -7,6 +7,8 @@ import { selectAllPosts } from "../../store/post/selectors";
 import moment from "moment";
 import DisplayPicture from "../../components/DisplayPicture/index";
 import Comments from "../../components/Comments";
+import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 
 export default function ViewPostDetails() {
   const { post } = useParams();
@@ -35,12 +37,14 @@ export default function ViewPostDetails() {
                   {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
                   <img
                     src={detailsPost.author.picture}
-                    style={{ width: "30px" }}
+                    style={{ width: "30px", borderRadius: "50px" }}
                     alt="author-name"
                   />
                 </strong>
               </p>
-              <p>{detailsPost.content}</p>
+              <div>
+                <ReactMarkdown plugins={[gfm]} children={detailsPost.content} />
+              </div>
               {detailsPost?.pictures.length !== 0 ? (
                 <DisplayPicture pictures={detailsPost.pictures} />
               ) : null}
