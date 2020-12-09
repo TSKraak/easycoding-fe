@@ -124,7 +124,6 @@ export const updateUser = (attribute) => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log(response);
       dispatch((attribute) => {
         return {
           type: "USER_UPDATE",
@@ -134,7 +133,12 @@ export const updateUser = (attribute) => {
         };
       });
       dispatch(
-        showMessageWithTimeout("success", false, "Profile updated!", 3000)
+        showMessageWithTimeout(
+          "success",
+          false,
+          `Profile ${Object.keys(attribute)[0]} updated`,
+          3000
+        )
       );
       dispatch(appDoneLoading());
     } catch (error) {
