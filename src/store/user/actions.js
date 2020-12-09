@@ -111,3 +111,39 @@ export const getUserWithStoredToken = () => {
     }
   };
 };
+
+export const updateUser = (name, email, password) => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    try {
+      const response = await axios.put(`${apiUrl}/user`, {
+        name,
+        email,
+        password,
+      });
+      dispatch((name, email, password) => {
+        return {
+          type: "USER_UPDATE",
+          payload: {
+            name,
+            email,
+            password,
+          },
+        };
+      });
+      dispatch(
+        showMessageWithTimeout("success", false, "Profile updated!", 3000)
+      );
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
