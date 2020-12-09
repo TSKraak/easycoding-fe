@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Form, FormControl, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import FavouriteButton from "../../components/FavouriteButton";
 import { selectUserFavourite } from "../../store/user/selectors";
 
 export default function FavouritePage() {
@@ -50,6 +51,7 @@ export default function FavouritePage() {
                         View Details of {post.title}
                       </Button>
                     </Link>
+                    <FavouriteButton postId={post.id} />{" "}
                   </Card.Body>
                   <Card.Footer>written by {post.author.name}</Card.Footer>
                 </Card>

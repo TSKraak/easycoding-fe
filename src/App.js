@@ -19,6 +19,7 @@ import Footer from "./components/Footer";
 import NewPostForm from "./pages/NewPostForm";
 import ViewPostDetails from "./pages/ViewPostDetails";
 import NewRequestForm from "./pages/NewRequestForm";
+import EditPostPage from "./pages/EditPostPage";
 
 const NotFound = () => {
   return <h3>Oops, sorry. Page doesn't exist.</h3>;
@@ -50,6 +51,10 @@ function App() {
 
           <Route exact path="/posts/details/:post">
             <ViewPostDetails />
+          </Route>
+          
+          <Route exact path="/posts/edit/:post">
+            <EditPostPage />
           </Route>
 
           <Route exact path="/posts/:searchText?">
