@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deletePost,
-  deletePostAsAdmin,
-  fetchPosts,
-} from "../../store/post/actions";
+import { deletePostAsAdmin, fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Button, Card, Form, FormControl } from "react-bootstrap";
 import { Link, useHistory, useParams } from "react-router-dom";

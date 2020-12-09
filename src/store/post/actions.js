@@ -8,7 +8,7 @@ import {
 } from "../appState/actions";
 import { selectPicturesIds, selectPictures } from "../picture/selectors";
 import { removeAllPicture } from "../picture/actions";
-import { selectToken, selectUser } from "../user/selectors";
+import { selectToken } from "../user/selectors";
 
 export function storePosts(posts) {
   return {
@@ -118,7 +118,6 @@ export function updatePost(title, content, postId) {
 export function deletePost(postId) {
   return async (dispatch, getState) => {
     const token = localStorage.getItem("token");
-    const user = selectUser(getState());
     try {
       await axios.delete(`${apiUrl}/post/${postId}`, {
         headers: {
