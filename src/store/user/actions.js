@@ -27,6 +27,13 @@ const addFavourite = (favourite) => {
   };
 };
 
+const removeFavourite = (postId) => {
+  return {
+    type: "REMOVE_FAVOURITE",
+    payload: postId,
+  };
+};
+
 export const logOut = () => ({ type: "LOG_OUT" });
 
 export const signUp = (name, picture, email, password) => {
@@ -182,6 +189,50 @@ export const fetchFavourite = () => {
         dispatch(setMessage("danger", true, error.message));
       }
       dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const postFavourite = (postId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    try {
+      const response = await axios.post(
+        `${apiUrl}/favourite`,
+        { postId: parseInt(postId) },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(addFavourite([response.data]));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deleteFavourite = (postId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    try {
+      await axios.delete(`${apiUrl}/favourite/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(removeFavourite(postId));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
     }
   };
 };

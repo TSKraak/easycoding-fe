@@ -30,6 +30,16 @@ export default (state = initialState, action) => {
     case "ADD_FAVOURITE":
       return { ...state, favourite: [...state.favourite, ...action.payload] };
 
+    case "REMOVE_FAVOURITE":
+      return {
+        ...state,
+        favourite: [
+          ...state.favourite.filter((fav) => {
+            return fav.id !== parseInt(action.payload);
+          }),
+        ],
+      };
+
     default:
       return state;
   }
