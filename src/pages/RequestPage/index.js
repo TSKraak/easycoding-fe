@@ -64,24 +64,35 @@ export default function RequestPage() {
           <Button variant="success">Create New Request</Button>
         </Link>
       </Form>
-      {loading || !searchResult ? (
-        <Loading />
-      ) : (
-        searchResult.map((req) => {
-          return (
-            <Card key={req.id} style={{ margin: "1rem", width: "30rem" }}>
-              <Card.Header>{req.title}</Card.Header>
-              <Card.Body>
-                <Card.Text>{req.content}</Card.Text>
-              </Card.Body>
-              <Card.Footer>
-                requested by {req.user.name}{" "}
-                {moment(req.createdAt).format("DD/MM/YYYY")}
-              </Card.Footer>
-            </Card>
-          );
-        })
-      )}
+      {loading || !searchResult
+        ? requests.map((req) => {
+            return (
+              <Card key={req.id} style={{ margin: "1rem", width: "30rem" }}>
+                <Card.Header>{req.title}</Card.Header>
+                <Card.Body>
+                  <Card.Text>{req.content}</Card.Text>
+                </Card.Body>
+                <Card.Footer>
+                  requested by {req.user.name}{" "}
+                  {moment(req.createdAt).format("DD/MM/YYYY")}
+                </Card.Footer>
+              </Card>
+            );
+          })
+        : searchResult.map((req) => {
+            return (
+              <Card key={req.id} style={{ margin: "1rem", width: "30rem" }}>
+                <Card.Header>{req.title}</Card.Header>
+                <Card.Body>
+                  <Card.Text>{req.content}</Card.Text>
+                </Card.Body>
+                <Card.Footer>
+                  requested by {req.user.name}{" "}
+                  {moment(req.createdAt).format("DD/MM/YYYY")}
+                </Card.Footer>
+              </Card>
+            );
+          })}
     </div>
   );
 }
