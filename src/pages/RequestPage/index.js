@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../../components/Loading";
 import { selectAppLoading } from "../../store/appState/selectors";
 import { fetchRequests } from "../../store/request/actions";
 import { selectRequests } from "../../store/request/selectors";
@@ -35,8 +34,6 @@ export default function RequestPage() {
 
     setSearchText("");
   }
-
-  console.log("what is searched requests", searchResult);
 
   return (
     <div>
