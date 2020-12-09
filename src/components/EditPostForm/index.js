@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import ImagePreview from "../../components/PreviewPicture";
 import UploadPostPicture from "../../components/UploadPostPicture";
 import { createPost } from "../../store/post/actions";
+import ImagePreviewEdit from "../PreviewPictureEdit";
 
 export default function EditPostForm(props) {
   const [title, setTitle] = useState(props.post.title || "");
@@ -68,7 +69,7 @@ export default function EditPostForm(props) {
               Please provide a text.
             </Form.Control.Feedback>
           </Form.Group>
-          <ImagePreview />
+          <ImagePreviewEdit postId={props.post.id} />
           <UploadPostPicture />
           <Form.Group className="mt-5">
             <Button variant="primary" type="submit">
