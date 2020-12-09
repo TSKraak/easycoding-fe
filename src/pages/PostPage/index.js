@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Button, Card, Form, FormControl } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FavouriteButton from "../../components/FavouriteButton";
 import Loading from "../../components/Loading";
 
@@ -13,10 +13,22 @@ export default function PostPage() {
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
   console.log("what is posts", posts);
+  const { searchText: searchTextParams } = useParams();
+  console.log("what is params", searchTextParams);
 
   useEffect(() => {
     dispatch(fetchPosts);
-  }, [dispatch]);
+    setSearchText(searchTextParams);
+    // setSearchResult(
+    //   posts.filter((post) => {
+    //     if (post.content.indexOf(searchText) !== -1) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   })
+    // );
+  }, [dispatch, searchTextParams, searchText]);
 
   async function submitForm(event) {
     event.preventDefault();
