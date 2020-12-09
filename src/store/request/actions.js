@@ -42,7 +42,7 @@ export const addRequest = (title, content) => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.post(
-        `${apiUrl}/`,
+        `${apiUrl}/request`,
         {
           title,
           content,

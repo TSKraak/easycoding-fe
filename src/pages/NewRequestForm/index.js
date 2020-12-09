@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { addRequest } from "../../store/request/actions";
 
 export default function NewRequestForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [validated, setValidated] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   async function submitForm(event) {
     const form = event.currentTarget;
@@ -19,7 +22,7 @@ export default function NewRequestForm() {
     event.preventDefault();
 
     if (title !== "" && content !== "") {
-      //   await dispatch(createPost(title, content));
+      await dispatch(addRequest(title, content));
       setTitle("");
       setContent("");
       history.push("/requests");
