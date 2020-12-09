@@ -26,8 +26,6 @@ export default function ViewPostDetails() {
     }
   });
 
-  console.log("what is detailsPost", detailsPost);
-
   return (
     <div>
       <Jumbotron fluid>
