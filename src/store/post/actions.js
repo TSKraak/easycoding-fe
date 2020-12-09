@@ -133,6 +133,24 @@ export function deletePost(postId) {
   };
 }
 
+export function deletePostAsAdmin(postId) {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`${apiUrl}/post/admin/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(removeAllPicture());
+      dispatch(removePost(parseInt(postId)));
+      dispatch(showMessageWithTimeout("secondary", true, "Post Deleted"));
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+}
+
 const addNewPostComment = (newPosts) => {
   return { type: "ADD_NEW_POST_COMMENT", payload: newPosts };
 };

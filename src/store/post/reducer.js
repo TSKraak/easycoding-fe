@@ -20,11 +20,17 @@ export default (state = initialState, action) => {
       };
 
     case "REMOVE_POSTS":
+      console.log(
+        `removed post`,
+        state.all.filter((post) => {
+          return post.id !== action.payload;
+        })
+      );
       return {
         ...state,
         all: [
           ...state.all.filter((post) => {
-            return post.id !== parseInt(action.payload.postId);
+            return post.id !== action.payload;
           }),
         ],
       };

@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import UploadPostPicture from "../../components/UploadPostPicture";
 import { updatePost, deletePost } from "../../store/post/actions";
+import { selectToken, selectUser } from "../../store/user/selectors";
 import ImagePreviewEdit from "../PreviewPictureEdit";
 
 export default function EditPostForm(props) {
+  const history = useHistory();
+  const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
+  if (!token || user.id !== parseInt(props.post.userId)) {
+    history.push("/");
+  }
   const [title, setTitle] = useState(props.post.title || "");
   const [content, setContent] = useState(props.post.content || "");
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   async function submitForm(event) {
     const form = event.currentTarget;

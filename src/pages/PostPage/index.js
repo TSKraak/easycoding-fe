@@ -1,43 +1,62 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "../../store/post/actions";
+import { deletePostAsAdmin, fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Button, Card, Form, FormControl } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import FavouriteButton from "../../components/FavouriteButton";
 import Loading from "../../components/Loading";
+import { selectToken, selectUser } from "../../store/user/selectors";
 
 export default function PostPage() {
-  const [searchText, setSearchText] = useState("");
+  const history = useHistory();
+  const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
   const { searchText: searchTextParams } = useParams();
-  const [search, setSearch] = useState(
+  const [searchText, setSearchText] = useState(
     !searchTextParams ? "" : searchTextParams
   );
+  const [search, setSearch] = useState(searchText);
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
-  const searchResult = posts.filter((post) => {
-    if (post.content.indexOf(search) !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  const searchResult = search
+    ? posts.filter((post) => {
+        if (post.content.indexOf(search) !== -1) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    : "";
 
   useEffect(() => {
     dispatch(fetchPosts);
     setSearchText(searchTextParams);
+    setSearch(searchTextParams);
   }, [dispatch, searchTextParams]);
 
   async function submitForm(event) {
     event.preventDefault();
     setSearch(searchText);
-    setSearchText("");
+    if (searchText === search) {
+      return;
+    } else if (!searchText) {
+      return history.push(`/posts`);
+    } else {
+      return history.push(`/posts/${searchText}`);
+    }
+  }
+
+  function deleteByAdmin(event) {
+    console.log(event.target.value);
+    event.preventDefault();
+    dispatch(deletePostAsAdmin(event.target.value));
   }
 
   // console.log("what is posts", posts);
   // console.log("what is params", searchTextParams);
-  // console.log("what is searchResults", searchResult);
+  // console.log("what is searchText", searchText);
 
   return (
     <div>
@@ -62,7 +81,7 @@ export default function PostPage() {
           Search
         </Button>
         <p style={{ margin: "20px" }}>or</p>
-        <Link to="/posts/new">
+        <Link to={!token ? "/login" : "/posts/new"}>
           <Button variant="outline-success">Create New Post</Button>
         </Link>
       </Form>
@@ -77,7 +96,7 @@ export default function PostPage() {
       >
         {!posts ? (
           <Loading />
-        ) : !searchResult ? (
+        ) : !search ? (
           posts.map((post) => {
             return (
               <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
@@ -86,10 +105,28 @@ export default function PostPage() {
                   <Link to={`/posts/details/${post.id}`}>
                     <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />
-                  <Link to={`/posts/edit/${post.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
+                  {!token ? (
+                    <Link to={`/login`}>
+                      {" "}
+                      <Button variant="primary">Favourite</Button>
+                    </Link>
+                  ) : (
+                    <FavouriteButton postId={post.id} />
+                  )}{" "}
+                  {user.id !== parseInt(post.userId) ? null : (
+                    <Link to={`/posts/edit/${post.id}`}>
+                      <Button>Edit</Button>
+                    </Link>
+                  )}
+                  {!user.isAdmin ? null : (
+                    <Button
+                      onClick={deleteByAdmin}
+                      value={post.id}
+                      variant="danger"
+                    >
+                      Delete as Admin
+                    </Button>
+                  )}
                 </Card.Body>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
                   By {post.author.name} on{" "}
@@ -107,10 +144,28 @@ export default function PostPage() {
                   <Link to={`/posts/details/${post.id}`}>
                     <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />
-                  <Link to={`/posts/edit/${post.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
+                  {!token ? (
+                    <Link to={`/login`}>
+                      {" "}
+                      <Button variant="primary">Favourite</Button>
+                    </Link>
+                  ) : (
+                    <FavouriteButton postId={post.id} />
+                  )}{" "}
+                  {user.id !== parseInt(post.userId) ? null : (
+                    <Link to={`/posts/edit/${post.id}`}>
+                      <Button>Edit</Button>
+                    </Link>
+                  )}
+                  {!user.isAdmin ? null : (
+                    <Button
+                      onClick={deleteByAdmin}
+                      value={post.id}
+                      variant="danger"
+                    >
+                      Delete as Admin
+                    </Button>
+                  )}
                 </Card.Body>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
                   By {post.author.name} on{" "}
