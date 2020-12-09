@@ -20,6 +20,13 @@ const tokenStillValid = (userWithoutToken) => ({
   payload: userWithoutToken,
 });
 
+const addFavourite = (favourite) => {
+  return {
+    type: "ADD_FAVOURITE",
+    payload: favourite,
+  };
+};
+
 export const logOut = () => ({ type: "LOG_OUT" });
 
 export const signUp = (name, picture, email, password) => {
@@ -64,6 +71,7 @@ export const login = (email, password) => {
         return dispatch(appDoneLoading());
       }
       dispatch(loginSuccess(response.data));
+      dispatch(fetchFavourite());
       dispatch(showMessageWithTimeout("success", false, "Welcome back!", 3000));
       dispatch(appDoneLoading());
     } catch (error) {
@@ -96,6 +104,7 @@ export const getUserWithStoredToken = () => {
       });
 
       // token is still valid
+      dispatch(fetchFavourite());
       dispatch(tokenStillValid(response.data));
       dispatch(appDoneLoading());
     } catch (error) {
@@ -117,7 +126,7 @@ export const updateUser = (attribute) => {
     const token = selectToken(getState());
     dispatch(appLoading());
     try {
-      const response = await axios.put(
+      await axios.put(
         `${apiUrl}/users/profile`,
         {
           ...attribute,
@@ -140,6 +149,30 @@ export const updateUser = (attribute) => {
           3000
         )
       );
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const fetchFavourite = () => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    dispatch(appLoading());
+    try {
+      const favouriteResponse = await axios.get(`${apiUrl}/favourite`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(favouriteResponse.data.favourite)
+      dispatch(addFavourite(favouriteResponse.data.favourite));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {

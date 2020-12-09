@@ -7,6 +7,7 @@ const initialState = {
   accountBlocked: null,
   createdAt: null,
   updatedAt: null,
+  favourite: [],
 };
 
 // eslint-disable-next-line
