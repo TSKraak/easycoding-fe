@@ -73,7 +73,7 @@ export default function PostPage() {
         </Button>
         <p style={{ margin: "20px" }}>or</p>
         <Link to="/posts/new">
-          <Button variant="success">Create New Post</Button>
+          <Button variant="outline-success">Create New Post</Button>
         </Link>
       </Form>
 
@@ -94,13 +94,11 @@ export default function PostPage() {
                 <Card.Body>
                   <Card.Title>{post.title}</Card.Title>
                   <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-primary">
-                      View Details of {post.title}
-                    </Button>
+                    <Button variant="outline-primary">View Details</Button>
                   </Link>
-                  <FavouriteButton postId={post.id} />{" "}
+                  <FavouriteButton postId={post.id} />
                   <Link to={`/posts/edit/${post.id}`}>
-                    <Button></Button>
+                    <Button>Edit</Button>
                   </Link>
                 </Card.Body>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
