@@ -159,7 +159,7 @@ export default function FavouritePage() {
           })
         )}
         {favourites && search && !searchResult.length ? (
-          <h3>No results</h3>
+          <h3>No search results</h3>
         ) : null}
       </div>
     </div>
