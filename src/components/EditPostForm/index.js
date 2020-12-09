@@ -3,7 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import UploadPostPicture from "../../components/UploadPostPicture";
-import { updatePost } from "../../store/post/actions";
+import { updatePost, deletePost } from "../../store/post/actions";
 import ImagePreviewEdit from "../PreviewPictureEdit";
 
 export default function EditPostForm(props) {
@@ -30,6 +30,13 @@ export default function EditPostForm(props) {
       history.push("/posts");
     }
   }
+
+  const handleDelete = (event) => {
+    event.preventDefault();
+    dispatch(deletePost(props.post.id));
+    history.push("/posts");
+  };
+
   return (
     <div>
       <h1>Create Post</h1>
@@ -75,6 +82,9 @@ export default function EditPostForm(props) {
               Edit Post
             </Button>
           </Form.Group>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete Post
+          </Button>
         </Form>
       </Container>
     </div>

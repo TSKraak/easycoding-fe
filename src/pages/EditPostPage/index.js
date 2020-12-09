@@ -9,6 +9,5 @@ export default function EditPostPage() {
   const { post: id } = useParams();
   const posts = useSelector(selectAllPosts);
   const post = posts.find((post) => post.id === parseInt(id));
-  console.log(post, `from`, posts);
   return <div>{!post ? <Loading /> : <EditPostForm post={post} />}</div>;
 }

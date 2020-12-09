@@ -31,6 +31,13 @@ export function storeUpdatedPost(post, postId) {
   };
 }
 
+export function removePost(postId) {
+  return {
+    type: "REMOVE_POSTS",
+    payload: postId,
+  };
+}
+
 export async function fetchPosts(dispatch, getState) {
   try {
     const res = await axios.get(`${apiUrl}/post`);
@@ -100,8 +107,26 @@ export function updatePost(title, content, postId) {
       dispatch(removeAllPicture());
       dispatch(storeUpdatedPost(post, postId));
       dispatch(
-        showMessageWithTimeout("success", true, "Post Created Successfully")
+        showMessageWithTimeout("success", true, "Post Updated Successfully")
       );
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+}
+
+export function deletePost(postId) {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`${apiUrl}/post/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(removeAllPicture());
+      dispatch(removePost(postId));
+      dispatch(showMessageWithTimeout("secondary", true, "Post Deleted"));
     } catch (e) {
       console.log("error", e);
     }

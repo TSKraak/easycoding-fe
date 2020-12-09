@@ -19,6 +19,16 @@ export default (state = initialState, action) => {
         ],
       };
 
+    case "REMOVE_POSTS":
+      return {
+        ...state,
+        all: [
+          ...state.all.filter((post) => {
+            return post.id !== parseInt(action.payload.postId);
+          }),
+        ],
+      };
+
     case "STORE_POSTS":
       return { ...state, all: action.payload };
 
