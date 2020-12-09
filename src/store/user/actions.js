@@ -112,22 +112,24 @@ export const getUserWithStoredToken = () => {
   };
 };
 
-export const updateUser = (name, email, password) => {
+export const updateUser = (attribute) => {
   return async (dispatch, getState) => {
+    const token = selectToken(getState());
     dispatch(appLoading());
     try {
-      const response = await axios.put(`${apiUrl}/user`, {
-        name,
-        email,
-        password,
-      });
-      dispatch((name, email, password) => {
+      const response = await axios.put(
+        `${apiUrl}/users/profile`,
+        {
+          ...attribute,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log(response);
+      dispatch((attribute) => {
         return {
           type: "USER_UPDATE",
           payload: {
-            name,
-            email,
-            password,
+            attribute,
           },
         };
       });

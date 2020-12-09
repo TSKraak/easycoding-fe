@@ -7,13 +7,29 @@ import {
   Image,
   Jumbotron,
 } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import UploadUserImage from "../../components/UploadUserPicture";
+import { updateUser } from "../../store/user/actions";
 
 export default function ProfileForm(props) {
+  const dispatch = useDispatch();
   const [name, setName] = useState(props.user.name);
   const [email, setEmail] = useState(props.user.email);
   // const [password, setPassword] = useState(user.password)
   const [picture, setPicture] = useState(props.user.picture);
+
+  const changeEmail = (e) => {
+    e.preventDefault();
+    dispatch(updateUser({ email }));
+  };
+  const changeName = (e) => {
+    e.preventDefault();
+    dispatch(updateUser({ name }));
+  };
+  const changePicture = (e) => {
+    e.preventDefault();
+    dispatch(updateUser({ picture }));
+  };
 
   return (
     <div>
@@ -52,7 +68,9 @@ export default function ProfileForm(props) {
           onChange={(event) => setEmail(event.target.value)}
           className="mr-sm-2"
         />
-        <Button variant="outline-primary">Change Email</Button>
+        <Button variant="outline-primary" onClick={changeEmail}>
+          Change Email
+        </Button>
       </Form>
       <Form
         inline
@@ -71,7 +89,9 @@ export default function ProfileForm(props) {
           onChange={(event) => setName(event.target.value)}
           className="mr-sm-2"
         />
-        <Button variant="outline-primary">Change Name</Button>
+        <Button variant="outline-primary" onClick={changeName}>
+          Change Name
+        </Button>
       </Form>
       {/* <Form
         inline
@@ -102,7 +122,9 @@ export default function ProfileForm(props) {
         <Form.Label>Profile Picture:</Form.Label>
         <img src={picture} alt="profile-pic" style={{ width: "50px" }} />
         <UploadUserImage onChange={(event) => setPicture(event.target.value)} />
-        <Button variant="outline-primary">Change Picture</Button>
+        <Button variant="outline-primary" onClick={changePicture}>
+          Change Picture
+        </Button>
       </Form>
     </div>
   );
