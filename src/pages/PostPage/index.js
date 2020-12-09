@@ -4,40 +4,50 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../../store/post/actions";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Button, Card, Form, FormControl } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import FavouriteButton from "../../components/FavouriteButton";
 import Loading from "../../components/Loading";
 
 export default function PostPage() {
-  const [searchText, setSearchText] = useState("");
+  const history = useHistory();
   const { searchText: searchTextParams } = useParams();
-  const [search, setSearch] = useState(
+  const [searchText, setSearchText] = useState(
     !searchTextParams ? "" : searchTextParams
   );
+  const [search, setSearch] = useState(searchText);
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
-  const searchResult = posts.filter((post) => {
-    if (post.content.indexOf(search) !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  const searchResult = search
+    ? posts.filter((post) => {
+        if (post.content.indexOf(search) !== -1) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    : "";
 
   useEffect(() => {
     dispatch(fetchPosts);
     setSearchText(searchTextParams);
+    setSearch(searchTextParams);
   }, [dispatch, searchTextParams]);
 
   async function submitForm(event) {
     event.preventDefault();
     setSearch(searchText);
-    setSearchText("");
+    if (searchText === search) {
+      return;
+    } else if (!searchText) {
+      return history.push(`/posts`);
+    } else {
+      return history.push(`/posts/${searchText}`);
+    }
   }
 
   // console.log("what is posts", posts);
   // console.log("what is params", searchTextParams);
-  // console.log("what is searchResults", searchResult);
+  // console.log("what is searchText", searchText);
 
   return (
     <div>
@@ -77,7 +87,7 @@ export default function PostPage() {
       >
         {!posts ? (
           <Loading />
-        ) : !searchResult ? (
+        ) : !search ? (
           posts.map((post) => {
             return (
               <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
