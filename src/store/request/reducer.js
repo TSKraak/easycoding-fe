@@ -6,6 +6,9 @@ export default (state = initialState, action) => {
     case "STORE_REQUESTS":
       return action.payload;
 
+    case "ADD_REQUEST":
+      return [...state, action.payload];
+
     default:
       return state;
   }
