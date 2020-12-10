@@ -17,7 +17,6 @@ export default function ProfileForm(props) {
   const dispatch = useDispatch();
   const [name, setName] = useState(props.user.name);
   const [email, setEmail] = useState(props.user.email);
-  // const [password, setPassword] = useState(user.password)
   const [picture, setPicture] = useState("");
 
   const changeEmail = (e) => {
