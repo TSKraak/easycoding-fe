@@ -214,11 +214,38 @@ export const updateRequest = (requestId, title, content) => {
 export const deleteRequest = (requestId) => {
   return async (dispatch, getState) => {
     const token = localStorage.getItem("token");
+
     try {
-      const response = await axios.delete(`${apiUrl}/request/${requestId}`, {
+      await axios.delete(`${apiUrl}/request/${requestId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response);
+
+      dispatch(storeDeleteRequest(requestId));
+      dispatch(
+        showMessageWithTimeout("success", true, "Request Deleted Successfully")
+      );
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const deleteRequestAdmin = (requestId) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.delete(`${apiUrl}/request/admin/${requestId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
       dispatch(storeDeleteRequest(requestId));
       dispatch(
         showMessageWithTimeout("success", true, "Request Deleted Successfully")
