@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Accordion, Button, Card, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { postNewPostComment, postNewPostReply } from "../../store/post/actions";
+import {
+  deletePostCommentAdmin,
+  deletePostReplyAdmin,
+  postNewPostComment,
+  postNewPostReply,
+} from "../../store/post/actions";
 import {
   postNewRequestComment,
   postNewRequestReply,
@@ -108,6 +113,21 @@ export default function Comments({ requestId, commentType }) {
                   >
                     {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
                   </Button>
+                ) : user.isAdmin ? (
+                  <Button
+                    style={{
+                      fontSize: "0.7rem",
+                      borderBottom: "inherit",
+                    }}
+                    size="sm"
+                    onClick={() =>
+                      dispatch(deletePostCommentAdmin(comment.id, id))
+                    }
+                    variant="danger"
+                    value={comment.id}
+                  >
+                    Delete{" "}
+                  </Button>
                 ) : null}
                 {edit && parseInt(editId) === comment.id ? (
                   <EditComment
@@ -182,6 +202,27 @@ export default function Comments({ requestId, commentType }) {
                                       parseInt(editReplyId) === answer.id
                                         ? "Close"
                                         : "Edit"}
+                                    </Button>
+                                  ) : user.isAdmin ? (
+                                    <Button
+                                      style={{
+                                        fontSize: "0.7rem",
+                                        borderBottom: "inherit",
+                                      }}
+                                      size="sm"
+                                      onClick={() =>
+                                        dispatch(
+                                          deletePostReplyAdmin(
+                                            answer.id,
+                                            comment.id,
+                                            id
+                                          )
+                                        )
+                                      }
+                                      variant="danger"
+                                      value={comment.id}
+                                    >
+                                      Delete{" "}
                                     </Button>
                                   ) : null}
                                 </p>
