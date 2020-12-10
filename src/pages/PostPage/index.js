@@ -112,7 +112,7 @@ export default function PostPage() {
                   )}{" "}
                   <Link
                     style={{ color: "inherit" }}
-                    to={`/posts/edit/${post.id}`}
+                    to={`/posts/details/${post.id}`}
                   >
                     {post.title}
                   </Link>

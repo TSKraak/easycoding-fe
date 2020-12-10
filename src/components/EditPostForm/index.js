@@ -11,13 +11,14 @@ export default function EditPostForm(props) {
   const history = useHistory();
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
-  if (!token || user.id !== parseInt(props.post.userId)) {
-    history.push("/");
-  }
   const [title, setTitle] = useState(props.post.title || "");
   const [content, setContent] = useState(props.post.content || "");
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
+
+  if (!token || user.id !== parseInt(props.post.userId)) {
+    history.push("/");
+  }
 
   async function submitForm(event) {
     const form = event.currentTarget;
