@@ -32,12 +32,17 @@ export default function FavouritePage() {
   }
 
   const searchResult = search
-    ? favourites.filter((post) => post.content.indexOf(search) !== -1)
+    ? favourites.filter(
+        (post) =>
+          post.content.toLowerCase().indexOf(search.toLowerCase()) !== -1
+      )
     : "";
 
   useEffect(() => {
-    setSearchText(searchTextParams);
-    setSearch(searchTextParams);
+    if (searchTextParams) {
+      setSearchText(searchTextParams);
+      setSearch(searchTextParams);
+    }
   }, [dispatch, searchTextParams]);
 
   if (!user.token) {

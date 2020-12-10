@@ -24,13 +24,18 @@ export default function PostPage() {
   const posts = useSelector(selectAllPosts);
 
   const searchResult = search
-    ? posts.filter((post) => post.content.indexOf(search) !== -1)
+    ? posts.filter(
+        (post) =>
+          post.content.toLowerCase().indexOf(search.toLowerCase()) !== -1
+      )
     : "";
 
   useEffect(() => {
     dispatch(fetchPosts);
-    setSearchText(searchTextParams);
-    setSearch(searchTextParams);
+    if (searchTextParams) {
+      setSearchText(searchTextParams);
+      setSearch(searchTextParams);
+    }
   }, [dispatch, searchTextParams]);
 
   async function submitForm(event) {
@@ -103,20 +108,20 @@ export default function PostPage() {
                 </Card.Body>
 
                 <Card.Footer style={{ background: "white" }}>
-                  <Card.Link to={`/posts/details/${post.id}`}>
+                  <Link to={`/posts/details/${post.id}`}>
                     <Button variant="outline-primary">View Details</Button>
-                  </Card.Link>
+                  </Link>
                   {!token ? (
-                    <Card.Link to={`/login`}>
+                    <Link to="/login">
                       <Button variant="outline-success">Favourite</Button>
-                    </Card.Link>
+                    </Link>
                   ) : (
                     <FavouriteButton postId={post.id} />
                   )}
                   {user.id !== parseInt(post.userId) ? null : (
-                    <Card.Link to={`/posts/edit/${post.id}`}>
+                    <Link to={`/posts/edit/${post.id}`}>
                       <Button>Edit</Button>
-                    </Card.Link>
+                    </Link>
                   )}
                   {!user.isAdmin ? null : (
                     <Button
