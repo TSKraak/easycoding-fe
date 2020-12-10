@@ -10,6 +10,9 @@ import Comments from "../../components/Comments";
 import { selectToken } from "../../store/user/selectors";
 
 export default function RequestPage() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [validated, setValidated] = useState(false);
   const history = useHistory();
   const token = useSelector(selectToken);
   const { searchText: searchTextParams } = useParams();
@@ -43,6 +46,24 @@ export default function RequestPage() {
       return history.push(`/requests`);
     } else {
       return history.push(`/requests/${searchText}`);
+    }
+  }
+
+  async function submitUpdateRequestForm(event) {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    event.preventDefault();
+    setValidated(true);
+    event.preventDefault();
+
+    if (title !== "" && content !== "") {
+      // await dispatch(addRequest(title, content));
+      setTitle("");
+      setContent("");
+      history.push("/requests");
     }
   }
 
@@ -90,6 +111,61 @@ export default function RequestPage() {
                 <Card.Body>
                   <Card.Text>{req.content}</Card.Text>
                 </Card.Body>
+                <Accordion>
+                  <Card>
+                    <Card.Header>
+                      <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                        Edit Request
+                      </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                      <Card.Body>
+                        <Form
+                          md={{ span: 6, offset: 3 }}
+                          noValidate
+                          validated={validated}
+                          onSubmit={submitUpdateRequestForm}
+                        >
+                          <Form.Group controlId="formRequestTitle">
+                            <Form.Label>Request Title</Form.Label>
+                            <Form.Control
+                              value={title}
+                              onChange={(event) => setTitle(event.target.value)}
+                              type="title"
+                              placeholder="Enter title"
+                              required
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please provide a title.
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                          <Form.Group controlId="formRequestText">
+                            <Form.Label>Request Text</Form.Label>
+                            <Form.Control
+                              value={content}
+                              onChange={(event) =>
+                                setContent(event.target.value)
+                              }
+                              type="text"
+                              as="textarea"
+                              rows={2}
+                              placeholder="Enter content"
+                              required
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please provide a text.
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                          <Form.Group className="mt-5">
+                            <Button variant="primary" type="submit">
+                              Update Request
+                            </Button>
+                          </Form.Group>
+                        </Form>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                </Accordion>
                 <Card.Footer
                   style={{
                     borderBottom: "inherit",
