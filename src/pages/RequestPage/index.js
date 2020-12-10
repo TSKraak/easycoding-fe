@@ -5,30 +5,45 @@ import { fetchRequests } from "../../store/request/actions";
 import { selectRequests } from "../../store/request/selectors";
 import { Accordion, Button, Card, Form, FormControl } from "react-bootstrap";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Comments from "../../components/Comments";
 import { selectToken } from "../../store/user/selectors";
 
 export default function RequestPage() {
+  const history = useHistory();
   const token = useSelector(selectToken);
-  const [searchText, setSearchText] = useState("");
-  const [searchResult, setSearchResult] = useState("");
+  const { searchText: searchTextParams } = useParams();
+  const [searchText, setSearchText] = useState(
+    !searchTextParams ? "" : searchTextParams
+  );
+  const [search, setSearch] = useState(searchText);
   const dispatch = useDispatch();
   const requests = useSelector(selectRequests);
   const loading = useSelector(selectAppLoading);
+  const searchResult = search
+    ? requests.filter(
+        (req) => req.content.toLowerCase().indexOf(search.toLowerCase()) !== -1
+      )
+    : "";
 
   useEffect(() => {
     dispatch(fetchRequests);
-  }, [dispatch]);
+    if (searchTextParams) {
+      setSearchText(searchTextParams);
+      setSearch(searchTextParams);
+    }
+  }, [dispatch, searchTextParams]);
 
   async function submitForm(event) {
     event.preventDefault();
-
-    setSearchResult(
-      requests.filter((request) => request.content.indexOf(searchText) !== -1)
-    );
-
-    setSearchText("");
+    setSearch(searchText);
+    if (searchText === search) {
+      return;
+    } else if (!searchText) {
+      return history.push(`/requests`);
+    } else {
+      return history.push(`/requests/${searchText}`);
+    }
   }
 
   return (
