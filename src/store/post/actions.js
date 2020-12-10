@@ -253,7 +253,6 @@ const addEditPostComment = (updatedPosts) => {
 
 export const editPostComment = (content, commentId, postId) => {
   return async (dispatch, getState) => {
-    dispatch(appLoading());
     const token = selectToken(getState());
     const posts = getState().post.all;
 
@@ -285,7 +284,6 @@ export const editPostComment = (content, commentId, postId) => {
       });
 
       dispatch(addEditPostComment(updatedPosts));
-      dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -294,7 +292,6 @@ export const editPostComment = (content, commentId, postId) => {
         console.log(error.message);
         dispatch(setMessage("danger", true, error.message));
       }
-      dispatch(appDoneLoading());
     }
   };
 };
@@ -305,7 +302,6 @@ const addEditPostReply = (updatedPosts) => {
 
 export const editPostReply = (content, answerId, postId, commentId) => {
   return async (dispatch, getState) => {
-    dispatch(appLoading());
     const token = selectToken(getState());
     const posts = getState().post.all;
 
@@ -343,7 +339,6 @@ export const editPostReply = (content, answerId, postId, commentId) => {
       });
 
       dispatch(addEditPostReply(updatedPosts));
-      dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -352,7 +347,6 @@ export const editPostReply = (content, answerId, postId, commentId) => {
         console.log(error.message);
         dispatch(setMessage("danger", true, error.message));
       }
-      dispatch(appDoneLoading());
     }
   };
 };

@@ -79,18 +79,7 @@ export default function Comments({ requestId, commentType }) {
               <Card.Body>
                 <Card.Text>{comment.content}</Card.Text>
               </Card.Body>
-              {edit && parseInt(editId) === comment.id ? (
-                <EditComment
-                  id={comment.id}
-                  content={comment.content}
-                  commentType={commentType}
-                  postId={parseInt(params.post)}
-                  requestId={requestId}
-                  edit={() => {
-                    setEdit(false);
-                  }}
-                />
-              ) : null}
+
               <Card.Footer
                 style={{
                   fontSize: "0.7rem",
@@ -119,6 +108,18 @@ export default function Comments({ requestId, commentType }) {
                   >
                     {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
                   </Button>
+                ) : null}
+                {edit && parseInt(editId) === comment.id ? (
+                  <EditComment
+                    id={comment.id}
+                    content={comment.content}
+                    commentType={commentType}
+                    postId={parseInt(params.post)}
+                    requestId={requestId}
+                    edit={() => {
+                      setEdit(false);
+                    }}
+                  />
                 ) : null}
               </Card.Footer>
 
