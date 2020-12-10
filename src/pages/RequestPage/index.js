@@ -9,6 +9,8 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import Comments from "../../components/Comments";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import EditRequestForm from "../../components/EditRequestForm";
+import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 
 export default function RequestPage() {
   const dispatch = useDispatch();
@@ -90,20 +92,20 @@ export default function RequestPage() {
               >
                 <Card.Header>{req.title}</Card.Header>
                 <Card.Body>
-                  <Card.Text>{req.content}</Card.Text>
+                  <ReactMarkdown plugins={[gfm]} children={req.content} />
                 </Card.Body>
-                {user.id === req.user.id || user.isAdmin ? (
-                  <EditRequestForm req={req} />
-                ) : null}
+
                 <Card.Footer
                   style={{
                     borderBottom: "inherit",
                     fontSize: "0.8rem",
-                    // marginBottom: "0.5rem"
                   }}
                 >
                   Requested by {req.user.name} on{" "}
-                  {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                  {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
+                  {user.id === req.user.id || user.isAdmin ? (
+                    <EditRequestForm req={req} />
+                  ) : null}
                 </Card.Footer>
                 <Accordion>
                   <Card
@@ -112,7 +114,6 @@ export default function RequestPage() {
                       width: "58rem",
                       marginLeft: "2rem",
                     }}
-                    // className="mb-2"
                   >
                     <Accordion.Toggle
                       as={Card.Header}
@@ -142,7 +143,7 @@ export default function RequestPage() {
               <Card key={req.id} style={{ margin: "1rem", width: "30rem" }}>
                 <Card.Header>{req.title}</Card.Header>
                 <Card.Body>
-                  <Card.Text>{req.content}</Card.Text>
+                  <ReactMarkdown plugins={[gfm]} children={req.content} />{" "}
                 </Card.Body>
                 {user.id === req.user.id || user.isAdmin ? (
                   <EditRequestForm req={req} />
