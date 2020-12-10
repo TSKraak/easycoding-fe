@@ -87,17 +87,18 @@ export default function RequestPage() {
           requests.map((req) => {
             return (
               <Card
+                border="dark"
                 key={req.id}
                 style={{ margin: "1rem", width: "60rem", alignSelf: "center" }}
               >
-                <Card.Header>{req.title}</Card.Header>
+                <Card.Header as="h6">{req.title}</Card.Header>
                 <Card.Body>
                   <ReactMarkdown plugins={[gfm]} children={req.content} />
                 </Card.Body>
 
                 <Card.Footer
                   style={{
-                    borderBottom: "inherit",
+                    borderBottom: "solid 1px lightgrey",
                     fontSize: "0.8rem",
                   }}
                 >
@@ -140,17 +141,27 @@ export default function RequestPage() {
         ) : (
           searchResult.map((req) => {
             return (
-              <Card key={req.id} style={{ margin: "1rem", width: "30rem" }}>
-                <Card.Header>{req.title}</Card.Header>
+              <Card
+                border="dark"
+                key={req.id}
+                style={{ margin: "1rem", width: "60rem", alignSelf: "center" }}
+              >
+                <Card.Header as="h6">{req.title}</Card.Header>
                 <Card.Body>
-                  <ReactMarkdown plugins={[gfm]} children={req.content} />{" "}
+                  <ReactMarkdown plugins={[gfm]} children={req.content} />
                 </Card.Body>
-                {user.id === req.user.id || user.isAdmin ? (
-                  <EditRequestForm req={req} />
-                ) : null}
-                <Card.Footer>
-                  requested by {req.user.name}{" "}
-                  {moment(req.createdAt).format("DD/MM/YYYY")}
+
+                <Card.Footer
+                  style={{
+                    borderBottom: "solid 1px lightgrey",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  Requested by {req.user.name} on{" "}
+                  {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
+                  {user.id === req.user.id || user.isAdmin ? (
+                    <EditRequestForm req={req} />
+                  ) : null}
                 </Card.Footer>
                 <Accordion>
                   <Card
@@ -159,7 +170,6 @@ export default function RequestPage() {
                       width: "58rem",
                       marginLeft: "2rem",
                     }}
-                    className="mb-2"
                   >
                     <Accordion.Toggle
                       as={Card.Header}

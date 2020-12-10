@@ -103,8 +103,12 @@ export default function FavouritePage() {
         ) : !search ? (
           favourites.map((post) => {
             return (
-              <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
-                <Card.Header as="h3">
+              <Card
+                border="dark"
+                key={post.id}
+                style={{ margin: "1rem", width: "20rem" }}
+              >
+                <Card.Header as="h6">
                   {!token ? (
                     <Link to="/login">
                       <Button href="/login" variant="outline-success">
@@ -158,8 +162,12 @@ export default function FavouritePage() {
         ) : (
           searchResult.map((post) => {
             return (
-              <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
-                <Card.Header as="h4">
+              <Card
+                border="dark"
+                key={post.id}
+                style={{ margin: "1rem", width: "20rem" }}
+              >
+                <Card.Header as="h6">
                   {!token ? (
                     <Link to="/login">
                       <Button href="/login" variant="outline-success">

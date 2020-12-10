@@ -99,7 +99,11 @@ export default function PostPage() {
         ) : !search ? (
           posts.map((post) => {
             return (
-              <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
+              <Card
+                border="dark"
+                key={post.id}
+                style={{ margin: "1rem", width: "20rem" }}
+              >
                 <Card.Header as="h6">
                   {!token ? (
                     <Link to="/login">
@@ -154,7 +158,11 @@ export default function PostPage() {
         ) : (
           searchResult.map((post) => {
             return (
-              <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
+              <Card
+                border="dark"
+                key={post.id}
+                style={{ margin: "1rem", width: "20rem" }}
+              >
                 <Card.Header as="h6">
                   {!token ? (
                     <Link to="/login">
