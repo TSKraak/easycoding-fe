@@ -151,7 +151,6 @@ export default function Comments({ requestId, commentType }) {
                       width: "58rem",
                       marginLeft: "1.9rem",
                     }}
-                    // className="mt-2 mb-2"
                   >
                     <Accordion.Toggle
                       as={Card.Header}
@@ -201,7 +200,6 @@ export default function Comments({ requestId, commentType }) {
                                     <Button
                                       style={{
                                         fontSize: "0.7rem",
-                                        borderBottom: "solid 1px lightgrey",
                                       }}
                                       size="sm"
                                       onClick={
@@ -263,7 +261,6 @@ export default function Comments({ requestId, commentType }) {
                     width: "58rem",
                     marginLeft: "1.9rem",
                   }}
-                  // className="mb-2"
                 >
                   <Accordion.Toggle
                     as={Card.Header}
