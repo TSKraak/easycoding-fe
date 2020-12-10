@@ -4,6 +4,7 @@ import { Button, Col, Form } from "react-bootstrap";
 import { deletePostReply, editPostReply } from "../../store/post/actions";
 import {
   deleteRequestComment,
+  deleteRequestReply,
   editRequestReply,
 } from "../../store/request/actions";
 
@@ -39,7 +40,7 @@ export default function EditReply(props) {
       props.edit();
       return setText("");
     }
-    dispatch(deleteRequestComment(props.id, props.requestId, props.commentId));
+    dispatch(deleteRequestReply(props.id, props.requestId, props.commentId));
     setText("");
     props.edit();
   }

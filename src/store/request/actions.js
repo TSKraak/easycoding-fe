@@ -511,7 +511,6 @@ export const deleteRequestReplyAdmin = (answerId, requestId, commentId) => {
         }
         return request;
       });
-
       dispatch(addEditRequestReply(updatedRequests));
     } catch (error) {
       if (error.response) {
