@@ -3,21 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "../../store/appState/selectors";
 import { fetchRequests } from "../../store/request/actions";
 import { selectRequests } from "../../store/request/selectors";
-import { Accordion, Button, Card, Form, FormControl } from "react-bootstrap";
-import moment from "moment";
+import { Button, Form, FormControl } from "react-bootstrap";
 import { Link, useHistory, useParams } from "react-router-dom";
-import Comments from "../../components/Comments";
-import { selectToken, selectUser } from "../../store/user/selectors";
-import EditRequestForm from "../../components/EditRequestForm";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
+import { selectToken } from "../../store/user/selectors";
+import DisplayRequest from "../../components/DisplayRequests";
 
 export default function RequestPage() {
   const dispatch = useDispatch();
   const requests = useSelector(selectRequests);
   const loading = useSelector(selectAppLoading);
   const history = useHistory();
-  const user = useSelector(selectUser);
   const token = useSelector(selectToken);
   const { searchText: searchTextParams } = useParams();
   const [searchText, setSearchText] = useState(
@@ -85,112 +80,13 @@ export default function RequestPage() {
       >
         {loading || !searchResult ? (
           requests.map((req) => {
-            return (
-              <Card
-                border="dark"
-                key={req.id}
-                style={{ margin: "1rem", width: "60rem", alignSelf: "center" }}
-              >
-                <Card.Header as="h6">{req.title}</Card.Header>
-                <Card.Body>
-                  <ReactMarkdown plugins={[gfm]} children={req.content} />
-                </Card.Body>
-
-                <Card.Footer
-                  style={{
-                    borderBottom: "solid 1px lightgrey",
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  Requested by {req.user.name} on{" "}
-                  {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
-                  {user.id === req.user.id || user.isAdmin ? (
-                    <EditRequestForm req={req} />
-                  ) : null}
-                </Card.Footer>
-                <Accordion>
-                  <Card
-                    border="secondary"
-                    bg="light"
-                    style={{
-                      width: "58rem",
-                      marginLeft: "1.9rem",
-                    }}
-                  >
-                    <Accordion.Toggle
-                      as={Card.Header}
-                      style={{
-                        background: "lightgrey",
-                        fontSize: "0.9rem",
-                        margin: "0",
-                        padding: "0.5rem",
-                      }}
-                      eventKey="0"
-                    >
-                      View comments (click here)
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
-                      <Comments requestId={req.id} commentType="request" />
-                    </Accordion.Collapse>
-                  </Card>
-                </Accordion>
-              </Card>
-            );
+            return <DisplayRequest req={req} key={req.id} />;
           })
         ) : !searchResult.length ? (
           <h4>No search results..</h4>
         ) : (
           searchResult.map((req) => {
-            return (
-              <Card
-                border="dark"
-                key={req.id}
-                style={{ margin: "1rem", width: "60rem", alignSelf: "center" }}
-              >
-                <Card.Header as="h6">{req.title}</Card.Header>
-                <Card.Body>
-                  <ReactMarkdown plugins={[gfm]} children={req.content} />
-                </Card.Body>
-
-                <Card.Footer
-                  style={{
-                    borderBottom: "solid 1px lightgrey",
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  Requested by {req.user.name} on{" "}
-                  {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
-                  {user.id === req.user.id || user.isAdmin ? (
-                    <EditRequestForm req={req} />
-                  ) : null}
-                </Card.Footer>
-                <Accordion>
-                  <Card
-                    bg="light"
-                    style={{
-                      width: "58rem",
-                      marginLeft: "1.9rem",
-                    }}
-                  >
-                    <Accordion.Toggle
-                      as={Card.Header}
-                      style={{
-                        background: "lightgrey",
-                        fontSize: "0.9rem",
-                        margin: "0",
-                        padding: "0.5rem",
-                      }}
-                      eventKey="0"
-                    >
-                      View comments (click here)
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
-                      <Comments requestId={req.id} commentType="request" />
-                    </Accordion.Collapse>
-                  </Card>
-                </Accordion>
-              </Card>
-            );
+            return <DisplayRequest req={req} key={req.id} />;
           })
         )}
       </div>

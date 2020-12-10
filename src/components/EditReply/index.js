@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { Button, Col, Form } from "react-bootstrap";
 import { deletePostReply, editPostReply } from "../../store/post/actions";
 import {
-  deleteRequestComment,
   deleteRequestReply,
   editRequestReply,
 } from "../../store/request/actions";
