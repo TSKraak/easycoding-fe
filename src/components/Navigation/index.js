@@ -16,7 +16,11 @@ export default function Navigation() {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand as={NavLink} to="/">
+      <Navbar.Brand
+        as={NavLink}
+        to="/"
+        style={{ fontFamily: "Source Code Pro" }}
+      >
         &#60;Easy Coding&#62;
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
