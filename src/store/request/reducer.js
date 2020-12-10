@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
           return true;
         }
       });
-      return [...filteredStateUpdate, action.payload];
+      return [action.payload, ...filteredStateUpdate];
 
     case "DELETE_REQUEST":
       const filteredStateDelete = state.filter((request) => {
