@@ -11,6 +11,8 @@ import {
   postNewPostReply,
 } from "../../store/post/actions";
 import {
+  deleteRequestCommentAdmin,
+  deleteRequestReplyAdmin,
   postNewRequestComment,
   postNewRequestReply,
 } from "../../store/request/actions";
@@ -119,10 +121,16 @@ export default function Comments({ requestId, commentType }) {
                       fontSize: "0.7rem",
                       borderBottom: "inherit",
                     }}
-                    size="sm"
-                    onClick={() =>
-                      dispatch(deletePostCommentAdmin(comment.id, id))
+                    onClick={
+                      commentType === "post"
+                        ? () => {
+                            dispatch(deletePostCommentAdmin(comment.id, id));
+                          }
+                        : () => {
+                            dispatch(deleteRequestCommentAdmin(comment.id, id));
+                          }
                     }
+                    size="sm"
                     variant="danger"
                     value={comment.id}
                   >
@@ -210,14 +218,26 @@ export default function Comments({ requestId, commentType }) {
                                         borderBottom: "inherit",
                                       }}
                                       size="sm"
-                                      onClick={() =>
-                                        dispatch(
-                                          deletePostReplyAdmin(
-                                            answer.id,
-                                            comment.id,
-                                            id
-                                          )
-                                        )
+                                      onClick={
+                                        commentType === "post"
+                                          ? () => {
+                                              dispatch(
+                                                deletePostReplyAdmin(
+                                                  answer.id,
+                                                  comment.id,
+                                                  id
+                                                )
+                                              );
+                                            }
+                                          : () => {
+                                              dispatch(
+                                                deleteRequestReplyAdmin(
+                                                  answer.id,
+                                                  comment.id,
+                                                  id
+                                                )
+                                              );
+                                            }
                                       }
                                       variant="danger"
                                       value={comment.id}

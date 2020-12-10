@@ -451,7 +451,7 @@ export const deleteRequestCommentAdmin = (commentId, requestId) => {
     const requests = getState().request;
     try {
       await axios.delete(
-        `${apiUrl}/comment/${commentId}`,
+        `${apiUrl}/comment/admin/${commentId}`,
 
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -489,7 +489,7 @@ export const deleteRequestReplyAdmin = (answerId, requestId, commentId) => {
     const token = selectToken(getState());
     const requests = getState().request;
     try {
-      await axios.delete(`${apiUrl}/answer/${answerId}`, {
+      await axios.delete(`${apiUrl}/answer/admin/${answerId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const updatedRequests = requests.map((request) => {
