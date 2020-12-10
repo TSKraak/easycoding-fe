@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { blockUser, getAllUsers } from "../../store/allUsers/actions";
 import { selectAllUsers } from "../../store/allUsers/selectors";
 import { Button, Container, Jumbotron, Table } from "react-bootstrap";
+import { selectUser } from "../../store/user/selectors";
+import { Redirect } from "react-router-dom";
 
 export default function ManageUsersPage() {
   const dispatch = useDispatch();
   const users = useSelector(selectAllUsers);
-  console.log("what is users", users);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -17,6 +19,10 @@ export default function ManageUsersPage() {
     e.preventDefault();
     dispatch(blockUser(e.target.value));
   };
+
+  if (!user.isAdmin) {
+    return <Redirect to="/"></Redirect>;
+  }
 
   return (
     <Jumbotron>

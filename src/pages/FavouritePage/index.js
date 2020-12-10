@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import { Card, Form, FormControl, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import FavouriteButton from "../../components/FavouriteButton";
 import {
   selectToken,
@@ -19,30 +19,30 @@ export default function FavouritePage() {
   const token = useSelector(selectToken);
   const favourites = useSelector(selectUserFavourite);
   const user = useSelector(selectUser);
-  function deleteByAdmin(event) {
-    console.log(event.target.value);
-    event.preventDefault();
-    dispatch(deletePostAsAdmin(event.target.value));
-  }
   const { searchText: searchTextParams } = useParams();
   const [searchText, setSearchText] = useState(
     !searchTextParams ? "" : searchTextParams
   );
   const [search, setSearch] = useState(searchText);
+
+  function deleteByAdmin(event) {
+    console.log(event.target.value);
+    event.preventDefault();
+    dispatch(deletePostAsAdmin(event.target.value));
+  }
+
   const searchResult = search
-    ? favourites.filter((post) => {
-        if (post.content.indexOf(search) !== -1) {
-          return true;
-        } else {
-          return false;
-        }
-      })
+    ? favourites.filter((post) => post.content.indexOf(search) !== -1)
     : "";
 
   useEffect(() => {
     setSearchText(searchTextParams);
     setSearch(searchTextParams);
   }, [dispatch, searchTextParams]);
+
+  if (!user.token) {
+    return <Redirect to="/"></Redirect>;
+  }
 
   async function submitForm(event) {
     event.preventDefault();

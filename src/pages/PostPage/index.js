@@ -20,14 +20,9 @@ export default function PostPage() {
   const [search, setSearch] = useState(searchText);
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
+
   const searchResult = search
-    ? posts.filter((post) => {
-        if (post.content.indexOf(search) !== -1) {
-          return true;
-        } else {
-          return false;
-        }
-      })
+    ? posts.filter((post) => post.content.indexOf(search) !== -1)
     : "";
 
   useEffect(() => {
@@ -53,10 +48,6 @@ export default function PostPage() {
     event.preventDefault();
     dispatch(deletePostAsAdmin(event.target.value));
   }
-
-  // console.log("what is posts", posts);
-  // console.log("what is params", searchTextParams);
-  // console.log("what is searchText", searchText);
 
   return (
     <div>

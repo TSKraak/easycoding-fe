@@ -28,7 +28,7 @@ export const getAllUsers = () => {
           },
         }
       );
-      console.log("what is res in get all users", res);
+
       const users = res.data.users;
       dispatch(storeAllUsers(users));
     } catch (e) {

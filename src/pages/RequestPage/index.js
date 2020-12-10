@@ -25,13 +25,7 @@ export default function RequestPage() {
     event.preventDefault();
 
     setSearchResult(
-      requests.filter((request) => {
-        if (request.content.indexOf(searchText) !== -1) {
-          return true;
-        } else {
-          return false;
-        }
-      })
+      requests.filter((request) => request.content.indexOf(searchText) !== -1)
     );
 
     setSearchText("");
