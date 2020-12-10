@@ -83,7 +83,7 @@ export default function FavouritePage() {
           Search
         </Button>
         <p style={{ margin: "20px" }}>or</p>
-        <Link to={!token ? "/login" : "/posts/new"}>
+        <Link to={!token ? "/login" : "/post/new"}>
           <Button variant="outline-success">Create New Post</Button>
         </Link>
       </Form>

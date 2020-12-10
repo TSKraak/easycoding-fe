@@ -45,7 +45,7 @@ function App() {
             <PostPage />
           </Route>
 
-          <Route exact path="/posts/new">
+          <Route exact path="/post/new">
             <NewPostForm />
           </Route>
 
@@ -61,11 +61,15 @@ function App() {
             <PostPage />
           </Route>
 
-          <Route exact path="/requests/new">
+          <Route exact path="/request/new">
             <NewRequestForm />
           </Route>
 
           <Route exact path="/requests">
+            <RequestPage />
+          </Route>
+
+          <Route exact path="/requests/:searchText?">
             <RequestPage />
           </Route>
 

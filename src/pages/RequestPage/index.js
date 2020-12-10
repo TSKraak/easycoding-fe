@@ -54,7 +54,7 @@ export default function RequestPage() {
           Search
         </Button>
         <p style={{ margin: "20px" }}>or</p>
-        <Link to={!token ? "/login" : "/requests/new"}>
+        <Link to={!token ? "/login" : "/request/new"}>
           <Button variant="outline-success">Create New Request</Button>
         </Link>
       </Form>
