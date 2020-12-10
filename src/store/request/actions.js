@@ -218,6 +218,7 @@ export const deleteRequest = (requestId) => {
       const response = await axios.delete(`${apiUrl}/request/${requestId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log(response);
       dispatch(storeDeleteRequest(requestId));
       dispatch(
         showMessageWithTimeout("success", true, "Request Deleted Successfully")
