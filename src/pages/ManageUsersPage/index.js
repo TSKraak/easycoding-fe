@@ -20,6 +20,11 @@ export default function ManageUsersPage() {
     dispatch(blockUser(e.target.value));
   };
 
+  const handleAdmin = (e) => {
+    e.preventDefault();
+    // dispatch(blockUser(e.target.value));
+  };
+
   if (!user.isAdmin) {
     return <Redirect to="/"></Redirect>;
   }
@@ -52,7 +57,16 @@ export default function ManageUsersPage() {
                   <tr key={user.id}>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
-                    <td>{!user.isAdmin ? "No" : "Yes"}</td>
+                    <td>
+                      {" "}
+                      <Button
+                        onClick={handleAdmin}
+                        value={user.id}
+                        variant={!user.isAdmin ? "danger" : "secondary"}
+                      >
+                        {!user.isAdmin ? "No" : "Yes"}
+                      </Button>
+                    </td>
                     <td>
                       <Button
                         onClick={handleBlock}
