@@ -34,7 +34,7 @@ export default function EditPostForm(props) {
       await dispatch(updatePost(title, content, props.post.id));
       setTitle("");
       setContent("");
-      history.push("/posts");
+      history.push(`/posts/details/${props.post.id}`);
     }
   }
 
