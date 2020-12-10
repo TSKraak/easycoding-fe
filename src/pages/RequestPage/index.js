@@ -110,10 +110,11 @@ export default function RequestPage() {
                 </Card.Footer>
                 <Accordion>
                   <Card
+                    border="secondary"
                     bg="light"
                     style={{
                       width: "58rem",
-                      marginLeft: "2rem",
+                      marginLeft: "1.9rem",
                     }}
                   >
                     <Accordion.Toggle
@@ -168,7 +169,7 @@ export default function RequestPage() {
                     bg="light"
                     style={{
                       width: "58rem",
-                      marginLeft: "2rem",
+                      marginLeft: "1.9rem",
                     }}
                   >
                     <Accordion.Toggle

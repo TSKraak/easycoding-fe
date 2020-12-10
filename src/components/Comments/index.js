@@ -37,9 +37,6 @@ export default function Comments({ requestId, commentType }) {
   const [editReply, setEditReply] = useState(false);
   const [editReplyId, setEditReplyId] = useState(0);
 
-  // console.log("WHAT IS ID", id);
-  // console.log("WHAT IS commentType", commentType);
-
   const postOrRequest =
     commentType === "post"
       ? posts.find((post) => post.id === id)
@@ -78,6 +75,7 @@ export default function Comments({ requestId, commentType }) {
         postOrRequest.comments.map((comment) => {
           return (
             <Card
+              border="secondary"
               bg="light"
               key={comment.id}
               style={{ width: "60rem" }}
@@ -90,7 +88,7 @@ export default function Comments({ requestId, commentType }) {
               <Card.Footer
                 style={{
                   fontSize: "0.7rem",
-                  borderBottom: "inherit",
+                  borderBottom: "solid 1px lightgrey",
                 }}
               >
                 by {comment.user.name} on{" "}
@@ -151,7 +149,7 @@ export default function Comments({ requestId, commentType }) {
                     bg="light"
                     style={{
                       width: "58rem",
-                      marginLeft: "2rem",
+                      marginLeft: "1.9rem",
                     }}
                     // className="mt-2 mb-2"
                   >
@@ -203,7 +201,7 @@ export default function Comments({ requestId, commentType }) {
                                     <Button
                                       style={{
                                         fontSize: "0.7rem",
-                                        borderBottom: "inherit",
+                                        borderBottom: "solid 1px lightgrey",
                                       }}
                                       size="sm"
                                       onClick={
@@ -263,7 +261,7 @@ export default function Comments({ requestId, commentType }) {
                   bg="light"
                   style={{
                     width: "58rem",
-                    marginLeft: "2rem",
+                    marginLeft: "1.9rem",
                   }}
                   // className="mb-2"
                 >
