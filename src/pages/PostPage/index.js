@@ -102,12 +102,12 @@ export default function PostPage() {
               <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
                 <Card.Header as="h4">
                   {!token ? (
-                    // <Link to="/login">
-                    <Button href="/login" variant="outline-success">
-                      Favourite
-                    </Button>
+                    <Link to="/login">
+                      <Button href="/login" variant="outline-success">
+                        Favourite
+                      </Button>
+                    </Link>
                   ) : (
-                    // {/* </Link> */}
                     <FavouriteButton postId={post.id} />
                   )}{" "}
                   <Link
