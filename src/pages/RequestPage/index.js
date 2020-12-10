@@ -18,6 +18,7 @@ export default function RequestPage() {
   const [content, setContent] = useState("");
   const [validated, setValidated] = useState(false);
   const [requestId, setRequestId] = useState("");
+  const [editButton, setEditButton] = useState(false);
   const history = useHistory();
   const token = useSelector(selectToken);
   const { searchText: searchTextParams } = useParams();
@@ -69,6 +70,7 @@ export default function RequestPage() {
       setTitle("");
       setContent("");
       setRequestId("");
+      setEditButton(false);
       history.push("/requests");
     }
   }
@@ -128,12 +130,15 @@ export default function RequestPage() {
                 <Accordion>
                   <Card>
                     <Card.Header>
-                      <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                      <Button
+                        variant="outline-primary"
+                        onClick={() => {
+                          setEditButton(editButton === true ? false : true);
+                        }}
+                      >
                         Edit Request
-                      </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                      <Card.Body>
+                      </Button>
+                      {editButton === true ? (
                         <Form
                           md={{ span: 6, offset: 3 }}
                           noValidate
@@ -179,8 +184,8 @@ export default function RequestPage() {
                             </Button>
                           </Form.Group>
                         </Form>
-                      </Card.Body>
-                    </Accordion.Collapse>
+                      ) : null}
+                    </Card.Header>
                   </Card>
                 </Accordion>
                 <Card.Footer
