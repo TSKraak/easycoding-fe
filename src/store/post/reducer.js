@@ -20,12 +20,6 @@ export default (state = initialState, action) => {
       };
 
     case "REMOVE_POSTS":
-      console.log(
-        `removed post`,
-        state.all.filter((post) => {
-          return post.id !== action.payload;
-        })
-      );
       return {
         ...state,
         all: [
