@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import moment from "moment";
-import { Card, Form, FormControl, Button } from "react-bootstrap";
+import { Form, FormControl, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
-import FavouriteButton from "../../components/FavouriteButton";
 import {
   selectToken,
   selectUser,
   selectUserFavourite,
 } from "../../store/user/selectors";
-import { deletePostAsAdmin } from "../../store/post/actions";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
+import PostsCard from "../../components/PostsCard";
 
 export default function FavouritePage() {
   const history = useHistory();
@@ -26,12 +22,6 @@ export default function FavouritePage() {
     !searchTextParams ? "" : searchTextParams
   );
   const [search, setSearch] = useState(searchText);
-
-  function deleteByAdmin(event) {
-    console.log(event.target.value);
-    event.preventDefault();
-    dispatch(deletePostAsAdmin(event.target.value));
-  }
 
   const searchResult = search
     ? favourites.filter(
@@ -102,121 +92,11 @@ export default function FavouritePage() {
           <Loading />
         ) : !search ? (
           favourites.map((post) => {
-            return (
-              <Card
-                border="dark"
-                key={post.id}
-                style={{ margin: "1rem", width: "20rem" }}
-              >
-                <Card.Header as="h6">
-                  {!token ? (
-                    <Link to="/login">
-                      <Button href="/login" variant="outline-success">
-                        Favourite
-                      </Button>
-                    </Link>
-                  ) : (
-                    <FavouriteButton postId={post.id} />
-                  )}{" "}
-                  <Link
-                    style={{ color: "inherit" }}
-                    to={`/posts/details/${post.id}`}
-                  >
-                    {post.title}
-                  </Link>
-                </Card.Header>
-                <Card.Body>
-                  <ReactMarkdown
-                    plugins={[gfm]}
-                    children={post.content.slice(0, 100)}
-                  />
-                  ...
-                </Card.Body>
-
-                <Card.Footer style={{ background: "white" }}>
-                  <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-secondary">View Details</Button>
-                  </Link>{" "}
-                  {user.id !== parseInt(post.userId) ? null : (
-                    <Link to={`/posts/edit/${post.id}`}>
-                      <Button variant="outline-secondary">Edit</Button>
-                    </Link>
-                  )}{" "}
-                  {!user.isAdmin ? null : (
-                    <Button
-                      onClick={deleteByAdmin}
-                      value={post.id}
-                      variant="outline-danger"
-                    >
-                      Delete
-                    </Button>
-                  )}
-                </Card.Footer>
-                <Card.Footer style={{ fontSize: "0.8rem" }}>
-                  By {post.author.name} on{" "}
-                  {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
-                </Card.Footer>
-              </Card>
-            );
+            return <PostsCard key={post.id} post={post} />;
           })
         ) : (
           searchResult.map((post) => {
-            return (
-              <Card
-                border="dark"
-                key={post.id}
-                style={{ margin: "1rem", width: "20rem" }}
-              >
-                <Card.Header as="h6">
-                  {!token ? (
-                    <Link to="/login">
-                      <Button href="/login" variant="outline-success">
-                        Favourite
-                      </Button>
-                    </Link>
-                  ) : (
-                    <FavouriteButton postId={post.id} />
-                  )}{" "}
-                  <Link
-                    style={{ color: "inherit" }}
-                    to={`/posts/details/${post.id}`}
-                  >
-                    {post.title}
-                  </Link>
-                </Card.Header>
-                <Card.Body>
-                  <ReactMarkdown
-                    plugins={[gfm]}
-                    children={post.content.slice(0, 100)}
-                  />
-                  ...
-                </Card.Body>
-
-                <Card.Footer style={{ background: "white" }}>
-                  <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-secondary">View Details</Button>
-                  </Link>{" "}
-                  {user.id !== parseInt(post.userId) ? null : (
-                    <Link to={`/posts/edit/${post.id}`}>
-                      <Button variant="outline-secondary">Edit</Button>
-                    </Link>
-                  )}{" "}
-                  {!user.isAdmin ? null : (
-                    <Button
-                      onClick={deleteByAdmin}
-                      value={post.id}
-                      variant="outline-danger"
-                    >
-                      Delete
-                    </Button>
-                  )}
-                </Card.Footer>
-                <Card.Footer style={{ fontSize: "0.8rem" }}>
-                  By {post.author.name} on{" "}
-                  {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
-                </Card.Footer>
-              </Card>
-            );
+            return <PostsCard key={post.id} post={post} />;
           })
         )}
         {favourites && search && !searchResult.length ? (
