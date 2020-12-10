@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { blockUser, getAllUsers } from "../../store/allUsers/actions";
+import {
+  adminUpdate,
+  blockUser,
+  getAllUsers,
+} from "../../store/allUsers/actions";
 import { selectAllUsers } from "../../store/allUsers/selectors";
 import { Button, Container, Table } from "react-bootstrap";
 import { selectUser } from "../../store/user/selectors";
@@ -18,6 +22,11 @@ export default function ManageUsersPage() {
   const handleBlock = (e) => {
     e.preventDefault();
     dispatch(blockUser(e.target.value));
+  };
+
+  const handleAdmin = (e) => {
+    e.preventDefault();
+    dispatch(adminUpdate(e.target.value));
   };
 
   if (!user.isAdmin) {
@@ -52,7 +61,16 @@ export default function ManageUsersPage() {
                   <tr key={user.id}>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
-                    <td>{!user.isAdmin ? "No" : "Yes"}</td>
+                    <td>
+                      {" "}
+                      <Button
+                        onClick={handleAdmin}
+                        value={user.id}
+                        variant={!user.isAdmin ? "danger" : "secondary"}
+                      >
+                        {!user.isAdmin ? "No" : "Yes"}
+                      </Button>
+                    </td>
                     <td>
                       <Button
                         onClick={handleBlock}
