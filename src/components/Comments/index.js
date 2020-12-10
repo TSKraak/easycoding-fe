@@ -99,18 +99,13 @@ export default function Comments({ requestId, commentType }) {
                   <Button
                     style={{
                       fontSize: "0.7rem",
-                      borderBottom: "inherit",
                     }}
                     size="sm"
                     onClick={(e) => {
                       setEdit(!edit);
                       setEditId(e.target.value);
                     }}
-                    variant={
-                      edit && parseInt(editId) === comment.id
-                        ? "outline-secondary"
-                        : "secondary"
-                    }
+                    variant={"outline-primary"}
                     value={comment.id}
                   >
                     {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
@@ -119,7 +114,6 @@ export default function Comments({ requestId, commentType }) {
                   <Button
                     style={{
                       fontSize: "0.7rem",
-                      borderBottom: "inherit",
                     }}
                     onClick={
                       commentType === "post"
@@ -131,7 +125,7 @@ export default function Comments({ requestId, commentType }) {
                           }
                     }
                     size="sm"
-                    variant="danger"
+                    variant="outline-danger"
                     value={comment.id}
                   >
                     Delete{" "}
@@ -191,19 +185,13 @@ export default function Comments({ requestId, commentType }) {
                                     <Button
                                       style={{
                                         fontSize: "0.7rem",
-                                        borderBottom: "inherit",
                                       }}
                                       size="sm"
                                       onClick={(e) => {
                                         setEditReply(!editReply);
                                         setEditReplyId(e.target.value);
                                       }}
-                                      variant={
-                                        editReply &&
-                                        parseInt(editReplyId) === answer.id
-                                          ? "outline-secondary"
-                                          : "secondary"
-                                      }
+                                      variant="outline-primary"
                                       value={answer.id}
                                     >
                                       {editReply &&
@@ -239,7 +227,7 @@ export default function Comments({ requestId, commentType }) {
                                               );
                                             }
                                       }
-                                      variant="danger"
+                                      variant="outline-danger"
                                       value={comment.id}
                                     >
                                       Delete{" "}
