@@ -105,15 +105,7 @@ export default function PostPage() {
                 style={{ margin: "1rem", width: "20rem" }}
               >
                 <Card.Header as="h6">
-                  {!token ? (
-                    <Link to="/login">
-                      <Button href="/login" variant="outline-success">
-                        Favourite
-                      </Button>
-                    </Link>
-                  ) : (
-                    <FavouriteButton postId={post.id} />
-                  )}{" "}
+                  {!token ? null : <FavouriteButton postId={post.id} />}{" "}
                   <Link
                     style={{ color: "inherit" }}
                     to={`/posts/details/${post.id}`}
