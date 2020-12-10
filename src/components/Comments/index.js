@@ -148,9 +148,8 @@ export default function Comments({ requestId, commentType }) {
                       <div>
                         {comment.answers.map((answer) => {
                           return (
-                            <div>
+                            <div key={answer.id}>
                               <Card.Body
-                                key={answer.id}
                                 style={{ borderBottom: "solid 1px lightgrey" }}
                               >
                                 {answer.content}
