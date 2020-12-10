@@ -85,6 +85,89 @@ export const addRequest = (title, content) => {
   };
 };
 
+export const updateRequest = (requestId, title, content) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.put(
+        `${apiUrl}/request/${requestId}`,
+        {
+          title,
+          content,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(storeUpdatedRequest(response.data));
+      dispatch(
+        showMessageWithTimeout("success", true, "Request Updated Successfully")
+      );
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const deleteRequest = (requestId) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.delete(`${apiUrl}/request/${requestId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      dispatch(storeDeleteRequest(requestId));
+      dispatch(
+        showMessageWithTimeout("success", true, "Request Deleted Successfully")
+      );
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const deleteRequestAdmin = (requestId) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.delete(`${apiUrl}/request/admin/${requestId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      dispatch(storeDeleteRequest(requestId));
+      dispatch(
+        showMessageWithTimeout("success", true, "Request Deleted Successfully")
+      );
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
 const addNewRequestComment = (newRequests) => {
   return { type: "ADD_NEW_REQUEST_COMMENT", payload: newRequests };
 };
@@ -180,24 +263,42 @@ export const postNewRequestReply = (content, requestId, commentId) => {
   };
 };
 
-export const updateRequest = (requestId, title, content) => {
+const addEditRequestComment = (updatedRequests) => {
+  return { type: "ADD_NEW_REQUEST_COMMENT", payload: updatedRequests };
+};
+
+export const editRequestComment = (content, commentId, requestId) => {
   return async (dispatch, getState) => {
-    const token = localStorage.getItem("token");
+    const token = selectToken(getState());
+    const requests = getState().request;
     try {
       const response = await axios.put(
-        `${apiUrl}/request/${requestId}`,
+        `${apiUrl}/comment/${commentId}`,
         {
-          title,
           content,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      dispatch(storeUpdatedRequest(response.data));
-      dispatch(
-        showMessageWithTimeout("success", true, "Request Updated Successfully")
-      );
+      const updatedComment = response.data;
+
+      const updatedRequests = requests.map((request) => {
+        if (request.id === requestId) {
+          return {
+            ...request,
+            comments: [
+              ...request.comments.filter(
+                (comment) => comment.id !== parseInt(commentId)
+              ),
+              updatedComment,
+            ],
+          };
+        }
+        return request;
+      });
+
+      dispatch(addEditRequestComment(updatedRequests));
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -206,50 +307,52 @@ export const updateRequest = (requestId, title, content) => {
         console.log(error.message);
         dispatch(setMessage("danger", true, error.message));
       }
-      dispatch(appDoneLoading());
     }
   };
 };
 
-export const deleteRequest = (requestId) => {
-  return async (dispatch, getState) => {
-    const token = localStorage.getItem("token");
-
-    try {
-      await axios.delete(`${apiUrl}/request/${requestId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      dispatch(storeDeleteRequest(requestId));
-      dispatch(
-        showMessageWithTimeout("success", true, "Request Deleted Successfully")
-      );
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data.message);
-        dispatch(setMessage("danger", true, error.response.data.message));
-      } else {
-        console.log(error.message);
-        dispatch(setMessage("danger", true, error.message));
-      }
-      dispatch(appDoneLoading());
-    }
-  };
+const addEditRequestReply = (newRequests) => {
+  return { type: "ADD_NEW_REQUEST_REPLY", payload: newRequests };
 };
 
-export const deleteRequestAdmin = (requestId) => {
+export const editRequestReply = (content, answerId, requestId, commentId) => {
   return async (dispatch, getState) => {
-    const token = localStorage.getItem("token");
-
+    const token = selectToken(getState());
+    const requests = getState().request;
     try {
-      await axios.delete(`${apiUrl}/request/admin/${requestId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await axios.put(
+        `${apiUrl}/answer/${answerId}`,
+        {
+          content,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const updatedReply = response.data;
+
+      const updatedRequests = requests.map((request) => {
+        if (request.id === requestId) {
+          const updatedComments = request.comments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                answers: [
+                  ...comment.answers.filter(
+                    (answer) => answer.id !== parseInt(answerId)
+                  ),
+                  updatedReply,
+                ],
+              };
+            }
+            return comment;
+          });
+          return { ...request, comments: updatedComments };
+        }
+        return request;
       });
 
-      dispatch(storeDeleteRequest(requestId));
-      dispatch(
-        showMessageWithTimeout("success", true, "Request Deleted Successfully")
-      );
+      dispatch(addEditRequestReply(updatedRequests));
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -258,7 +361,6 @@ export const deleteRequestAdmin = (requestId) => {
         console.log(error.message);
         dispatch(setMessage("danger", true, error.message));
       }
-      dispatch(appDoneLoading());
     }
   };
 };

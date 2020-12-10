@@ -11,6 +11,9 @@ import {
 } from "../../store/request/actions";
 import Loading from "../Loading";
 import { selectRequests } from "../../store/request/selectors";
+import { selectUser } from "../../store/user/selectors";
+import EditComment from "../EditComment";
+import EditReply from "../EditReply";
 
 export default function Comments({ requestId, commentType }) {
   const [commentText, setCommentText] = useState("");
@@ -19,8 +22,13 @@ export default function Comments({ requestId, commentType }) {
   const params = useParams();
   const posts = useSelector(selectAllPosts);
   const requests = useSelector(selectRequests);
+  const user = useSelector(selectUser);
   const id = parseInt(params.post) || requestId;
   const [commentId, setCommentId] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [editId, setEditId] = useState(0);
+  const [editReply, setEditReply] = useState(false);
+  const [editReplyId, setEditReplyId] = useState(0);
 
   // console.log("WHAT IS ID", id);
   // console.log("WHAT IS commentType", commentType);
@@ -71,6 +79,7 @@ export default function Comments({ requestId, commentType }) {
               <Card.Body>
                 <Card.Text>{comment.content}</Card.Text>
               </Card.Body>
+
               <Card.Footer
                 style={{
                   fontSize: "0.7rem",
@@ -78,7 +87,40 @@ export default function Comments({ requestId, commentType }) {
                 }}
               >
                 by {comment.user.name} on{" "}
-                {moment(comment.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                {moment(comment.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
+                {user && user.id === comment.user.id ? (
+                  <Button
+                    style={{
+                      fontSize: "0.7rem",
+                      borderBottom: "inherit",
+                    }}
+                    size="sm"
+                    onClick={(e) => {
+                      setEdit(!edit);
+                      setEditId(e.target.value);
+                    }}
+                    variant={
+                      edit && parseInt(editId) === comment.id
+                        ? "outline-secondary"
+                        : "secondary"
+                    }
+                    value={comment.id}
+                  >
+                    {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
+                  </Button>
+                ) : null}
+                {edit && parseInt(editId) === comment.id ? (
+                  <EditComment
+                    id={comment.id}
+                    content={comment.content}
+                    commentType={commentType}
+                    postId={parseInt(params.post)}
+                    requestId={requestId}
+                    edit={() => {
+                      setEdit(false);
+                    }}
+                  />
+                ) : null}
               </Card.Footer>
 
               {comment.answers.length ? (
@@ -107,18 +149,58 @@ export default function Comments({ requestId, commentType }) {
                       <div>
                         {comment.answers.map((answer) => {
                           return (
-                            <Card.Body
-                              key={answer.id}
-                              style={{ borderBottom: "solid 1px lightgrey" }}
-                            >
-                              {answer.content}
-                              <p style={{ margin: "0", fontSize: "0.7rem" }}>
-                                by {answer.user.name} on{" "}
-                                {moment(answer.createdAt).format(
-                                  "ddd DD MMMM YYYY HH:mm"
-                                )}
-                              </p>
-                            </Card.Body>
+                            <div key={answer.id}>
+                              <Card.Body
+                                style={{ borderBottom: "solid 1px lightgrey" }}
+                              >
+                                {answer.content}
+                                <p style={{ margin: "0", fontSize: "0.7rem" }}>
+                                  by {answer.user.name} on{" "}
+                                  {moment(answer.createdAt).format(
+                                    "ddd DD MMMM YYYY HH:mm"
+                                  )}{" "}
+                                  {user && user.id === answer.user.id ? (
+                                    <Button
+                                      style={{
+                                        fontSize: "0.7rem",
+                                        borderBottom: "inherit",
+                                      }}
+                                      size="sm"
+                                      onClick={(e) => {
+                                        setEditReply(!editReply);
+                                        setEditReplyId(e.target.value);
+                                      }}
+                                      variant={
+                                        editReply &&
+                                        parseInt(editReplyId) === answer.id
+                                          ? "outline-secondary"
+                                          : "secondary"
+                                      }
+                                      value={answer.id}
+                                    >
+                                      {editReply &&
+                                      parseInt(editReplyId) === answer.id
+                                        ? "Close"
+                                        : "Edit"}
+                                    </Button>
+                                  ) : null}
+                                </p>
+                              </Card.Body>
+                              {editReply &&
+                              parseInt(editReplyId) === answer.id ? (
+                                <EditReply
+                                  id={answer.id}
+                                  content={answer.content}
+                                  commentType={commentType}
+                                  postId={parseInt(params.post)}
+                                  requestId={requestId}
+                                  commentId={comment.id}
+                                  edit={() => {
+                                    setEditReply(false);
+                                  }}
+                                />
+                              ) : null}
+                            </div>
                           );
                         })}
                       </div>
@@ -126,6 +208,7 @@ export default function Comments({ requestId, commentType }) {
                   </Card>
                 </Accordion>
               ) : null}
+
               <Accordion>
                 <Card
                   bg="light"
