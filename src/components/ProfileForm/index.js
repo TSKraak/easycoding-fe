@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import {
   Button,
+  Col,
   Container,
   Form,
   FormControl,
   Image,
   Jumbotron,
+  Row,
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import UploadUserImage from "../../components/UploadUserPicture";
@@ -16,7 +18,7 @@ export default function ProfileForm(props) {
   const [name, setName] = useState(props.user.name);
   const [email, setEmail] = useState(props.user.email);
   // const [password, setPassword] = useState(user.password)
-  const [picture, setPicture] = useState(props.user.picture);
+  const [picture, setPicture] = useState("");
 
   const changeEmail = (e) => {
     e.preventDefault();
@@ -33,99 +35,98 @@ export default function ProfileForm(props) {
 
   return (
     <div>
-      <Jumbotron style={{ margin: "50px" }}>
+      <Jumbotron>
+        <div style={{ float: "left" }}>
+          <Image src={props.user.picture} style={{ width: "15vw" }} rounded />
+        </div>
         <Container>
-          <Image
-            src={props.user.picture}
-            style={{ float: "left", width: "150px" }}
-            rounded
-          />
-          <h3
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            {props.user.name}
-          </h3>
+          <div>
+            <h1>{props.user.name}</h1>
+          </div>
         </Container>
       </Jumbotron>
-      <Form
-        inline
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          margin: "20px",
-        }}
-      >
-        <Form.Label>Email:</Form.Label>
-        <FormControl
-          value={email}
-          type="text"
-          placeholder="Enter Email"
-          onChange={(event) => setEmail(event.target.value)}
-          className="mr-sm-2"
-        />
-        <Button variant="outline-primary" onClick={changeEmail}>
-          Change Email
-        </Button>
+
+      <Form as={Col} md={{ span: 6, offset: 4 }} className="mt-5">
+        <Form.Group as={Row} controlId="formBasicEmail">
+          <Form.Label column sm="3">
+            Email:
+          </Form.Label>
+          <Col sm="4">
+            <FormControl
+              value={email}
+              type="text"
+              placeholder="Enter Email"
+              onChange={(event) => setEmail(event.target.value)}
+              className="mr-sm-2"
+            />
+          </Col>
+          <Col sm="3">
+            <Button
+              style={{ fontSize: "0.8rem", padding: "0.5rem" }}
+              variant="outline-primary"
+              onClick={changeEmail}
+            >
+              Change Email
+            </Button>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId="formBasicName">
+          <Form.Label column sm="3">
+            Name:
+          </Form.Label>
+          <Col sm="4">
+            <FormControl
+              value={name}
+              type="text"
+              placeholder="Enter Name"
+              onChange={(event) => setName(event.target.value)}
+              className="mr-sm-2"
+            />
+          </Col>
+          <Col sm="3">
+            <Button
+              style={{ fontSize: "0.8rem", padding: "0.5rem" }}
+              variant="outline-primary"
+              onClick={changeName}
+            >
+              Change Name
+            </Button>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId="formBasicPicture">
+          <Form.Label column sm="3">
+            Profile Picture:
+          </Form.Label>
+          <Col sm="4">
+            <UploadUserImage setPicture={setPicture} />
+          </Col>
+          <Col sm="3">
+            <Button
+              style={{ fontSize: "0.8rem", padding: "0.5rem" }}
+              variant="outline-primary"
+              onClick={changePicture}
+            >
+              Change Picture
+            </Button>
+          </Col>
+        </Form.Group>
       </Form>
-      <Form
-        inline
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          margin: "20px",
-        }}
-      >
-        <Form.Label>Name:</Form.Label>
-        <FormControl
-          value={name}
-          type="text"
-          placeholder="Enter Name"
-          onChange={(event) => setName(event.target.value)}
-          className="mr-sm-2"
-        />
-        <Button variant="outline-primary" onClick={changeName}>
-          Change Name
-        </Button>
-      </Form>
-      {/* <Form
-        inline
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          margin: "20px",
-        }}
-      >
-        <Form.Label>Password:</Form.Label>
-        <FormControl
-          type="text"
-          placeholder="Enter Password"
-          className="mr-sm-2"
-        />
-        <Button variant="outline-primary">Change Password</Button>
-      </Form> */}
-      <Form
-        inline
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          margin: "20px",
-        }}
-      >
-        <Form.Label>Profile Picture:</Form.Label>
-        <img src={picture} alt="profile-pic" style={{ width: "50px" }} />
-        <UploadUserImage onChange={(event) => setPicture(event.target.value)} />
-        <Button variant="outline-primary" onClick={changePicture}>
-          Change Picture
-        </Button>
-      </Form>
+      {picture ? (
+        <div style={{ textAlign: "center", marginTop: "1rem" }}>
+          Preview:
+          <p>
+            <img
+              src={picture}
+              alt="profile-pic"
+              style={{
+                width: "200px",
+                marginTop: "1rem",
+                borderRadius: "10px",
+              }}
+            />
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }

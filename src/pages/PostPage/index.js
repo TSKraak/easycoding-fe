@@ -90,6 +90,8 @@ export default function PostPage() {
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "flex-start",
+          marginLeft: "5%",
+          marginRight: "5%",
         }}
       >
         {!posts ? (
@@ -98,7 +100,23 @@ export default function PostPage() {
           posts.map((post) => {
             return (
               <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
-                <Card.Header as="h4">{post.title}</Card.Header>
+                <Card.Header as="h4">
+                  {!token ? (
+                    // <Link to="/login">
+                    <Button href="/login" variant="outline-success">
+                      Favourite
+                    </Button>
+                  ) : (
+                    // {/* </Link> */}
+                    <FavouriteButton postId={post.id} />
+                  )}{" "}
+                  <Link
+                    style={{ color: "inherit" }}
+                    to={`/posts/edit/${post.id}`}
+                  >
+                    {post.title}
+                  </Link>
+                </Card.Header>
                 <Card.Body>
                   <ReactMarkdown
                     plugins={[gfm]}
@@ -109,27 +127,20 @@ export default function PostPage() {
 
                 <Card.Footer style={{ background: "white" }}>
                   <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-primary">View Details</Button>
-                  </Link>
-                  {!token ? (
-                    <Link to="/login">
-                      <Button variant="outline-success">Favourite</Button>
-                    </Link>
-                  ) : (
-                    <FavouriteButton postId={post.id} />
-                  )}
+                    <Button variant="outline-secondary">View Details</Button>
+                  </Link>{" "}
                   {user.id !== parseInt(post.userId) ? null : (
                     <Link to={`/posts/edit/${post.id}`}>
-                      <Button>Edit</Button>
+                      <Button variant="outline-secondary">Edit</Button>
                     </Link>
-                  )}
+                  )}{" "}
                   {!user.isAdmin ? null : (
                     <Button
                       onClick={deleteByAdmin}
                       value={post.id}
-                      variant="danger"
+                      variant="outline-danger"
                     >
-                      Delete as Admin
+                      Delete
                     </Button>
                   )}
                 </Card.Footer>
