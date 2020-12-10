@@ -7,11 +7,13 @@ import { selectUserFavourite } from "../../store/user/selectors";
 export default function FavouriteButton(props) {
   const dispatch = useDispatch();
   const favourites = useSelector(selectUserFavourite);
+
   const favourited = favourites
     ? favourites.find((fav) => {
         return fav.id === parseInt(props.postId);
       })
     : [];
+
   const handleFavourite = (e) => {
     e.preventDefault();
     if (!favourited) {
@@ -19,14 +21,13 @@ export default function FavouriteButton(props) {
     }
     dispatch(deleteFavourite(props.postId));
   };
+
   return (
-    <div>
-      <Button
-        onClick={handleFavourite}
-        variant={!favourited ? "outline-primary" : "primary"}
-      >
-        {!favourited ? "Favourite" : "Remove"}
-      </Button>
-    </div>
+    <Button
+      onClick={handleFavourite}
+      variant={!favourited ? "outline-secondary" : "outline-success"}
+    >
+      {!favourited ? "\u2606" : "\uD83C\uDF1F"}
+    </Button>
   );
 }
