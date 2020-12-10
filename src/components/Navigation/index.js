@@ -19,7 +19,7 @@ export default function Navigation() {
       <Navbar.Brand
         as={NavLink}
         to="/"
-        style={{ fontFamily: "Source Code Pro" }}
+        style={{ fontFamily: "Source Code Pro, monospace" }}
       >
         &#60;Easy Coding&#62;
       </Navbar.Brand>
