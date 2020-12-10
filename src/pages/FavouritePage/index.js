@@ -12,6 +12,8 @@ import {
 import { deletePostAsAdmin } from "../../store/post/actions";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
+import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 
 export default function FavouritePage() {
   const history = useHistory();
@@ -102,38 +104,54 @@ export default function FavouritePage() {
           favourites.map((post) => {
             return (
               <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
-                <Card.Body>
-                  <Card.Title>{post.title}</Card.Title>
-                  <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-primary">View Details</Button>
-                  </Link>
+                <Card.Header as="h3">
                   {!token ? (
-                    <Link to={`/login`}>
-                      {" "}
-                      <Button variant="primary">Favourite</Button>
+                    <Link to="/login">
+                      <Button href="/login" variant="outline-success">
+                        Favourite
+                      </Button>
                     </Link>
                   ) : (
                     <FavouriteButton postId={post.id} />
                   )}{" "}
+                  <Link
+                    style={{ color: "inherit" }}
+                    to={`/posts/details/${post.id}`}
+                  >
+                    {post.title}
+                  </Link>
+                </Card.Header>
+                <Card.Body>
+                  <ReactMarkdown
+                    plugins={[gfm]}
+                    children={post.content.slice(0, 100)}
+                  />
+                  ...
+                </Card.Body>
+
+                <Card.Footer style={{ background: "white" }}>
+                  <Link to={`/posts/details/${post.id}`}>
+                    <Button variant="outline-secondary">View Details</Button>
+                  </Link>{" "}
                   {user.id !== parseInt(post.userId) ? null : (
                     <Link to={`/posts/edit/${post.id}`}>
-                      <Button>Edit</Button>
+                      <Button variant="outline-secondary">Edit</Button>
                     </Link>
-                  )}
+                  )}{" "}
                   {!user.isAdmin ? null : (
                     <Button
                       onClick={deleteByAdmin}
                       value={post.id}
-                      variant="danger"
+                      variant="outline-danger"
                     >
-                      Delete as Admin
+                      Delete
                     </Button>
                   )}
-                </Card.Body>
+                </Card.Footer>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
                   By {post.author.name} on{" "}
                   {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
-                </Card.Footer>{" "}
+                </Card.Footer>
               </Card>
             );
           })
@@ -141,37 +159,54 @@ export default function FavouritePage() {
           searchResult.map((post) => {
             return (
               <Card key={post.id} style={{ margin: "1rem", width: "20rem" }}>
-                <Card.Body>
-                  <Card.Title>{post.title}</Card.Title>
-                  <Link to={`/posts/details/${post.id}`}>
-                    <Button variant="outline-primary">View Details</Button>
-                  </Link>
+                <Card.Header as="h4">
                   {!token ? (
-                    <Link to={`/login`}>
-                      <Button variant="primary">Favourite</Button>
+                    <Link to="/login">
+                      <Button href="/login" variant="outline-success">
+                        Favourite
+                      </Button>
                     </Link>
                   ) : (
                     <FavouriteButton postId={post.id} />
                   )}{" "}
+                  <Link
+                    style={{ color: "inherit" }}
+                    to={`/posts/details/${post.id}`}
+                  >
+                    {post.title}
+                  </Link>
+                </Card.Header>
+                <Card.Body>
+                  <ReactMarkdown
+                    plugins={[gfm]}
+                    children={post.content.slice(0, 100)}
+                  />
+                  ...
+                </Card.Body>
+
+                <Card.Footer style={{ background: "white" }}>
+                  <Link to={`/posts/details/${post.id}`}>
+                    <Button variant="outline-secondary">View Details</Button>
+                  </Link>{" "}
                   {user.id !== parseInt(post.userId) ? null : (
                     <Link to={`/posts/edit/${post.id}`}>
-                      <Button>Edit</Button>
+                      <Button variant="outline-secondary">Edit</Button>
                     </Link>
-                  )}
+                  )}{" "}
                   {!user.isAdmin ? null : (
                     <Button
                       onClick={deleteByAdmin}
                       value={post.id}
-                      variant="danger"
+                      variant="outline-danger"
                     >
-                      Delete as Admin
+                      Delete
                     </Button>
                   )}
-                </Card.Body>
+                </Card.Footer>
                 <Card.Footer style={{ fontSize: "0.8rem" }}>
                   By {post.author.name} on{" "}
                   {moment(post.createdAt).format("ddd DD MMMM YYYY HH:mm")}
-                </Card.Footer>{" "}
+                </Card.Footer>
               </Card>
             );
           })
