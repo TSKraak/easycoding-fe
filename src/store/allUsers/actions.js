@@ -15,6 +15,13 @@ export function updateBlockedUser(id) {
   };
 }
 
+export function updateAdmin(id) {
+  return {
+    type: "UPDATE_ADMIN",
+    payload: id,
+  };
+}
+
 export const getAllUsers = () => {
   return async (dispatch, getState) => {
     const token = localStorage.getItem("token");
@@ -51,6 +58,26 @@ export const blockUser = (id) => {
         }
       );
       dispatch(updateBlockedUser(id));
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+};
+
+export const adminUpdate = (id) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.put(
+        `${apiUrl}/users/admin/${id}`,
+        { token },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(updateAdmin(id));
     } catch (e) {
       console.log("error", e);
     }
