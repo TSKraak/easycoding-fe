@@ -8,9 +8,6 @@ export default function EditComment(props) {
   const [text, setText] = useState(props.content);
   const dispatch = useDispatch();
 
-  // console.log("WHAT IS ID", id);
-  console.log("WHAT IS", props.commentType);
-
   function editComment(event) {
     event.preventDefault();
 
