@@ -11,6 +11,8 @@ import {
 } from "../../store/request/actions";
 import Loading from "../Loading";
 import { selectRequests } from "../../store/request/selectors";
+import { selectUser } from "../../store/user/selectors";
+import EditComment from "../EditComment";
 
 export default function Comments({ requestId, commentType }) {
   const [commentText, setCommentText] = useState("");
@@ -19,9 +21,11 @@ export default function Comments({ requestId, commentType }) {
   const params = useParams();
   const posts = useSelector(selectAllPosts);
   const requests = useSelector(selectRequests);
+  const user = useSelector(selectUser);
   const id = parseInt(params.post) || requestId;
   const [commentId, setCommentId] = useState("");
-
+  const [edit, setEdit] = useState(false);
+  const [editId, setEditId] = useState(0);
   // console.log("WHAT IS ID", id);
   // console.log("WHAT IS commentType", commentType);
 
@@ -71,6 +75,13 @@ export default function Comments({ requestId, commentType }) {
               <Card.Body>
                 <Card.Text>{comment.content}</Card.Text>
               </Card.Body>
+              {edit && parseInt(editId) === comment.id ? (
+                <EditComment
+                  id={comment.id}
+                  content={comment.content}
+                  commentType={commentType}
+                />
+              ) : null}
               <Card.Footer
                 style={{
                   fontSize: "0.7rem",
@@ -78,7 +89,28 @@ export default function Comments({ requestId, commentType }) {
                 }}
               >
                 by {comment.user.name} on{" "}
-                {moment(comment.createdAt).format("ddd DD MMMM YYYY HH:mm")}
+                {moment(comment.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
+                {user && user.id === comment.user.id ? (
+                  <Button
+                    style={{
+                      fontSize: "0.7rem",
+                      borderBottom: "inherit",
+                    }}
+                    size="sm"
+                    onClick={(e) => {
+                      setEdit(!edit);
+                      setEditId(e.target.value);
+                    }}
+                    variant={
+                      edit && parseInt(editId) === comment.id
+                        ? "outline-secondary"
+                        : "secondary"
+                    }
+                    value={comment.id}
+                  >
+                    {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
+                  </Button>
+                ) : null}
               </Card.Footer>
 
               {comment.answers.length ? (
@@ -126,6 +158,7 @@ export default function Comments({ requestId, commentType }) {
                   </Card>
                 </Accordion>
               ) : null}
+
               <Accordion>
                 <Card
                   bg="light"
