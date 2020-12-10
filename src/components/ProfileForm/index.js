@@ -33,22 +33,14 @@ export default function ProfileForm(props) {
 
   return (
     <div>
-      <Jumbotron style={{ margin: "50px" }}>
+      <Jumbotron>
         <Container>
           <Image
             src={props.user.picture}
             style={{ float: "left", width: "150px" }}
             rounded
           />
-          <h3
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            {props.user.name}
-          </h3>
+          <h1>{props.user.name}</h1>
         </Container>
       </Jumbotron>
       <Form
@@ -60,17 +52,19 @@ export default function ProfileForm(props) {
           margin: "20px",
         }}
       >
-        <Form.Label>Email:</Form.Label>
-        <FormControl
-          value={email}
-          type="text"
-          placeholder="Enter Email"
-          onChange={(event) => setEmail(event.target.value)}
-          className="mr-sm-2"
-        />
-        <Button variant="outline-primary" onClick={changeEmail}>
-          Change Email
-        </Button>
+        <Form.Group controlId="formBasicFirstName">
+          <Form.Label>Email:</Form.Label>
+          <FormControl
+            value={email}
+            type="text"
+            placeholder="Enter Email"
+            onChange={(event) => setEmail(event.target.value)}
+            className="mr-sm-2"
+          />
+          <Button variant="outline-primary" onClick={changeEmail}>
+            Change Email
+          </Button>
+        </Form.Group>
       </Form>
       <Form
         inline
