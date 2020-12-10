@@ -16,7 +16,11 @@ export default function Navigation() {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand as={NavLink} to="/">
+      <Navbar.Brand
+        as={NavLink}
+        to="/"
+        style={{ fontFamily: "Source Code Pro, monospace" }}
+      >
         &#60;Easy Coding&#62;
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -25,7 +29,7 @@ export default function Navigation() {
           <NavbarItem path="/posts" linkText="Posts" />
           <NavbarItem path="/requests" linkText="Requests" />
           {user.email ? (
-            <NavbarItem path="/favorites" linkText="Favorites" />
+            <NavbarItem path="/favourites" linkText="Favourites" />
           ) : null}
           {user.isAdmin ? (
             <NavbarItem path="/admin/manage-users" linkText="Manage Users" />

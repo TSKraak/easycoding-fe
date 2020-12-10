@@ -20,26 +20,29 @@ const tokenStillValid = (userWithoutToken) => ({
   payload: userWithoutToken,
 });
 
+const addFavourite = (favourite) => {
+  return {
+    type: "ADD_FAVOURITE",
+    payload: favourite,
+  };
+};
+
+const removeFavourite = (postId) => {
+  return {
+    type: "REMOVE_FAVOURITE",
+    payload: postId,
+  };
+};
+
 export const logOut = () => ({ type: "LOG_OUT" });
 
-export const signUp = (
-  firstName,
-  lastName,
-  city,
-  country,
-  imageUrl,
-  email,
-  password
-) => {
+export const signUp = (name, picture, email, password) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
       const response = await axios.post(`${apiUrl}/signup`, {
-        firstName,
-        lastName,
-        city,
-        country,
-        imageUrl,
+        name,
+        picture,
         email,
         password,
       });
@@ -68,14 +71,15 @@ export const login = (email, password) => {
         email,
         password,
       });
-      // console.log("RESPONSE DATA:", response.data);
+
       if (response.data.accountBlocked) {
         dispatch(setMessage("danger", true, "Your account has been blocked"));
         dispatch(logOut());
         return dispatch(appDoneLoading());
       }
       dispatch(loginSuccess(response.data));
-      dispatch(showMessageWithTimeout("success", false, "Welcome back!", 1500));
+      dispatch(fetchFavourite());
+      dispatch(showMessageWithTimeout("success", false, "Welcome back!", 3000));
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
@@ -107,6 +111,7 @@ export const getUserWithStoredToken = () => {
       });
 
       // token is still valid
+      dispatch(fetchFavourite());
       dispatch(tokenStillValid(response.data));
       dispatch(appDoneLoading());
     } catch (error) {
@@ -119,6 +124,115 @@ export const getUserWithStoredToken = () => {
       // get rid of the token by logging out
       dispatch(logOut());
       dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const updateUser = (attribute) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    dispatch(appLoading());
+    try {
+      await axios.put(
+        `${apiUrl}/users/profile`,
+        {
+          ...attribute,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch((attribute) => {
+        return {
+          type: "USER_UPDATE",
+          payload: {
+            attribute,
+          },
+        };
+      });
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          false,
+          `Profile ${Object.keys(attribute)[0]} updated`,
+          3000
+        )
+      );
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const fetchFavourite = () => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    dispatch(appLoading());
+    try {
+      const response = await axios.get(`${apiUrl}/favourite`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(addFavourite(response.data.favourite));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const postFavourite = (postId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    try {
+      const response = await axios.post(
+        `${apiUrl}/favourite`,
+        { postId: parseInt(postId) },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(addFavourite([response.data]));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deleteFavourite = (postId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    try {
+      await axios.delete(`${apiUrl}/favourite/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(removeFavourite(postId));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
     }
   };
 };

@@ -1,0 +1,20 @@
+.App {
+  margin: 0;
+  position: relative;
+  min-height: 100vh;
+
+  .App-Content {
+    padding: 2rem;
+    padding-bottom: 4rem;
+    h1 {
+      text-align: center;
+      font-size: 5rem;
+      font-family: "Libre Barcode 128 Text", cursive, Calibri;
+    }
+  }
+  .Footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}
