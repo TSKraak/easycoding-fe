@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Col, Form } from "react-bootstrap";
-import { editPostReply } from "../../store/post/actions";
-import { editRequestReply } from "../../store/request/actions";
+import { deletePostReply, editPostReply } from "../../store/post/actions";
+import {
+  deleteRequestComment,
+  deleteRequestReply,
+  editRequestReply,
+} from "../../store/request/actions";
 
 export default function EditReply(props) {
   const [text, setText] = useState(props.content);
@@ -24,6 +28,19 @@ export default function EditReply(props) {
     dispatch(
       editRequestReply(text, props.id, props.requestId, props.commentId)
     );
+    setText("");
+    props.edit();
+  }
+
+  function deleteComment(event) {
+    event.preventDefault();
+
+    if (props.commentType === "post") {
+      dispatch(deletePostReply(props.id, props.postId, props.commentId));
+      props.edit();
+      return setText("");
+    }
+    dispatch(deleteRequestReply(props.id, props.requestId, props.commentId));
     setText("");
     props.edit();
   }
@@ -58,6 +75,18 @@ export default function EditReply(props) {
             size="sm"
           >
             Submit
+          </Button>{" "}
+          <Button
+            variant="danger"
+            disabled={text ? false : true}
+            onClick={deleteComment}
+            style={{
+              fontSize: "0.7rem",
+              borderBottom: "inherit",
+            }}
+            size="sm"
+          >
+            Delete
           </Button>
         </Form.Group>
       </Form>

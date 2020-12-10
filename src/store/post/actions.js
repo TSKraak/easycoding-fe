@@ -350,3 +350,155 @@ export const editPostReply = (content, answerId, postId, commentId) => {
     }
   };
 };
+
+export const deletePostComment = (commentId, postId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+    try {
+      await axios.delete(`${apiUrl}/comment/${commentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const updatedPosts = posts.map((post) => {
+        if (post.id === parseInt(postId)) {
+          return {
+            ...post,
+            comments: [
+              ...post.comments.filter(
+                (comment) => comment.id !== parseInt(commentId)
+              ),
+            ],
+          };
+        }
+        return post;
+      });
+      dispatch(addEditPostComment(updatedPosts));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deletePostReply = (answerId, postId, commentId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+
+    try {
+      await axios.delete(`${apiUrl}/answer/${answerId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const updatedPosts = posts.map((post) => {
+        if (post.id === parseInt(postId)) {
+          const updatedComments = post.comments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                answers: [
+                  ...comment.answers.filter(
+                    (answer) => answer.id !== parseInt(answerId)
+                  ),
+                ],
+              };
+            }
+            return comment;
+          });
+          return { ...post, comments: updatedComments };
+        }
+        return post;
+      });
+
+      dispatch(addEditPostReply(updatedPosts));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deletePostCommentAdmin = (commentId, postId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+    try {
+      await axios.delete(`${apiUrl}/comment/admin/${commentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const updatedPosts = posts.map((post) => {
+        if (post.id === parseInt(postId)) {
+          return {
+            ...post,
+            comments: [
+              ...post.comments.filter(
+                (comment) => comment.id !== parseInt(commentId)
+              ),
+            ],
+          };
+        }
+        return post;
+      });
+      dispatch(addEditPostComment(updatedPosts));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deletePostReplyAdmin = (answerId, postId, commentId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+
+    try {
+      await axios.delete(`${apiUrl}/answer/admin/${answerId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const updatedPosts = posts.map((post) => {
+        if (post.id === parseInt(postId)) {
+          const updatedComments = post.comments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                answers: [
+                  ...comment.answers.filter(
+                    (answer) => answer.id !== parseInt(answerId)
+                  ),
+                ],
+              };
+            }
+            return comment;
+          });
+          return { ...post, comments: updatedComments };
+        }
+        return post;
+      });
+
+      dispatch(addEditPostReply(updatedPosts));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};

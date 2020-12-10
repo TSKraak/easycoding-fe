@@ -4,8 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAllPosts } from "../../store/post/selectors";
 import { Accordion, Button, Card, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { postNewPostComment, postNewPostReply } from "../../store/post/actions";
 import {
+  deletePostCommentAdmin,
+  deletePostReplyAdmin,
+  postNewPostComment,
+  postNewPostReply,
+} from "../../store/post/actions";
+import {
+  deleteRequestCommentAdmin,
+  deleteRequestReplyAdmin,
   postNewRequestComment,
   postNewRequestReply,
 } from "../../store/request/actions";
@@ -92,21 +99,36 @@ export default function Comments({ requestId, commentType }) {
                   <Button
                     style={{
                       fontSize: "0.7rem",
-                      borderBottom: "inherit",
                     }}
                     size="sm"
                     onClick={(e) => {
                       setEdit(!edit);
                       setEditId(e.target.value);
                     }}
-                    variant={
-                      edit && parseInt(editId) === comment.id
-                        ? "outline-secondary"
-                        : "secondary"
-                    }
+                    variant={"outline-primary"}
                     value={comment.id}
                   >
                     {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
+                  </Button>
+                ) : user.isAdmin ? (
+                  <Button
+                    style={{
+                      fontSize: "0.7rem",
+                    }}
+                    onClick={
+                      commentType === "post"
+                        ? () => {
+                            dispatch(deletePostCommentAdmin(comment.id, id));
+                          }
+                        : () => {
+                            dispatch(deleteRequestCommentAdmin(comment.id, id));
+                          }
+                    }
+                    size="sm"
+                    variant="outline-danger"
+                    value={comment.id}
+                  >
+                    Delete{" "}
                   </Button>
                 ) : null}
                 {edit && parseInt(editId) === comment.id ? (
@@ -163,25 +185,52 @@ export default function Comments({ requestId, commentType }) {
                                     <Button
                                       style={{
                                         fontSize: "0.7rem",
-                                        borderBottom: "inherit",
                                       }}
                                       size="sm"
                                       onClick={(e) => {
                                         setEditReply(!editReply);
                                         setEditReplyId(e.target.value);
                                       }}
-                                      variant={
-                                        editReply &&
-                                        parseInt(editReplyId) === answer.id
-                                          ? "outline-secondary"
-                                          : "secondary"
-                                      }
+                                      variant="outline-primary"
                                       value={answer.id}
                                     >
                                       {editReply &&
                                       parseInt(editReplyId) === answer.id
                                         ? "Close"
                                         : "Edit"}
+                                    </Button>
+                                  ) : user.isAdmin ? (
+                                    <Button
+                                      style={{
+                                        fontSize: "0.7rem",
+                                        borderBottom: "inherit",
+                                      }}
+                                      size="sm"
+                                      onClick={
+                                        commentType === "post"
+                                          ? () => {
+                                              dispatch(
+                                                deletePostReplyAdmin(
+                                                  answer.id,
+                                                  comment.id,
+                                                  id
+                                                )
+                                              );
+                                            }
+                                          : () => {
+                                              dispatch(
+                                                deleteRequestReplyAdmin(
+                                                  answer.id,
+                                                  comment.id,
+                                                  id
+                                                )
+                                              );
+                                            }
+                                      }
+                                      variant="outline-danger"
+                                      value={comment.id}
+                                    >
+                                      Delete{" "}
                                     </Button>
                                   ) : null}
                                 </p>

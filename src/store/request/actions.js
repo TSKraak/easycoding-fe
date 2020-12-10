@@ -364,3 +364,162 @@ export const editRequestReply = (content, answerId, requestId, commentId) => {
     }
   };
 };
+
+export const deleteRequestComment = (commentId, requestId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const requests = getState().request;
+    try {
+      await axios.delete(
+        `${apiUrl}/comment/${commentId}`,
+
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const updatedRequests = requests.map((request) => {
+        if (request.id === requestId) {
+          return {
+            ...request,
+            comments: [
+              ...request.comments.filter(
+                (comment) => comment.id !== parseInt(commentId)
+              ),
+            ],
+          };
+        }
+        return request;
+      });
+
+      dispatch(addEditRequestComment(updatedRequests));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deleteRequestReply = (answerId, requestId, commentId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const requests = getState().request;
+    try {
+      await axios.delete(`${apiUrl}/answer/${answerId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const updatedRequests = requests.map((request) => {
+        if (request.id === requestId) {
+          const updatedComments = request.comments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                answers: [
+                  ...comment.answers.filter(
+                    (answer) => answer.id !== parseInt(answerId)
+                  ),
+                ],
+              };
+            }
+            return comment;
+          });
+          return { ...request, comments: updatedComments };
+        }
+        return request;
+      });
+
+      dispatch(addEditRequestReply(updatedRequests));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deleteRequestCommentAdmin = (commentId, requestId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const requests = getState().request;
+    try {
+      await axios.delete(
+        `${apiUrl}/comment/admin/${commentId}`,
+
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const updatedRequests = requests.map((request) => {
+        if (request.id === requestId) {
+          return {
+            ...request,
+            comments: [
+              ...request.comments.filter(
+                (comment) => comment.id !== parseInt(commentId)
+              ),
+            ],
+          };
+        }
+        return request;
+      });
+
+      dispatch(addEditRequestComment(updatedRequests));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
+
+export const deleteRequestReplyAdmin = (answerId, requestId, commentId) => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    const requests = getState().request;
+    try {
+      await axios.delete(`${apiUrl}/answer/admin/${answerId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const updatedRequests = requests.map((request) => {
+        if (request.id === requestId) {
+          const updatedComments = request.comments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                answers: [
+                  ...comment.answers.filter(
+                    (answer) => answer.id !== parseInt(answerId)
+                  ),
+                ],
+              };
+            }
+            return comment;
+          });
+          return { ...request, comments: updatedComments };
+        }
+        return request;
+      });
+      dispatch(addEditRequestReply(updatedRequests));
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+    }
+  };
+};
