@@ -246,3 +246,57 @@ export const postNewPostReply = (content, postId, commentId) => {
     }
   };
 };
+
+const addEditPostComment = (updatedPosts) => {
+  return { type: "ADD_NEW_POST_COMMENT", payload: updatedPosts };
+};
+
+export const editPostComment = (content, commentId, postId) => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+
+    try {
+      const response = await axios.put(
+        `${apiUrl}/comment/${commentId}`,
+        {
+          content,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const updatedComment = response.data;
+
+      const updatedPosts = posts.map((post) => {
+        if (post.id === parseInt(postId)) {
+          return {
+            ...post,
+            comments: [
+              ...post.comments.filter(
+                (comment) => comment.id !== parseInt(commentId)
+              ),
+              updatedComment,
+            ],
+          };
+        }
+        return post;
+      });
+
+      dispatch(addEditPostComment(updatedPosts));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+

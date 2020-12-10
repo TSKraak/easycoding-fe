@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Col, Form } from "react-bootstrap";
-import { postNewPostComment } from "../../store/post/actions";
+import { editPostComment } from "../../store/post/actions";
 import { postNewRequestComment } from "../../store/request/actions";
 
 export default function EditComment(props) {
@@ -14,13 +14,19 @@ export default function EditComment(props) {
   function editComment(event) {
     event.preventDefault();
 
+    if (text === "") {
+      return;
+    }
+
     if (props.commentType === "post") {
-      dispatch(postNewPostComment(text, props.id));
+      dispatch(editPostComment(text, props.id, props.postId));
+      props.edit();
       return setText("");
     }
 
-    dispatch(postNewRequestComment(text, props.id));
+    dispatch(postNewRequestComment(text, props.id, props.postId));
     setText("");
+    props.edit();
   }
 
   return (

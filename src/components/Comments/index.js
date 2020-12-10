@@ -26,6 +26,7 @@ export default function Comments({ requestId, commentType }) {
   const [commentId, setCommentId] = useState("");
   const [edit, setEdit] = useState(false);
   const [editId, setEditId] = useState(0);
+
   // console.log("WHAT IS ID", id);
   // console.log("WHAT IS commentType", commentType);
 
@@ -80,6 +81,11 @@ export default function Comments({ requestId, commentType }) {
                   id={comment.id}
                   content={comment.content}
                   commentType={commentType}
+                  postId={parseInt(params.post)}
+                  requestId={requestId}
+                  edit={() => {
+                    setEdit(false);
+                  }}
                 />
               ) : null}
               <Card.Footer
