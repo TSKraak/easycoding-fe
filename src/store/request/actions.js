@@ -23,6 +23,20 @@ export const storeNewRequest = (request) => {
   };
 };
 
+export const storeUpdatedRequest = (request) => {
+  return {
+    type: "UPDATE_REQUEST",
+    payload: request,
+  };
+};
+
+export const storeDeleteRequest = (requestId) => {
+  return {
+    type: "DELETE_REQUEST",
+    payload: requestId,
+  };
+};
+
 export const fetchRequests = async (dispatch, getState) => {
   dispatch(appLoading());
   try {
@@ -153,6 +167,61 @@ export const postNewRequestReply = (content, requestId, commentId) => {
 
       dispatch(addNewRequestReply(newRequests));
       dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const updateRequest = (requestId, title, content) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.put(
+        `${apiUrl}/request/${requestId}`,
+        {
+          title,
+          content,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(storeUpdatedRequest(response.data));
+      dispatch(
+        showMessageWithTimeout("success", true, "Request Updated Successfully")
+      );
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const deleteRequest = (requestId) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.delete(`${apiUrl}/request/${requestId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(storeDeleteRequest(requestId));
+      dispatch(
+        showMessageWithTimeout("success", true, "Request Deleted Successfully")
+      );
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
