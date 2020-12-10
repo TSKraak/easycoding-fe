@@ -299,4 +299,60 @@ export const editPostComment = (content, commentId, postId) => {
   };
 };
 
+const addEditPostReply = (updatedPosts) => {
+  return { type: "ADD_NEW_POST_REPLY", payload: updatedPosts };
+};
 
+export const editPostReply = (content, answerId, postId, commentId) => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    const token = selectToken(getState());
+    const posts = getState().post.all;
+
+    try {
+      const response = await axios.put(
+        `${apiUrl}/answer/${answerId}`,
+        {
+          content,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const editReply = response.data;
+
+      const updatedPosts = posts.map((post) => {
+        if (post.id === parseInt(postId)) {
+          const updatedComments = post.comments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                answers: [
+                  ...comment.answers.filter(
+                    (answer) => answer.id !== parseInt(answerId)
+                  ),
+                  editReply,
+                ],
+              };
+            }
+            return comment;
+          });
+          return { ...post, comments: updatedComments };
+        }
+        return post;
+      });
+
+      dispatch(addEditPostReply(updatedPosts));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
