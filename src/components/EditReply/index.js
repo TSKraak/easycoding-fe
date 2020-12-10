@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Col, Form } from "react-bootstrap";
 import { deletePostReply, editPostReply } from "../../store/post/actions";
-import { editRequestReply } from "../../store/request/actions";
+import {
+  deleteRequestComment,
+  editRequestReply,
+} from "../../store/request/actions";
 
 export default function EditReply(props) {
   const [text, setText] = useState(props.content);
@@ -36,8 +39,7 @@ export default function EditReply(props) {
       props.edit();
       return setText("");
     }
-
-    // dispatch(editRequestComment(props.id, props.requestId));
+    dispatch(deleteRequestComment(props.id, props.requestId, props.commentId));
     setText("");
     props.edit();
   }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Col, Form } from "react-bootstrap";
 import { deletePostComment, editPostComment } from "../../store/post/actions";
-import { editRequestComment } from "../../store/request/actions";
+import { deleteRequestComment, editRequestComment } from "../../store/request/actions";
 
 export default function EditComment(props) {
   const [text, setText] = useState(props.content);
@@ -35,7 +35,7 @@ export default function EditComment(props) {
       return setText("");
     }
 
-    dispatch(editRequestComment(props.id, props.requestId));
+    dispatch(deleteRequestComment(props.id, props.requestId));
     setText("");
     props.edit();
   }
