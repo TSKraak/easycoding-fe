@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "../../store/appState/selectors";
-import { fetchRequests } from "../../store/request/actions";
+import { fetchRequests, updateRequest } from "../../store/request/actions";
 import { selectRequests } from "../../store/request/selectors";
 import { Accordion, Button, Card, Form, FormControl } from "react-bootstrap";
 import moment from "moment";
@@ -13,6 +13,7 @@ export default function RequestPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [validated, setValidated] = useState(false);
+  const [requestId, setRequestId] = useState("");
   const history = useHistory();
   const token = useSelector(selectToken);
   const { searchText: searchTextParams } = useParams();
@@ -60,9 +61,10 @@ export default function RequestPage() {
     event.preventDefault();
 
     if (title !== "" && content !== "") {
-      // await dispatch(addRequest(title, content));
+      await dispatch(updateRequest(requestId, title, content));
       setTitle("");
       setContent("");
+      setRequestId("");
       history.push("/requests");
     }
   }
@@ -130,7 +132,10 @@ export default function RequestPage() {
                             <Form.Label>Request Title</Form.Label>
                             <Form.Control
                               value={title}
-                              onChange={(event) => setTitle(event.target.value)}
+                              onChange={(event) => {
+                                setTitle(event.target.value);
+                                return setRequestId(req.id);
+                              }}
                               type="title"
                               placeholder="Enter title"
                               required

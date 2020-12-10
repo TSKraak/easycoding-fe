@@ -15,6 +15,16 @@ export default (state = initialState, action) => {
     case "ADD_NEW_REQUEST_REPLY":
       return action.payload;
 
+    case "UPDATE_REQUEST":
+      const filteredState = state.filter((request) => {
+        if (request.id === action.payload.id) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      return [...filteredState, action.payload];
+
     default:
       return state;
   }
