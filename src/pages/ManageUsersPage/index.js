@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { blockUser, getAllUsers } from "../../store/allUsers/actions";
 import { selectAllUsers } from "../../store/allUsers/selectors";
-import { Button, Container, Jumbotron, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { selectUser } from "../../store/user/selectors";
 import { Redirect } from "react-router-dom";
 
