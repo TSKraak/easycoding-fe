@@ -19,6 +19,19 @@ export default (state = initialState, action) => {
         }),
       ];
 
+    case "UPDATE_ADMIN":
+      return [
+        ...state.map((user) => {
+          if (user.id === parseInt(action.payload)) {
+            return {
+              ...user,
+              isAdmin: !user.isAdmin,
+            };
+          }
+          return user;
+        }),
+      ];
+
     default:
       return state;
   }
