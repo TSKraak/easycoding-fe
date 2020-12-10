@@ -16,14 +16,24 @@ export default (state = initialState, action) => {
       return action.payload;
 
     case "UPDATE_REQUEST":
-      const filteredState = state.filter((request) => {
+      const filteredStateUpdate = state.filter((request) => {
         if (request.id === action.payload.id) {
           return false;
         } else {
           return true;
         }
       });
-      return [...filteredState, action.payload];
+      return [...filteredStateUpdate, action.payload];
+
+    case "DELETE_REQUEST":
+      const filteredStateDelete = state.filter((request) => {
+        if (request.id === action.payload) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      return filteredStateDelete;
 
     default:
       return state;

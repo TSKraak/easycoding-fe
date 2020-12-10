@@ -109,7 +109,9 @@ export default function RequestPage() {
                 key={req.id}
                 style={{ margin: "1rem", width: "60rem", alignSelf: "center" }}
               >
-                <Card.Header>{req.title}</Card.Header>
+                <Card.Header>
+                  {req.title} <Button variant="outline-danger">Delete</Button>
+                </Card.Header>
                 <Card.Body>
                   <Card.Text>{req.content}</Card.Text>
                 </Card.Body>
