@@ -39,7 +39,7 @@ export default function UploadUserImage(props) {
         onClick={handleOpen}
         variant="outline-dark"
       >
-        {!props.picture ? "Upload new" : "Change Picture"}
+        {!props.picture ? "Upload picture" : "Change Picture"}
       </Button>
     </div>
   );

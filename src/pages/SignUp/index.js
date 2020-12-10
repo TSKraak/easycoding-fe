@@ -57,7 +57,6 @@ export default function SignUp() {
             required
           />
         </Form.Group>
-
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -68,6 +67,7 @@ export default function SignUp() {
             required
           />
         </Form.Group>
+        <p style={{ marginBottom: "0.5rem" }}>Profile picture</p>
         <UploadUserImage picture={picture} setPicture={setPicture} />
         <Form.Group className="mt-5">
           <Button
