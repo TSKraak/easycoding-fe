@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "../../store/appState/selectors";
-import { fetchRequests, updateRequest } from "../../store/request/actions";
+import {
+  deleteRequest,
+  fetchRequests,
+  updateRequest,
+} from "../../store/request/actions";
 import { selectRequests } from "../../store/request/selectors";
 import { Accordion, Button, Card, Form, FormControl } from "react-bootstrap";
 import moment from "moment";
@@ -110,7 +114,13 @@ export default function RequestPage() {
                 style={{ margin: "1rem", width: "60rem", alignSelf: "center" }}
               >
                 <Card.Header>
-                  {req.title} <Button variant="outline-danger">Delete</Button>
+                  {req.title}{" "}
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => dispatch(deleteRequest(req.id))}
+                  >
+                    Delete
+                  </Button>
                 </Card.Header>
                 <Card.Body>
                   <Card.Text>{req.content}</Card.Text>
