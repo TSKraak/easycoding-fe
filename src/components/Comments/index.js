@@ -21,6 +21,8 @@ import { selectRequests } from "../../store/request/selectors";
 import { selectUser } from "../../store/user/selectors";
 import EditComment from "../EditComment";
 import EditReply from "../EditReply";
+import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 
 export default function Comments({ requestId, commentType }) {
   const [commentText, setCommentText] = useState("");
@@ -82,7 +84,7 @@ export default function Comments({ requestId, commentType }) {
               className="mb-2"
             >
               <Card.Body>
-                <Card.Text>{comment.content}</Card.Text>
+                <ReactMarkdown plugins={[gfm]} children={comment.content} />{" "}
               </Card.Body>
 
               <Card.Footer
@@ -172,7 +174,10 @@ export default function Comments({ requestId, commentType }) {
                               <Card.Body
                                 style={{ borderBottom: "solid 1px lightgrey" }}
                               >
-                                {answer.content}
+                                <ReactMarkdown
+                                  plugins={[gfm]}
+                                  children={answer.content}
+                                />
                                 <p style={{ margin: "0", fontSize: "0.7rem" }}>
                                   by {answer.user.name} on{" "}
                                   {moment(answer.createdAt).format(
@@ -279,6 +284,10 @@ export default function Comments({ requestId, commentType }) {
                       <Form as={Col} md={{ span: 8 }} className="mt-3">
                         <h6>New reply:</h6>
                         <Form.Group controlId="formBasicReplyText">
+                          <Form.Text className="text-muted">
+                            This form uses MarkDown text formatting. Learn more{" "}
+                            <a href="https://commonmark.org/help/">here!</a>
+                          </Form.Text>
                           <Form.Control
                             value={replyText}
                             onChange={(event) => {
@@ -316,6 +325,10 @@ export default function Comments({ requestId, commentType }) {
       <Form as={Col} md={{ span: 6 }} className="mt-3">
         <h5>New comment:</h5>
         <Form.Group controlId="formBasicCommentText">
+          <Form.Text className="text-muted">
+            This form uses MarkDown text formatting. Learn more{" "}
+            <a href="https://commonmark.org/help/">here!</a>
+          </Form.Text>
           <Form.Control
             value={commentText}
             onChange={(event) => setCommentText(event.target.value)}
