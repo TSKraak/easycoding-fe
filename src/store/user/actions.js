@@ -128,6 +128,13 @@ export const getUserWithStoredToken = () => {
   };
 };
 
+const addUpdated = (attribute) => {
+  return {
+    type: "USER_UPDATE",
+    payload: { ...attribute },
+  };
+};
+
 export const updateUser = (attribute) => {
   return async (dispatch, getState) => {
     const token = selectToken(getState());
@@ -140,14 +147,7 @@ export const updateUser = (attribute) => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      dispatch((attribute) => {
-        return {
-          type: "USER_UPDATE",
-          payload: {
-            attribute,
-          },
-        };
-      });
+      dispatch(addUpdated(attribute));
       dispatch(
         showMessageWithTimeout(
           "success",

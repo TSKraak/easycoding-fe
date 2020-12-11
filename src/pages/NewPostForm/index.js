@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { Button, Container, Form, Jumbotron } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import gfm from "remark-gfm";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import { selectPictures } from "../../store/picture/selectors";
 import DisplayPicture from "../../components/DisplayPicture";
+import { removeAllPicture } from "../../store/picture/actions";
 
 export default function NewPostForm() {
   const [title, setTitle] = useState("");
@@ -24,7 +25,9 @@ export default function NewPostForm() {
   if (!token) {
     history.push("/login");
   }
-
+  useEffect(() => {
+    dispatch(removeAllPicture());
+  }, [dispatch]);
   async function submitForm(event) {
     event.preventDefault();
 
