@@ -44,7 +44,7 @@ export default function ManageUsersPage() {
       >
         All Users
       </h1>
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered hover variant="secondary">
         <thead>
           <tr>
             <th>Name</th>

@@ -6,7 +6,7 @@ export default function Footer() {
     <Container
       fluid
       style={{
-        background: "lightgrey",
+        background: "#eaebeb",
         padding: "1rem",
       }}
     >
