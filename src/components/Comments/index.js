@@ -108,7 +108,7 @@ export default function Comments({ requestId, commentType }) {
                         setEdit(!edit);
                         setEditId(e.target.value);
                       }}
-                      variant={"outline-primary"}
+                      variant={"outline-secondary"}
                       value={comment.id}
                     >
                       {edit && parseInt(editId) === comment.id
@@ -215,7 +215,7 @@ export default function Comments({ requestId, commentType }) {
                                           setEditReply(!editReply);
                                           setEditReplyId(e.target.value);
                                         }}
-                                        variant="outline-primary"
+                                        variant="outline-secondary"
                                         value={answer.id}
                                       >
                                         {editReply &&
