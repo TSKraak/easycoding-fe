@@ -5,13 +5,17 @@ import { selectAllPosts } from "../../store/post/selectors";
 import { Accordion, Button, Card, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import {
+  deletePostComment,
   deletePostCommentAdmin,
+  deletePostReply,
   deletePostReplyAdmin,
   postNewPostComment,
   postNewPostReply,
 } from "../../store/post/actions";
 import {
+  deleteRequestComment,
   deleteRequestCommentAdmin,
+  deleteRequestReply,
   deleteRequestReplyAdmin,
   postNewRequestComment,
   postNewRequestReply,
@@ -96,20 +100,42 @@ export default function Comments({ requestId, commentType }) {
                 by {comment.user.name} on{" "}
                 {moment(comment.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
                 {user && user.id === comment.user.id ? (
-                  <Button
-                    style={{
-                      fontSize: "0.7rem",
-                    }}
-                    size="sm"
-                    onClick={(e) => {
-                      setEdit(!edit);
-                      setEditId(e.target.value);
-                    }}
-                    variant={"outline-primary"}
-                    value={comment.id}
-                  >
-                    {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
-                  </Button>
+                  <>
+                    <Button
+                      style={{
+                        fontSize: "0.7rem",
+                      }}
+                      size="sm"
+                      onClick={(e) => {
+                        setEdit(!edit);
+                        setEditId(e.target.value);
+                      }}
+                      variant={"outline-secondary"}
+                      value={comment.id}
+                    >
+                      {edit && parseInt(editId) === comment.id
+                        ? "Close"
+                        : "Edit"}
+                    </Button>{" "}
+                    <Button
+                      variant="outline-danger"
+                      onClick={
+                        commentType === "post"
+                          ? () => {
+                              dispatch(deletePostComment(comment.id, id));
+                            }
+                          : () => {
+                              dispatch(deleteRequestComment(comment.id, id));
+                            }
+                      }
+                      style={{
+                        fontSize: "0.7rem",
+                      }}
+                      size="sm"
+                    >
+                      Delete
+                    </Button>
+                  </>
                 ) : user.isAdmin ? (
                   <Button
                     style={{
@@ -184,23 +210,55 @@ export default function Comments({ requestId, commentType }) {
                                     "ddd DD MMMM YYYY HH:mm"
                                   )}{" "}
                                   {user && user.id === answer.user.id ? (
-                                    <Button
-                                      style={{
-                                        fontSize: "0.7rem",
-                                      }}
-                                      size="sm"
-                                      onClick={(e) => {
-                                        setEditReply(!editReply);
-                                        setEditReplyId(e.target.value);
-                                      }}
-                                      variant="outline-primary"
-                                      value={answer.id}
-                                    >
-                                      {editReply &&
-                                      parseInt(editReplyId) === answer.id
-                                        ? "Close"
-                                        : "Edit"}
-                                    </Button>
+                                    <>
+                                      <Button
+                                        style={{
+                                          fontSize: "0.7rem",
+                                        }}
+                                        size="sm"
+                                        onClick={(e) => {
+                                          setEditReply(!editReply);
+                                          setEditReplyId(e.target.value);
+                                        }}
+                                        variant="outline-secondary"
+                                        value={answer.id}
+                                      >
+                                        {editReply &&
+                                        parseInt(editReplyId) === answer.id
+                                          ? "Close"
+                                          : "Edit"}
+                                      </Button>{" "}
+                                      <Button
+                                        variant="outline-danger"
+                                        onClick={
+                                          commentType === "post"
+                                            ? () => {
+                                                dispatch(
+                                                  deletePostReply(
+                                                    answer.id,
+                                                    id,
+                                                    comment.id
+                                                  )
+                                                );
+                                              }
+                                            : () => {
+                                                dispatch(
+                                                  deleteRequestReply(
+                                                    answer.id,
+                                                    id,
+                                                    comment.id
+                                                  )
+                                                );
+                                              }
+                                        }
+                                        style={{
+                                          fontSize: "0.7rem",
+                                        }}
+                                        size="sm"
+                                      >
+                                        Delete
+                                      </Button>
+                                    </>
                                   ) : user.isAdmin ? (
                                     <Button
                                       style={{
@@ -213,8 +271,8 @@ export default function Comments({ requestId, commentType }) {
                                               dispatch(
                                                 deletePostReplyAdmin(
                                                   answer.id,
-                                                  comment.id,
-                                                  id
+                                                  id,
+                                                  comment.id
                                                 )
                                               );
                                             }
@@ -222,8 +280,8 @@ export default function Comments({ requestId, commentType }) {
                                               dispatch(
                                                 deleteRequestReplyAdmin(
                                                   answer.id,
-                                                  comment.id,
-                                                  id
+                                                  id,
+                                                  comment.id
                                                 )
                                               );
                                             }

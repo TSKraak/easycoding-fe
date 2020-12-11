@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Accordion, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -42,31 +42,40 @@ export default function EditRequestForm({ req }) {
   }
 
   return (
-    <div style={{ marginTop: "0rem" }}>
-      <Accordion>
+    <>
+      <Button
+        variant="outline-secondary"
+        onClick={() => {
+          setEditButton(editButton === true ? false : true);
+        }}
+        style={{
+          fontSize: "0.7rem",
+        }}
+      >
+        Edit
+      </Button>{" "}
+      {user.isAdmin ? (
         <Button
-          variant="outline-secondary"
-          onClick={() => {
-            setEditButton(editButton === true ? false : true);
+          variant="outline-danger"
+          onClick={() => dispatch(deleteRequestAdmin(req.id))}
+          style={{
+            fontSize: "0.7rem",
           }}
         >
-          Edit
-        </Button>{" "}
-        {user.isAdmin ? (
-          <Button
-            variant="outline-danger"
-            onClick={() => dispatch(deleteRequestAdmin(req.id))}
-          >
-            Delete
-          </Button>
-        ) : (
-          <Button
-            variant="outline-danger"
-            onClick={() => dispatch(deleteRequest(req.id))}
-          >
-            Delete
-          </Button>
-        )}
+          Delete
+        </Button>
+      ) : (
+        <Button
+          variant="outline-danger"
+          onClick={() => dispatch(deleteRequest(req.id))}
+          style={{
+            fontSize: "0.7rem",
+          }}
+        >
+          Delete
+        </Button>
+      )}
+      <div style={{ marginTop: "0rem" }}>
         {editButton === true ? (
           <Form
             md={{ span: 6, offset: 3 }}
@@ -122,7 +131,7 @@ export default function EditRequestForm({ req }) {
             </Form.Group>
           </Form>
         ) : null}
-      </Accordion>
-    </div>
+      </div>
+    </>
   );
 }

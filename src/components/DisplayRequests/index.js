@@ -26,24 +26,15 @@ export default function DisplayRequest({ req }) {
         </Card.Body>
         <Card.Footer
           style={{
-            background: "none",
-          }}
-        >
-          {user.id === req.user.id || user.isAdmin ? (
-            <EditRequestForm req={req} />
-          ) : null}
-        </Card.Footer>
-        <Card.Footer
-          style={{
             borderBottom: "solid 1px lightgrey",
             fontSize: "0.8rem",
           }}
         >
           Requested by {req.user.name} on{" "}
           {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
-          {/* {user.id === req.user.id || user.isAdmin ? (
+          {user.id === req.user.id || user.isAdmin ? (
             <EditRequestForm req={req} />
-          ) : null} */}
+          ) : null}
         </Card.Footer>
         <Accordion>
           <Card
