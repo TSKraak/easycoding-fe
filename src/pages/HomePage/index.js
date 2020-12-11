@@ -13,7 +13,8 @@ export default function HomePage() {
   const [searchText, setSearchText] = useState("");
   const history = useHistory();
 
-  const searchNow = () => {
+  const searchNow = (e) => {
+    e.preventDefault();
     return history.push(`/posts/${searchText}`);
   };
 
@@ -33,7 +34,7 @@ export default function HomePage() {
             <Button
               variant="outline-secondary"
               type="submit"
-              onClick={() => searchNow()}
+              onClick={searchNow}
             >
               Search
             </Button>
