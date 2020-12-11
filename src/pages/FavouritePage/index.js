@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, FormControl, Button } from "react-bootstrap";
+import { Form, FormControl, Button, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import {
@@ -64,16 +64,24 @@ export default function FavouritePage() {
           margin: "20px",
         }}
       >
-        <FormControl
-          value={searchText}
-          onChange={(event) => setSearchText(event.target.value)}
-          type="text"
-          placeholder="Search For Posts"
-          className="mr-sm-2"
-        />
-        <Button variant="outline-primary" onClick={submitForm}>
-          Search
-        </Button>
+        <InputGroup style={{ width: "20%", margin: "5% 0% 5% 0%" }}>
+          <FormControl
+            placeholder="Search Posts for.."
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+          />
+          <InputGroup.Append>
+            <Button
+              variant="outline-primary"
+              type="submit"
+              onClick={submitForm}
+            >
+              Search
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
         <p style={{ margin: "20px" }}>or</p>
         <Link to={!token ? "/login" : "/post/new"}>
           <Button variant="outline-success">Create New Post</Button>
@@ -86,6 +94,8 @@ export default function FavouritePage() {
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "flex-start",
+          marginLeft: "5%",
+          marginRight: "5%",
         }}
       >
         {!favourites ? (

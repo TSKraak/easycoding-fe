@@ -14,7 +14,7 @@ export default function ManageUsersPage() {
   const dispatch = useDispatch();
   const users = useSelector(selectAllUsers);
   const user = useSelector(selectUser);
-
+  const { id } = user;
   useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
@@ -44,7 +44,7 @@ export default function ManageUsersPage() {
       >
         All Users
       </h1>
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered hover variant="secondary">
         <thead>
           <tr>
             <th>Name</th>
@@ -67,6 +67,7 @@ export default function ManageUsersPage() {
                         onClick={handleAdmin}
                         value={user.id}
                         variant={!user.isAdmin ? "danger" : "secondary"}
+                        disabled={user.id === id ? true : false}
                       >
                         {!user.isAdmin ? "No" : "Yes"}
                       </Button>
@@ -76,6 +77,7 @@ export default function ManageUsersPage() {
                         onClick={handleBlock}
                         value={user.id}
                         variant={!user.accountBlocked ? "secondary" : "danger"}
+                        disabled={user.id === id ? true : false}
                       >
                         {!user.accountBlocked ? "Block" : "Unblock"}
                       </Button>

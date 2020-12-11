@@ -18,7 +18,6 @@ export default function ImagePreview() {
     <>
       <div className="imagePreview">
         {pictures.map((pic) => {
-          console.log(pic.id);
           return (
             <div key={pic.id} className="img-wrap lock">
               <button className="close" onClick={handleRemove} value={pic.id}>

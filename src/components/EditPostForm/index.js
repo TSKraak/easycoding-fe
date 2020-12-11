@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Jumbotron } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import UploadPostPicture from "../../components/UploadPostPicture";
 import { updatePost, deletePost } from "../../store/post/actions";
 import { selectToken, selectUser } from "../../store/user/selectors";
 import ImagePreviewEdit from "../PreviewPictureEdit";
+import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
+import moment from "moment";
+import { selectPictures } from "../../store/picture/selectors";
+import DisplayPicture from "../DisplayPicture";
 
 export default function EditPostForm(props) {
   const history = useHistory();
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
+  const pictures = useSelector(selectPictures);
   const [title, setTitle] = useState(props.post.title || "");
   const [content, setContent] = useState(props.post.content || "");
   const [validated, setValidated] = useState(false);
@@ -69,6 +75,10 @@ export default function EditPostForm(props) {
           </Form.Group>
           <Form.Group controlId="formPostText">
             <Form.Label>Post Text</Form.Label>
+            <Form.Text className="text-muted">
+              This form uses MarkDown text formatting. Learn more{" "}
+              <a href="https://markdown-it.github.io/">here!</a>
+            </Form.Text>
             <Form.Control
               value={content}
               onChange={(event) => setContent(event.target.value)}
@@ -85,15 +95,41 @@ export default function EditPostForm(props) {
           <ImagePreviewEdit postId={props.post.id} />
           <UploadPostPicture />
           <Form.Group className="mt-5">
-            <Button variant="primary" type="submit">
+            <Button variant="success" type="submit">
               Edit Post
+            </Button>{" "}
+            <Button variant="danger" onClick={handleDelete}>
+              Delete Post
             </Button>
           </Form.Group>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete Post
-          </Button>
         </Form>
       </Container>
+      {content || pictures.length !== 0 ? (
+        <Jumbotron fluid>
+          <Container>
+            <div>
+              <h3>{title}</h3>
+              <p>
+                <strong>
+                  Written by {user.name} on{" "}
+                  {moment(new Date()).format("ddd DD MMMM YYYY HH:mm")}{" "}
+                  <img
+                    src={user.picture}
+                    style={{ width: "30px", borderRadius: "50px" }}
+                    alt="user-name"
+                  />
+                </strong>
+              </p>
+              <div>
+                <ReactMarkdown plugins={[gfm]} children={content} />
+              </div>
+              {pictures.length !== 0 ? (
+                <DisplayPicture pictures={pictures} />
+              ) : null}
+            </div>
+          </Container>
+        </Jumbotron>
+      ) : null}
     </div>
   );
 }

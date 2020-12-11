@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { Button, Container, Form, Jumbotron } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,10 @@ import UploadPostPicture from "../../components/UploadPostPicture";
 import { createPost } from "../../store/post/actions";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
-import { selectUser } from "../../store/user/selectors";
+import { selectToken, selectUser } from "../../store/user/selectors";
+import { selectPictures } from "../../store/picture/selectors";
+import DisplayPicture from "../../components/DisplayPicture";
+import { removeAllPicture } from "../../store/picture/actions";
 
 export default function NewPostForm() {
   const [title, setTitle] = useState("");
@@ -17,7 +20,14 @@ export default function NewPostForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(selectUser);
-
+  const pictures = useSelector(selectPictures);
+  const token = useSelector(selectToken);
+  if (!token) {
+    history.push("/login");
+  }
+  useEffect(() => {
+    dispatch(removeAllPicture());
+  }, [dispatch]);
   async function submitForm(event) {
     event.preventDefault();
 
@@ -63,7 +73,7 @@ export default function NewPostForm() {
             <Form.Label>Post content</Form.Label>
             <Form.Text className="text-muted">
               This form uses MarkDown text formatting. Learn more{" "}
-              <a href="https://commonmark.org/help/">here!</a>
+              <a href="https://markdown-it.github.io/">here!</a>
             </Form.Text>
             <Form.Control
               value={content}
@@ -84,31 +94,36 @@ export default function NewPostForm() {
           <ImagePreview />
           <UploadPostPicture />
           <Form.Group className="mt-5">
-            <Button variant="primary" type="submit">
+            <Button variant="success" type="submit">
               Create Post
             </Button>
           </Form.Group>
         </Form>
       </Container>
-      {content ? (
+      {content || pictures.length !== 0 ? (
         <Jumbotron fluid>
           <Container>
             <div>
-              <h3>{title}</h3>
-              <p>
-                <strong>
-                  Written by {user.name} on{" "}
-                  {moment(new Date()).format("ddd DD MMMM YYYY HH:mm")}{" "}
+              <div
+                style={{ borderBottom: "solid 1px grey", marginBottom: "1rem" }}
+              >
+                <h1>{title}</h1>
+                <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
                   <img
                     src={user.picture}
                     style={{ width: "30px", borderRadius: "50px" }}
-                    alt="user-name"
-                  />
-                </strong>
-              </p>
+                    alt="author-name"
+                  />{" "}
+                  Written by {user.name} on{" "}
+                  {moment(new Date()).format("ddd DD MMMM YYYY HH:mm")}
+                </p>
+              </div>
               <div>
                 <ReactMarkdown plugins={[gfm]} children={content} />
               </div>
+              {pictures.length !== 0 ? (
+                <DisplayPicture pictures={pictures} />
+              ) : null}
             </div>
           </Container>
         </Jumbotron>

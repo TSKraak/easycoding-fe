@@ -5,13 +5,17 @@ import { selectAllPosts } from "../../store/post/selectors";
 import { Accordion, Button, Card, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import {
+  deletePostComment,
   deletePostCommentAdmin,
+  deletePostReply,
   deletePostReplyAdmin,
   postNewPostComment,
   postNewPostReply,
 } from "../../store/post/actions";
 import {
+  deleteRequestComment,
   deleteRequestCommentAdmin,
+  deleteRequestReply,
   deleteRequestReplyAdmin,
   postNewRequestComment,
   postNewRequestReply,
@@ -21,6 +25,8 @@ import { selectRequests } from "../../store/request/selectors";
 import { selectUser } from "../../store/user/selectors";
 import EditComment from "../EditComment";
 import EditReply from "../EditReply";
+import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 
 export default function Comments({ requestId, commentType }) {
   const [commentText, setCommentText] = useState("");
@@ -82,7 +88,7 @@ export default function Comments({ requestId, commentType }) {
               className="mb-2"
             >
               <Card.Body>
-                <Card.Text>{comment.content}</Card.Text>
+                <ReactMarkdown plugins={[gfm]} children={comment.content} />{" "}
               </Card.Body>
 
               <Card.Footer
@@ -94,20 +100,42 @@ export default function Comments({ requestId, commentType }) {
                 by {comment.user.name} on{" "}
                 {moment(comment.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
                 {user && user.id === comment.user.id ? (
-                  <Button
-                    style={{
-                      fontSize: "0.7rem",
-                    }}
-                    size="sm"
-                    onClick={(e) => {
-                      setEdit(!edit);
-                      setEditId(e.target.value);
-                    }}
-                    variant={"outline-primary"}
-                    value={comment.id}
-                  >
-                    {edit && parseInt(editId) === comment.id ? "Close" : "Edit"}
-                  </Button>
+                  <>
+                    <Button
+                      style={{
+                        fontSize: "0.7rem",
+                      }}
+                      size="sm"
+                      onClick={(e) => {
+                        setEdit(!edit);
+                        setEditId(e.target.value);
+                      }}
+                      variant={"outline-secondary"}
+                      value={comment.id}
+                    >
+                      {edit && parseInt(editId) === comment.id
+                        ? "Close"
+                        : "Edit"}
+                    </Button>{" "}
+                    <Button
+                      variant="outline-danger"
+                      onClick={
+                        commentType === "post"
+                          ? () => {
+                              dispatch(deletePostComment(comment.id, id));
+                            }
+                          : () => {
+                              dispatch(deleteRequestComment(comment.id, id));
+                            }
+                      }
+                      style={{
+                        fontSize: "0.7rem",
+                      }}
+                      size="sm"
+                    >
+                      Delete
+                    </Button>
+                  </>
                 ) : user.isAdmin ? (
                   <Button
                     style={{
@@ -172,30 +200,65 @@ export default function Comments({ requestId, commentType }) {
                               <Card.Body
                                 style={{ borderBottom: "solid 1px lightgrey" }}
                               >
-                                {answer.content}
+                                <ReactMarkdown
+                                  plugins={[gfm]}
+                                  children={answer.content}
+                                />
                                 <p style={{ margin: "0", fontSize: "0.7rem" }}>
                                   by {answer.user.name} on{" "}
                                   {moment(answer.createdAt).format(
                                     "ddd DD MMMM YYYY HH:mm"
                                   )}{" "}
                                   {user && user.id === answer.user.id ? (
-                                    <Button
-                                      style={{
-                                        fontSize: "0.7rem",
-                                      }}
-                                      size="sm"
-                                      onClick={(e) => {
-                                        setEditReply(!editReply);
-                                        setEditReplyId(e.target.value);
-                                      }}
-                                      variant="outline-primary"
-                                      value={answer.id}
-                                    >
-                                      {editReply &&
-                                      parseInt(editReplyId) === answer.id
-                                        ? "Close"
-                                        : "Edit"}
-                                    </Button>
+                                    <>
+                                      <Button
+                                        style={{
+                                          fontSize: "0.7rem",
+                                        }}
+                                        size="sm"
+                                        onClick={(e) => {
+                                          setEditReply(!editReply);
+                                          setEditReplyId(e.target.value);
+                                        }}
+                                        variant="outline-secondary"
+                                        value={answer.id}
+                                      >
+                                        {editReply &&
+                                        parseInt(editReplyId) === answer.id
+                                          ? "Close"
+                                          : "Edit"}
+                                      </Button>{" "}
+                                      <Button
+                                        variant="outline-danger"
+                                        onClick={
+                                          commentType === "post"
+                                            ? () => {
+                                                dispatch(
+                                                  deletePostReply(
+                                                    answer.id,
+                                                    id,
+                                                    comment.id
+                                                  )
+                                                );
+                                              }
+                                            : () => {
+                                                dispatch(
+                                                  deleteRequestReply(
+                                                    answer.id,
+                                                    id,
+                                                    comment.id
+                                                  )
+                                                );
+                                              }
+                                        }
+                                        style={{
+                                          fontSize: "0.7rem",
+                                        }}
+                                        size="sm"
+                                      >
+                                        Delete
+                                      </Button>
+                                    </>
                                   ) : user.isAdmin ? (
                                     <Button
                                       style={{
@@ -208,8 +271,8 @@ export default function Comments({ requestId, commentType }) {
                                               dispatch(
                                                 deletePostReplyAdmin(
                                                   answer.id,
-                                                  comment.id,
-                                                  id
+                                                  id,
+                                                  comment.id
                                                 )
                                               );
                                             }
@@ -217,8 +280,8 @@ export default function Comments({ requestId, commentType }) {
                                               dispatch(
                                                 deleteRequestReplyAdmin(
                                                   answer.id,
-                                                  comment.id,
-                                                  id
+                                                  id,
+                                                  comment.id
                                                 )
                                               );
                                             }
@@ -279,6 +342,10 @@ export default function Comments({ requestId, commentType }) {
                       <Form as={Col} md={{ span: 8 }} className="mt-3">
                         <h6>New reply:</h6>
                         <Form.Group controlId="formBasicReplyText">
+                          <Form.Text className="text-muted">
+                            This form uses MarkDown text formatting. Learn more{" "}
+                            <a href="https://markdown-it.github.io/">here!</a>
+                          </Form.Text>
                           <Form.Control
                             value={replyText}
                             onChange={(event) => {
@@ -316,6 +383,10 @@ export default function Comments({ requestId, commentType }) {
       <Form as={Col} md={{ span: 6 }} className="mt-3">
         <h5>New comment:</h5>
         <Form.Group controlId="formBasicCommentText">
+          <Form.Text className="text-muted">
+            This form uses MarkDown text formatting. Learn more{" "}
+            <a href="https://markdown-it.github.io/">here!</a>
+          </Form.Text>
           <Form.Control
             value={commentText}
             onChange={(event) => setCommentText(event.target.value)}

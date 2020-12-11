@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Accordion, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -42,34 +42,44 @@ export default function EditRequestForm({ req }) {
   }
 
   return (
-    <div style={{ marginTop: "0.5rem" }}>
-      <Accordion>
+    <>
+      <Button
+        variant="outline-secondary"
+        onClick={() => {
+          setEditButton(editButton === true ? false : true);
+        }}
+        style={{
+          fontSize: "0.7rem",
+        }}
+      >
+        Edit
+      </Button>{" "}
+      {user.isAdmin ? (
         <Button
-          variant="outline-primary"
-          onClick={() => {
-            setEditButton(editButton === true ? false : true);
+          variant="outline-danger"
+          onClick={() => dispatch(deleteRequestAdmin(req.id))}
+          style={{
+            fontSize: "0.7rem",
           }}
         >
-          Edit
-        </Button>{" "}
-        {user.isAdmin ? (
-          <Button
-            variant="outline-danger"
-            onClick={() => dispatch(deleteRequestAdmin(req.id))}
-          >
-            Delete
-          </Button>
-        ) : (
-          <Button
-            variant="outline-danger"
-            onClick={() => dispatch(deleteRequest(req.id))}
-          >
-            Delete
-          </Button>
-        )}
+          Delete
+        </Button>
+      ) : (
+        <Button
+          variant="outline-danger"
+          onClick={() => dispatch(deleteRequest(req.id))}
+          style={{
+            fontSize: "0.7rem",
+          }}
+        >
+          Delete
+        </Button>
+      )}
+      <div style={{ marginTop: "0rem" }}>
         {editButton === true ? (
           <Form
             md={{ span: 6, offset: 3 }}
+            className="mt-2"
             noValidate
             validated={validated}
             onSubmit={submitUpdateRequestForm}
@@ -96,7 +106,7 @@ export default function EditRequestForm({ req }) {
               <Form.Label style={{ fontSize: "1rem" }}>Request Text</Form.Label>
               <Form.Text className="text-muted">
                 This form uses MarkDown text formatting. Learn more{" "}
-                <a href="https://commonmark.org/help/">here!</a>
+                <a href="https://markdown-it.github.io/">here!</a>
               </Form.Text>
               <Form.Control
                 value={content}
@@ -106,7 +116,7 @@ export default function EditRequestForm({ req }) {
                 }}
                 type="text"
                 as="textarea"
-                rows={2}
+                rows={3}
                 placeholder="Enter content"
                 required
               />
@@ -114,14 +124,14 @@ export default function EditRequestForm({ req }) {
                 Please provide a text.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mt-5">
+            <Form.Group className="mt-3">
               <Button variant="primary" type="submit">
                 Update Request
               </Button>
             </Form.Group>
           </Form>
         ) : null}
-      </Accordion>
-    </div>
+      </div>
+    </>
   );
 }
