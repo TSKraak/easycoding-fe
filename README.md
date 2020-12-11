@@ -28,8 +28,6 @@ The functionalities that this app relies on are:
 
 <img src="https://seeklogo.com/images/R/react-logo-7B3CE81517-seeklogo.com.png" alt="react-icon" height="45"/> <img src="https://seeklogo.com/images/R/redux-logo-9CA6836C12-seeklogo.com.png" alt="redux-icon" height="45"/> <img src="https://pngimage.net/wp-content/uploads/2018/06/logo-bootstrap-png.png" alt="bootstrap-icon" height="45"> <img src="https://seeklogo.com/images/C/cloudinary-logo-91D46BA298-seeklogo.com.png" alt="cloudinary-icon" height="45" /> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png" alt="javascript-icon" height="45" /> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/1200px-CSS3_logo_and_wordmark.svg.png" alt="css-icon" height="45" /> <img src="https://www.pikpng.com/pngl/m/430-4309640_js-logo-nodejs-logo-clipart.png" alt="nodejs-icon" height="45" /> <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/visual-studio-code/visual-studio-code.png" alt="vs code-icon" height="45" />
 
-## Wireframes
-
 ## Datamodel
 
 [Easycoding datamodel](https://dbdiagram.io/d/5fcdfa1c9a6c525a03ba12d9)
