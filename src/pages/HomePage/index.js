@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardDeck,
+  Form,
   FormControl,
   InputGroup,
 } from "react-bootstrap";
@@ -19,25 +20,26 @@ export default function HomePage() {
   return (
     <div className="HomePage-Container" style={{ textAlign: "center" }}>
       <h1>Welcome to &#60;Easy Coding&#62;</h1>
-
-      <InputGroup style={{ width: "30%", margin: "5% 35% 5% 35%" }}>
-        <FormControl
-          placeholder="Search Posts for.."
-          aria-label="Recipient's username"
-          aria-describedby="basic-addon2"
-          value={searchText}
-          onChange={(event) => setSearchText(event.target.value)}
-        />
-        <InputGroup.Append>
-          <Button
-            variant="outline-secondary"
-            type="submit"
-            onClick={() => searchNow()}
-          >
-            Search
-          </Button>
-        </InputGroup.Append>
-      </InputGroup>
+      <Form>
+        <InputGroup style={{ width: "30%", margin: "5% 35% 5% 35%" }}>
+          <FormControl
+            placeholder="Search Posts for.."
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+          />
+          <InputGroup.Append>
+            <Button
+              variant="outline-secondary"
+              type="submit"
+              onClick={() => searchNow()}
+            >
+              Search
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+      </Form>
 
       <CardDeck>
         <Card style={{ width: "18rem" }}>
