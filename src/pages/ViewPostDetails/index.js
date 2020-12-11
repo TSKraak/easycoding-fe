@@ -30,18 +30,22 @@ export default function ViewPostDetails() {
             "...Loading"
           ) : (
             <div>
-              <h3>{detailsPost.title}</h3>
-              <p>
-                <strong>
-                  Written by {detailsPost.author.name}{" "}
-                  {moment(detailsPost.createdAt).format("DD/MM/YYYY")}
+              <div
+                style={{ borderBottom: "solid 1px grey", marginBottom: "1rem" }}
+              >
+                <h1>{detailsPost.title}</h1>
+                <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
                   <img
                     src={detailsPost.author.picture}
                     style={{ width: "30px", borderRadius: "50px" }}
                     alt="author-name"
-                  />
-                </strong>
-              </p>
+                  />{" "}
+                  Written by {detailsPost.author.name} on{" "}
+                  {moment(detailsPost.createdAt).format(
+                    "ddd DD MMMM YYYY HH:mm"
+                  )}
+                </p>
+              </div>
               <div>
                 <ReactMarkdown plugins={[gfm]} children={detailsPost.content} />
               </div>
