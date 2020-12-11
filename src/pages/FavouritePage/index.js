@@ -61,7 +61,7 @@ export default function FavouritePage() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
-          margin: "20px",
+          margin: "auto",
         }}
       >
         <InputGroup style={{ width: "20%", margin: "5% 0% 5% 0%" }}>
