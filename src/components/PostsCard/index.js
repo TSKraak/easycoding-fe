@@ -15,7 +15,6 @@ export default function PostsCard({ post }) {
   const dispatch = useDispatch();
 
   function deleteByAdmin(event) {
-    console.log(event.target.value);
     event.preventDefault();
     dispatch(deletePostAsAdmin(event.target.value));
   }

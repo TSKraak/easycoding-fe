@@ -9,6 +9,8 @@ import { createPost } from "../../store/post/actions";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import { selectUser } from "../../store/user/selectors";
+import { selectPictures } from "../../store/picture/selectors";
+import DisplayPicture from "../../components/DisplayPicture";
 
 export default function NewPostForm() {
   const [title, setTitle] = useState("");
@@ -17,6 +19,7 @@ export default function NewPostForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(selectUser);
+  const pictures = useSelector(selectPictures);
 
   async function submitForm(event) {
     event.preventDefault();
@@ -84,13 +87,13 @@ export default function NewPostForm() {
           <ImagePreview />
           <UploadPostPicture />
           <Form.Group className="mt-5">
-            <Button variant="primary" type="submit">
+            <Button variant="success" type="submit">
               Create Post
             </Button>
           </Form.Group>
         </Form>
       </Container>
-      {content ? (
+      {content || pictures.length !== 0 ? (
         <Jumbotron fluid>
           <Container>
             <div>
@@ -109,6 +112,9 @@ export default function NewPostForm() {
               <div>
                 <ReactMarkdown plugins={[gfm]} children={content} />
               </div>
+              {pictures.length !== 0 ? (
+                <DisplayPicture pictures={pictures} />
+              ) : null}
             </div>
           </Container>
         </Jumbotron>
