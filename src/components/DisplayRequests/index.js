@@ -12,17 +12,27 @@ export default function DisplayRequest({ req }) {
   const user = useSelector(selectUser);
 
   return (
-    <div>
+    <div style={{ maxWidth: "60rem", alignSelf: "center", margin: "1rem" }}>
       <Card
         border="dark"
         key={req.id}
-        style={{ margin: "1rem", width: "60rem", alignSelf: "center" }}
+        style={{ margin: "auto", width: "auto" }}
       >
-        <Card.Header as="h6">{req.title}</Card.Header>
+        <Card.Header as="h6" style={{ fontWeight: "bold" }}>
+          {req.title}
+        </Card.Header>
         <Card.Body>
           <ReactMarkdown plugins={[gfm]} children={req.content} />
         </Card.Body>
-
+        <Card.Footer
+          style={{
+            background: "none",
+          }}
+        >
+          {user.id === req.user.id || user.isAdmin ? (
+            <EditRequestForm req={req} />
+          ) : null}
+        </Card.Footer>
         <Card.Footer
           style={{
             borderBottom: "solid 1px lightgrey",
@@ -31,9 +41,9 @@ export default function DisplayRequest({ req }) {
         >
           Requested by {req.user.name} on{" "}
           {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
-          {user.id === req.user.id || user.isAdmin ? (
+          {/* {user.id === req.user.id || user.isAdmin ? (
             <EditRequestForm req={req} />
-          ) : null}
+          ) : null} */}
         </Card.Footer>
         <Accordion>
           <Card
