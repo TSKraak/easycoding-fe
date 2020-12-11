@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addRequest } from "../../store/request/actions";
+import { selectToken } from "../../store/user/selectors";
 
 export default function NewRequestForm() {
   const [title, setTitle] = useState("");
@@ -10,7 +11,10 @@ export default function NewRequestForm() {
   const [validated, setValidated] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const token = useSelector(selectToken);
+  if (!token) {
+    history.push("/login");
+  }
   async function submitForm(event) {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {

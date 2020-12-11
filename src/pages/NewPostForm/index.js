@@ -8,7 +8,7 @@ import UploadPostPicture from "../../components/UploadPostPicture";
 import { createPost } from "../../store/post/actions";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
-import { selectUser } from "../../store/user/selectors";
+import { selectToken, selectUser } from "../../store/user/selectors";
 import { selectPictures } from "../../store/picture/selectors";
 import DisplayPicture from "../../components/DisplayPicture";
 
@@ -20,6 +20,10 @@ export default function NewPostForm() {
   const history = useHistory();
   const user = useSelector(selectUser);
   const pictures = useSelector(selectPictures);
+  const token = useSelector(selectToken);
+  if (!token) {
+    history.push("/login");
+  }
 
   async function submitForm(event) {
     event.preventDefault();
