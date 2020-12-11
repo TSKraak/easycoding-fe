@@ -42,7 +42,7 @@ export default function EditRequestForm({ req }) {
   }
 
   return (
-    <div style={{ marginTop: "0.5rem" }}>
+    <div style={{ marginTop: "0rem" }}>
       <Accordion>
         <Button
           variant="outline-secondary"
