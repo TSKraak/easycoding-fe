@@ -344,7 +344,7 @@ export default function Comments({ requestId, commentType }) {
                         <Form.Group controlId="formBasicReplyText">
                           <Form.Text className="text-muted">
                             This form uses MarkDown text formatting. Learn more{" "}
-                            <a href="https://commonmark.org/help/">here!</a>
+                            <a href="https://markdown-it.github.io/">here!</a>
                           </Form.Text>
                           <Form.Control
                             value={replyText}
@@ -385,7 +385,7 @@ export default function Comments({ requestId, commentType }) {
         <Form.Group controlId="formBasicCommentText">
           <Form.Text className="text-muted">
             This form uses MarkDown text formatting. Learn more{" "}
-            <a href="https://commonmark.org/help/">here!</a>
+            <a href="https://markdown-it.github.io/">here!</a>
           </Form.Text>
           <Form.Control
             value={commentText}

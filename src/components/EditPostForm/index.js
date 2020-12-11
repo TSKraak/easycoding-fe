@@ -75,6 +75,10 @@ export default function EditPostForm(props) {
           </Form.Group>
           <Form.Group controlId="formPostText">
             <Form.Label>Post Text</Form.Label>
+            <Form.Text className="text-muted">
+              This form uses MarkDown text formatting. Learn more{" "}
+              <a href="https://markdown-it.github.io/">here!</a>
+            </Form.Text>
             <Form.Control
               value={content}
               onChange={(event) => setContent(event.target.value)}
