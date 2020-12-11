@@ -97,18 +97,20 @@ export default function NewPostForm() {
         <Jumbotron fluid>
           <Container>
             <div>
-              <h3>{title}</h3>
-              <p>
-                <strong>
-                  Written by {user.name} on{" "}
-                  {moment(new Date()).format("ddd DD MMMM YYYY HH:mm")}{" "}
+              <div
+                style={{ borderBottom: "solid 1px grey", marginBottom: "1rem" }}
+              >
+                <h1>{title}</h1>
+                <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
                   <img
                     src={user.picture}
                     style={{ width: "30px", borderRadius: "50px" }}
-                    alt="user-name"
-                  />
-                </strong>
-              </p>
+                    alt="author-name"
+                  />{" "}
+                  Written by {user.name} on{" "}
+                  {moment(new Date()).format("ddd DD MMMM YYYY HH:mm")}
+                </p>
+              </div>
               <div>
                 <ReactMarkdown plugins={[gfm]} children={content} />
               </div>
