@@ -54,7 +54,7 @@ export default function RequestPage() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
-          margin: "20px",
+          margin: "auto",
         }}
       >
         <FormControl
