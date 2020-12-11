@@ -231,8 +231,8 @@ export default function Comments({ requestId, commentType }) {
                                                 dispatch(
                                                   deletePostReply(
                                                     answer.id,
-                                                    comment.id,
-                                                    id
+                                                    id,
+                                                    comment.id
                                                   )
                                                 );
                                               }
@@ -240,8 +240,8 @@ export default function Comments({ requestId, commentType }) {
                                                 dispatch(
                                                   deleteRequestReply(
                                                     answer.id,
-                                                    comment.id,
-                                                    id
+                                                    id,
+                                                    comment.id
                                                   )
                                                 );
                                               }
@@ -266,8 +266,8 @@ export default function Comments({ requestId, commentType }) {
                                               dispatch(
                                                 deletePostReplyAdmin(
                                                   answer.id,
-                                                  comment.id,
-                                                  id
+                                                  id,
+                                                  comment.id
                                                 )
                                               );
                                             }
@@ -275,8 +275,8 @@ export default function Comments({ requestId, commentType }) {
                                               dispatch(
                                                 deleteRequestReplyAdmin(
                                                   answer.id,
-                                                  comment.id,
-                                                  id
+                                                  id,
+                                                  comment.id
                                                 )
                                               );
                                             }
