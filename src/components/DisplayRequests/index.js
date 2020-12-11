@@ -24,16 +24,6 @@ export default function DisplayRequest({ req }) {
         <Card.Body>
           <ReactMarkdown plugins={[gfm]} children={req.content} />
         </Card.Body>
-        {user.id === req.user.id || user.isAdmin ? (
-          <Card.Footer
-            style={{
-              background: "none",
-            }}
-          >
-            {" "}
-            <EditRequestForm req={req} />{" "}
-          </Card.Footer>
-        ) : null}
         <Card.Footer
           style={{
             borderBottom: "solid 1px lightgrey",
@@ -42,6 +32,9 @@ export default function DisplayRequest({ req }) {
         >
           Requested by {req.user.name} on{" "}
           {moment(req.createdAt).format("ddd DD MMMM YYYY HH:mm")}{" "}
+          {user.id === req.user.id || user.isAdmin ? (
+            <EditRequestForm req={req} />
+          ) : null}
         </Card.Footer>
         <Accordion>
           <Card
