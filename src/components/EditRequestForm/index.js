@@ -45,7 +45,7 @@ export default function EditRequestForm({ req }) {
     <div style={{ marginTop: "0.5rem" }}>
       <Accordion>
         <Button
-          variant="outline-primary"
+          variant="outline-secondary"
           onClick={() => {
             setEditButton(editButton === true ? false : true);
           }}
@@ -70,6 +70,7 @@ export default function EditRequestForm({ req }) {
         {editButton === true ? (
           <Form
             md={{ span: 6, offset: 3 }}
+            className="mt-2"
             noValidate
             validated={validated}
             onSubmit={submitUpdateRequestForm}
@@ -106,7 +107,7 @@ export default function EditRequestForm({ req }) {
                 }}
                 type="text"
                 as="textarea"
-                rows={2}
+                rows={3}
                 placeholder="Enter content"
                 required
               />
@@ -114,7 +115,7 @@ export default function EditRequestForm({ req }) {
                 Please provide a text.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mt-5">
+            <Form.Group className="mt-3">
               <Button variant="primary" type="submit">
                 Update Request
               </Button>
