@@ -70,7 +70,7 @@ export default function NewPostForm() {
             <Form.Label>Post content</Form.Label>
             <Form.Text className="text-muted">
               This form uses MarkDown text formatting. Learn more{" "}
-              <a href="https://commonmark.org/help/">here!</a>
+              <a href="https://markdown-it.github.io/">here!</a>
             </Form.Text>
             <Form.Control
               value={content}

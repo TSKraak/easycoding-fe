@@ -106,7 +106,7 @@ export default function EditRequestForm({ req }) {
               <Form.Label style={{ fontSize: "1rem" }}>Request Text</Form.Label>
               <Form.Text className="text-muted">
                 This form uses MarkDown text formatting. Learn more{" "}
-                <a href="https://commonmark.org/help/">here!</a>
+                <a href="https://markdown-it.github.io/">here!</a>
               </Form.Text>
               <Form.Control
                 value={content}
