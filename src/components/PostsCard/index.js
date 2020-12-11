@@ -27,7 +27,10 @@ export default function PostsCard({ post }) {
     >
       <Card.Header as="h6">
         {!token ? null : <FavouriteButton postId={post.id} />}{" "}
-        <Link style={{ color: "inherit" }} to={`/posts/details/${post.id}`}>
+        <Link
+          style={{ color: "inherit", fontWeight: "bold" }}
+          to={`/posts/details/${post.id}`}
+        >
           {post.title}
         </Link>
       </Card.Header>
