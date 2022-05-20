@@ -1,6 +1,7 @@
 # Easycoding
 
-[Easycoding](https://easy-coding.netlify.app/)(click the link to see it) was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is deployed on Netlify.
+[Easycoding](https://easy-coding.netlify.app/) (click link to live website) was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is deployed on Netlify.
+This project was built from scratch in 1 week.
 
 ## What is Easycoding about?
 
